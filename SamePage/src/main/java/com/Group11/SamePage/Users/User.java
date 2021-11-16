@@ -3,6 +3,7 @@ import javax.persistence.*;
 
 @Entity
 public class User {
+    // Isaac's edit
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
