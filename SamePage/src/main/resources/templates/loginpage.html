@@ -1,25 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" type="text/css"
-      href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
-<head>
-    <title>Login Page</title>
+<html lang="en">
 
-    <script>
-        function Login() {
-            // login function
-        }
-    </script>
-</head>
-<body>
-    <p>Username:</p>
-    <input id="username"/>
-    <p>Password:</p>
-    <input id="password"/>
-    <button onclick="Login()">Login</button>
-</body>
-<script type="text/javascript"
-        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <head>
+        <link rel="stylesheet" href="css/login.css">
 
-<script type="text/javascript" src="js/main.js"></script>
+        <title>Login Page</title>
+        <script>
+            function Login() {
+                // login function
+            }
+
+            function OpenSignUp() {
+                window.location = "signuppage";
+            }
+        </script>
+    </head>
+    <body>
+        <div class="bordered">
+            <div>
+                <label for="username">Username:</label>
+                <input type=text id="username"/>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type=password id="password"/>
+            </div>
+            <div>
+                <button onclick="Login()">Login</button>
+            </div>
+            <div>
+                <label>First time?</label>
+                <button onclick="OpenSignUp()">Sign-up</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/main.js"></script>
 </html>
