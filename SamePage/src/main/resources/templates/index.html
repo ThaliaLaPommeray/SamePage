@@ -30,7 +30,7 @@
         .button {background-color: #9275FF;} /* Pastel - ish Purple */
     </style>
     <link rel="stylesheet" href="css/homepage.css"/>
-    <title>Hello</title>
+    <title>Index</title>
 
     <script>
         function OpenSignUp(){
@@ -39,6 +39,18 @@
 
         function OpenLogin(){
             window.location = "loginpage";
+        }
+
+        function OpenHome(){
+            window.location = "homepage";
+        }
+
+        function OpenBookEditor(){
+            window.location = "bookeditorpage";
+        }
+
+        function OpenBookView(){
+            window.location = "bookviewpage";
         }
     </script>
 </head>
@@ -49,5 +61,8 @@
     <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
     <button onclick="OpenSignUp()">Sign Up</button>
     <button onclick="OpenLogin()">Log In</button>
+    <button onclick="OpenHome()">Main</button>
+    <button onclick="OpenBookEditor()">Book Editor</button>
+    <button onclick="OpenBookView()">Book Viewer</button>
 </body>
 </html>

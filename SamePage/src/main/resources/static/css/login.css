@@ -9,6 +9,7 @@ html {
 
 input, label {
     display:block;
+    margin: 4px;
 }
 
 p {

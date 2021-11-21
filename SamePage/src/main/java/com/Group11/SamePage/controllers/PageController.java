@@ -18,4 +18,20 @@ public class PageController {
         return "loginpage";
     }
 
+    @RequestMapping("/bookviewpage")
+    public String bookviewpage(){
+        return "bookviewpage";
+    }
+
+    @RequestMapping("/bookeditorpage")
+    public String bookeditorpage(){
+        return "bookeditorpage";
+    }
+
+    @RequestMapping("/submissioneditor")
+    public String submissioneditor(){
+        return "submissioneditor";
+    }
+
+
 }
