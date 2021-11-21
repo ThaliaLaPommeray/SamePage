@@ -6,11 +6,16 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #E9E4FA;
+            vertical-align: middle;
+        }
+        .main{
+            align-content: center;
         }
         h1{
             font-family: 'Montserrat SemiBold';
             font-size: 40px;
             text-align: center;
+
         }
         .button {
             justify-content: center;
@@ -45,10 +50,12 @@
 </head>
 <body>
 
-
+<div class = "main">
     <h1>SamePage</h1>
+    <a href="loginpage.html" class="gg">
     <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
-    <button onclick="OpenSignUp()">Sign Up</button>
-    <button onclick="OpenLogin()">Log In</button>
+    <button class = "button button" onclick="OpenSignUp()">Sign Up</button>
+    <button class = "button button" onclick="OpenLogin()">Log In</button>
+</div>
 </body>
 </html>
