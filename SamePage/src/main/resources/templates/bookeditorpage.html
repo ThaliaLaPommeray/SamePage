@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="css/main.css">
+
+    <title>Book Editor</title>
+    <script>
+        // Logout function
+        // Invite editor/author function
+        // Publish book function
+        // Delete book function
+    </script>
+</head>
+<body>
+    <div>
+        <div>
+            <button>Logout</button>
+        </div>
+        <div>
+            <input id="username" type="text" placeholder="Invitee Username"/>
+            <select name="roles" id="roles"/>
+                <option value="editor">Editor</option>
+                <option value="author">Author</option>
+                <option value="reader">Reader</option>
+                <option value="viewer">Viewer</option>
+            </select>
+            <button>Invite</button>
+        </div>
+        <div>
+            <button onclick="Publish()">Publish</button>
+        </div>
+        <div>
+            <button onclick="Delete()">Delete Book</button>
+        </div>
+    </div>
+</body>
+<script type="text/javascript"
+        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+</html>
