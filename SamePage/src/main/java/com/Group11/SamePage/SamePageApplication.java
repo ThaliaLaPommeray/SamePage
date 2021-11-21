@@ -10,5 +10,4 @@ public class SamePageApplication {
 		System.out.println("test");
 		SpringApplication.run(SamePageApplication.class, args);
 	}
-
 }
