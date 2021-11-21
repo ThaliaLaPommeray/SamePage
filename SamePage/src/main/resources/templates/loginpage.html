@@ -1,44 +1,38 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Log In</title>
-    <script>
-        function Submit() {
+    <head>
+        <link rel="stylesheet" href="css/login.css">
 
-            console.log("Submitted User");
-            var user = {}
-            user["username"] = $("#username").val();
-            user["password"] = $("#password").val();
+        <title>Login Page</title>
+        <script>
+            function Login() {
+                // login function
+            }
 
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/api/login",
-                data: JSON.stringify(user),
-                dataType: 'json',
-                cache: false,
-                timeout: 10000,
-                success: function (data) {
+            function OpenSignUp() {
+                window.location = "signuppage";
+            }
+        </script>
+    </head>
+    <body>
+        <div class="bordered">
+            <div>
+                <input type=text id="username" placeholder="Username"/>
+            </div>
+            <div>
+                <input type=password id="password" placeholder="Password"/>
+            </div>
+            <div>
+                <button onclick="Login()">Login</button>
+            </div>
+            <div>
+                <label>First time?</label>
+                <button onclick="OpenSignUp()">Sign-up</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript"
+            src="webjars/jquery/2.2.4/jquery.min.js"></script>
 
-                    console.log("SUCCESS : ", data);
-                    //GO HOME
-
-                },
-                error: function (e) {
-                    console.log("ERROR : ", e);
-                }
-            });
-        }
-    </script>
-</head>
-<body>
-<input id="username"/>
-<input id="password"/>
-<button onclick="Submit()">Submit</button>
-</body>
-<script type="text/javascript"
-        src="webjars/jquery/2.2.4/jquery.min.js"></script>
-
-<script type="text/javascript" src="js/main.js"></script>
-</body>
+    <script type="text/javascript" src="/static/js/main.js"></script>
 </html>
