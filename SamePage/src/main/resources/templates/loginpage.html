@@ -1,44 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Log In</title>
-    <script>
-        function Submit() {
-
-            console.log("Submitted User");
-            var user = {}
-            user["username"] = $("#username").val();
-            user["password"] = $("#password").val();
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/api/login",
-                data: JSON.stringify(user),
-                dataType: 'json',
-                cache: false,
-                timeout: 10000,
-                success: function (data) {
-
-                    console.log("SUCCESS : ", data);
-                    //GO HOME
-
-                },
-                error: function (e) {
-                    console.log("ERROR : ", e);
-                }
-            });
-        }
-    </script>
+    <title>Hello</title>
 </head>
 <body>
-<input id="username"/>
-<input id="password"/>
-<button onclick="Submit()">Submit</button>
-</body>
-<script type="text/javascript"
-        src="webjars/jquery/2.2.4/jquery.min.js"></script>
-
-<script type="text/javascript" src="js/main.js"></script>
+login
 </body>
 </html>
