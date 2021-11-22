@@ -32,19 +32,18 @@ public class OwnerController {
             //search for username
             User user = userRepository.searchByUsername(username);
 
+            //check for promotion?
             if(role.equalsIgnoreCase("editor")){
                 bookRepository.inviteEditor(user.getId(), bookID);
-                //maybe add in user per book? maybe not?
-                //check for promotion?
             }
             else if(role.equalsIgnoreCase("author")){
-
+                bookRepository.inviteAuthor(user.getId(), bookID);
             }
             else if(role.equalsIgnoreCase("reader")){
-
+                bookRepository.inviteReader(user.getId(), bookID);
             }
             else if(role.equalsIgnoreCase("viewer")){
-
+                bookRepository.inviteViewer(user.getId(), bookID);
             }
         }catch (Exception e){
             System.out.println(e);

@@ -33,6 +33,7 @@ public class UserController {
             String password = obj.getString("password");
 
             newUser = new User(username,password);
+
             userRepository.save(newUser);
 
         }catch (Exception e){
@@ -63,19 +64,26 @@ public class UserController {
     }
 
     @PostMapping("/api/main")
-    public void mainPage(User user){
+    public void mainPage(@RequestBody String jsonString){
+//        Collection<Book> bookCollection = (Collection<Book>) bookRepository.findAll();
+//
+//        for(Book b : bookCollection){
+//            System.out.println(b.getTitle());
+//        } // doesn't print onto html page yet
 
-        Collection<Book> bookCollection = (Collection<Book>) bookRepository.findAll();
+        try {
+            JSONObject obj = new JSONObject(jsonString);
 
-        for(Book b : bookCollection){
-            System.out.println(b.getTitle());
-        } // doesn't print onto html page yet
+            Integer userID = obj.getInt("userID");
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
     }
 
     @PostMapping("/api/createbook")
-    public @ResponseBody Book createBook(@RequestBody String jsonString){
-
-        Book newBook = null;
+    public @ResponseBody void createBook(@RequestBody String jsonString){
 
         try {
 
@@ -85,14 +93,12 @@ public class UserController {
             Integer userID = obj.getInt("userID");
 
             Owner owner = new Owner(userRepository.findById(userID).get());
-            Book book = new Book(owner, title);
 
             bookRepository.createBook(title, userID);
 
         }catch (Exception e){
             System.out.println(e);
         }
-
-        return newBook;
     }
+
 }
