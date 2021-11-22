@@ -5,8 +5,7 @@ import com.Group11.SamePage.repositories.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
-
-import java.util.Collection;
+import java.util.Set;
 
 @Controller
 public class UserController {
@@ -64,22 +63,30 @@ public class UserController {
     }
 
     @PostMapping("/api/main")
-    public void mainPage(@RequestBody String jsonString){
-//        Collection<Book> bookCollection = (Collection<Book>) bookRepository.findAll();
-//
-//        for(Book b : bookCollection){
-//            System.out.println(b.getTitle());
-//        } // doesn't print onto html page yet
-
+    public @ResponseBody void mainPage(@RequestBody String jsonString){
         try {
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");
 
+            Set<Integer> set = bookRepository.ownerBookIDCollection(userID);
+            set.addAll(bookRepository.editorBookIDCollection(userID));
+            set.addAll(bookRepository.authorBookIDCollection(userID));
+            set.addAll(bookRepository.readerBookIDCollection(userID));
+            set.addAll(bookRepository.viewerBookIDCollection(userID));
+
+            System.out.println("List of Books:");
+
+            if(set!=null){
+                for(Integer s : set)
+                    System.out.println(s);
+            }
+            else
+                System.out.println("Empty");
+
         }catch (Exception e){
             System.out.println(e);
         }
-
     }
 
     @PostMapping("/api/createbook")

@@ -1,6 +1,5 @@
 package com.Group11.SamePage.Books;
 import com.Group11.SamePage.Users.*;
-
 import javax.persistence.*;
 import java.util.Collection;
 
