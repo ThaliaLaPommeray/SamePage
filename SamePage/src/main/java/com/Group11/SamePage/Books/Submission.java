@@ -16,20 +16,21 @@ public class Submission {
     @JoinColumn(name = "user_id", nullable = false)
     private Author author;
 
-    private Integer bookID;
+    private Integer book_id;
     private String title;
     private Integer chapterNum;
     private String body;
     private Integer voteCount;
-    boolean isAccepted;
-    private String estimatedTime;
+    private boolean isAccepted;
+    private Date estimatedTime;
     private Integer charCount;
     private Integer wordCount;
 
     public Submission(){};
-    public Submission(Integer bookID, Author author,String title, Integer chapterNum, String body, Integer voteCount, boolean isAccepted, String estimatedTime, Integer charCount, Integer wordCount) {
-        this.bookID = bookID;
+
+    public Submission(Author author, Integer book_id, String title, Integer chapterNum, String body, Integer voteCount, boolean isAccepted, Date estimatedTime, Integer charCount, Integer wordCount) {
         this.author = author;
+        this.book_id = book_id;
         this.title = title;
         this.chapterNum = chapterNum;
         this.body = body;
@@ -39,6 +40,7 @@ public class Submission {
         this.charCount = charCount;
         this.wordCount = wordCount;
     }
+
 
     public Integer getId() {
         return id;
@@ -56,12 +58,12 @@ public class Submission {
         this.author = author;
     }
 
-    public Integer getBookID() {
-        return bookID;
+    public Integer getBook() {
+        return book_id;
     }
 
-    public void setBookID(Integer bookID) {
-        this.bookID = bookID;
+    public void setBook(Integer book_id) {
+        this.book_id = book_id;
     }
 
     public String getTitle() {
@@ -104,11 +106,11 @@ public class Submission {
         isAccepted = accepted;
     }
 
-    public String getEstimatedTime() {
+    public Date getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(String estimatedTime) {
+    public void setEstimatedTime(Date estimatedTime) {
         this.estimatedTime = estimatedTime;
     }
 

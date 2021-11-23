@@ -3,6 +3,7 @@ package com.Group11.SamePage.repositories;
 import com.Group11.SamePage.Books.*;
 
 import com.Group11.SamePage.Middle.MiddleEditorBook;
+import com.Group11.SamePage.Users.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -71,4 +72,8 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     @Query("SELECT m.book_id FROM MiddleViewerBook m WHERE m.user_id = :user_id")
     Set<Integer> viewerBookIDCollection(
             @Param("user_id") Integer user_id);
+
+//    @Query("SELECT b from Book b WHERE b.id = :bookID")
+//    Book findByID(
+//            @Param("bookID") Integer bookID);
 }

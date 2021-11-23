@@ -25,9 +25,9 @@ public class OwnerController {
         try {
             JSONObject obj = new JSONObject(jsonString);
 
+            Integer bookID = obj.getInt("bookID");
             String username = obj.getString("username");
             String role = obj.getString("role");
-            Integer bookID = obj.getInt("bookID");
 
             //search for username
             User user = userRepository.searchByUsername(username);

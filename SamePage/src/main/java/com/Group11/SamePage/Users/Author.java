@@ -10,23 +10,23 @@ import java.util.Collection;
 public class Author extends Reader{
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "middle_author_book",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    protected Collection<Book> writtenBooks;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "middle_author_book",
+//            joinColumns = @JoinColumn(name = "book_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+//    protected Collection<Book> writtenBooks;
 
     public Author(){};
     public Author(User user) {
         super(user);
     }
 
-    public Collection<Book> getWrittenBooks() {
-        return writtenBooks;
-    }
-
-    public void setWrittenBooks(Collection<Book> writtenBooks) {
-        this.writtenBooks = writtenBooks;
-    }
+//    public Collection<Book> getWrittenBooks() {
+//        return writtenBooks;
+//    }
+//
+//    public void setWrittenBooks(Collection<Book> writtenBooks) {
+//        this.writtenBooks = writtenBooks;
+//    }
 }

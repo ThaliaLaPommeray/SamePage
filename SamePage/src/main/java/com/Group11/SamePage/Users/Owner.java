@@ -11,9 +11,9 @@ import java.util.Collection;
 @Table(name = "user")
 public class Owner extends Editor{
 
-    @OneToMany
-    @JoinColumn(name = "owner_id", nullable = false)
-    protected Collection<Book> ownedBooks;
+//    @OneToMany
+//    @JoinColumn(name = "owner_id", nullable = false)
+//    protected Collection<Book> ownedBooks;
 
     public Owner(){};
     public Owner(User user) {
@@ -21,18 +21,18 @@ public class Owner extends Editor{
     }
 
 
-    public Collection<Book> getOwnedBooks() {
-        return ownedBooks;
-    }
-
-    public void setOwnedBooks(Collection<Book> ownedBooks) {
-        this.ownedBooks = ownedBooks;
-    }
-
-    public void addOwnedBook(Book book){
-        if (ownedBooks == null){
-            this.ownedBooks = new ArrayList<Book>();
-        }
-        this.ownedBooks.add(book);
-    }
+//    public Collection<Book> getOwnedBooks() {
+//        return ownedBooks;
+//    }
+//
+//    public void setOwnedBooks(Collection<Book> ownedBooks) {
+//        this.ownedBooks = ownedBooks;
+//    }
+//
+//    public void addOwnedBook(Book book){
+//        if (ownedBooks == null){
+//            this.ownedBooks = new ArrayList<Book>();
+//        }
+//        this.ownedBooks.add(book);
+//    }
 }

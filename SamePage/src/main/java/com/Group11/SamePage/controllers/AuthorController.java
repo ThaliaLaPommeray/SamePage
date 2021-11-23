@@ -1,8 +1,8 @@
 package com.Group11.SamePage.controllers;
 
+import com.Group11.SamePage.Books.Book;
 import com.Group11.SamePage.Books.Submission;
 import com.Group11.SamePage.Users.Author;
-import com.Group11.SamePage.Users.User;
 import com.Group11.SamePage.repositories.BookRepository;
 import com.Group11.SamePage.repositories.SubmissionRepository;
 import com.Group11.SamePage.repositories.UserRepository;
@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @Controller
 public class AuthorController {
@@ -26,24 +30,42 @@ public class AuthorController {
     }
 
     @PostMapping("/api/submit")
-    public @ResponseBody Submission submit(@RequestBody String jsonString, Integer bookID, Integer chapterNum){
+    public @ResponseBody Submission submit(@RequestBody String jsonString){
+
         Submission submission = null;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
 
-            String title = obj.getString("title");
-            String body = obj.getString("body");
-            String estimatedTime = obj.getString("estimatedTime");
+            Integer userID = obj.getInt("userID");  //author
+            Integer bookID = obj.getInt("bookID");  //current book
+            String title = obj.getString("title");  //title of submission
+            Integer chapterNum = obj.getInt("chapterNum");  //current book chapter
+            String body = obj.getString("body");    //text of submission
 
-            Author author = new Author();
+            //estimated date of completion
+            Integer year = obj.getInt("year");
+            Integer month = obj.getInt("month");
+            Integer day = obj.getInt("day");
 
-            submission = new Submission(bookID, author,title, chapterNum, body, 0, false, estimatedTime, body.length(), body.split(" ", -1).length);
+            Author author = new Author(userRepository.findByID(userID));
+
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-DD-YYYY");
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month-1); //start of month
+            cal.set(Calendar.DAY_OF_MONTH, day);
+
+            Date date = new Date(cal.getTimeInMillis());
+
+            submission = new Submission(author, bookID, title, chapterNum, body, 0,
+                    false, date, body.length(), body.split(" ").length);
+
             submissionRepository.save(submission);
+
         }catch (Exception e){
-
+            System.out.println(e);
         }
-
 
         return submission;
     }

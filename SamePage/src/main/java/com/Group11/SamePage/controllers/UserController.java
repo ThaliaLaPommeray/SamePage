@@ -96,8 +96,8 @@ public class UserController {
 
             JSONObject obj = new JSONObject(jsonString);
 
-            String title = obj.getString("title");
             Integer userID = obj.getInt("userID");
+            String title = obj.getString("title");
 
             Owner owner = new Owner(userRepository.findById(userID).get());
 

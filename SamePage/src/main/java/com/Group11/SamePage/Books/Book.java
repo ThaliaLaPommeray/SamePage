@@ -33,7 +33,6 @@ public class Book {
         this.title = title;
     }
 
-
     public Integer getId() {
         return id;
     }
