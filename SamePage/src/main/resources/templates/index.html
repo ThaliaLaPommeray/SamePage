@@ -5,15 +5,17 @@
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
+            background-image: url("samepage.jpg");
             background-color: #E9E4FA;
+            background-size: cover;
         }
         .header h1{
-            right:80px;
-            down: 50px;
-            line-height:50;
+            position: relative;
+            left: 150px;
         }
         .button {
-
+            position: relative;
+            down: 100px;
             border: none;
             color: white;
             border-radius: 5px;
@@ -25,9 +27,34 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            background-color: #B8F2B7;
         }
 
-        .button {background-color: #9275FF;} /* Pastel - ish Purple */
+        .title{
+            font-family: "Anjel Script";
+            cursor: pointer;
+            position: relative;
+            left: 100px;
+
+        }
+        .signup{
+            position: relative;
+            left: 20 px;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            border: 3px black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-color: #B8F2B7;
+        }
+
+
     </style>
     <link rel="stylesheet" href="css/homepage.css"/>
     <title>SamePage</title>
@@ -57,12 +84,13 @@
 <body>
 
 
-    <h1>SamePage</h1>
+    <h1 class = "title" onclick = "window.location.href='index.html'">SamePage</h1>
+   <!-- <img src="samepage.jpg" alt="test"> -->
     <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
-    <button class="button button" onclick="OpenSignUp()">Sign Up</button>
-    <button class="button button" onclick="OpenLogin()">Log In</button>
-    <button class="button button" onclick="OpenHome()">Main</button>
-    <button class="button button" onclick="OpenBookEditor()">Book Editor</button>
-    <button class="button button" onclick="OpenBookView()">Book Viewer</button>
+    <button class="button signup" onclick="window.location.href='signuppage.html'">Sign Up</button>
+    <button class="button button" onclick="window.location.href='loginpage.html'">Log In</button>
+      <!-- <button class="button button" onclick="window.location.href='index.html'">Main</button>
+  --<button class="button button" onclick="OpenBookEditor()">Book Editor</button>
+     <button class="button button" onclick="OpenBookView()">Book Viewer</button> -->
 </body>
 </html>
