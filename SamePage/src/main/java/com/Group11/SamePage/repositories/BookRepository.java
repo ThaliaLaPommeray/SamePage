@@ -3,6 +3,7 @@ package com.Group11.SamePage.repositories;
 import com.Group11.SamePage.Books.*;
 
 import com.Group11.SamePage.Middle.MiddleEditorBook;
+import com.Group11.SamePage.Users.Owner;
 import com.Group11.SamePage.Users.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -54,26 +55,39 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             @Param("book_id") Integer book_id);
 
     @Query("SELECT b.id FROM Book b WHERE b.owner.id = :owner_id")
-    Set<Integer> ownerBookIDCollection(
+    Integer ownerBookID(
             @Param("owner_id") Integer owner_id);
 
     @Query("SELECT m.book_id FROM MiddleEditorBook m WHERE m.user_id = :user_id")
-    Set<Integer> editorBookIDCollection(
+    Set<Integer> editorBookIDSet(
             @Param("user_id") Integer user_id);
 
     @Query("SELECT m.book_id FROM MiddleAuthorBook m WHERE m.user_id = :user_id")
-    Set<Integer> authorBookIDCollection(
+    Set<Integer> authorBookIDSet(
             @Param("user_id") Integer user_id);
 
     @Query("SELECT m.book_id FROM MiddleReaderBook m WHERE m.user_id = :user_id")
-    Set<Integer> readerBookIDCollection(
+    Set<Integer> readerBookIDSet(
             @Param("user_id") Integer user_id);
 
     @Query("SELECT m.book_id FROM MiddleViewerBook m WHERE m.user_id = :user_id")
-    Set<Integer> viewerBookIDCollection(
+    Set<Integer> viewerBookIDSet(
             @Param("user_id") Integer user_id);
 
-//    @Query("SELECT b from Book b WHERE b.id = :bookID")
-//    Book findByID(
-//            @Param("bookID") Integer bookID);
+    @Query("SELECT b.owner FROM Book b WHERE b.id = :book_id")
+    Owner ownerIDBook(
+            @Param("book_id") Integer book_id);
+
+    @Query("SELECT m.user_id FROM MiddleEditorBook m WHERE m.book_id = :book_id")
+    Set<Integer> editorUserIDSet(
+            @Param("book_id") Integer book_id);
+
+    @Query("SELECT m.user_id FROM MiddleAuthorBook m WHERE m.book_id = :book_id")
+    Set<Integer> authorUserIDSet(
+            @Param("book_id") Integer book_id);
+
+    @Query("SELECT s.chapterNum FROM Submission s WHERE s.book_id = :book_id")
+    Set<Integer> chapterNumBookSet(
+            @Param("book_id") Integer book_id);
+
 }

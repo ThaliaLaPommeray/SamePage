@@ -1,10 +1,11 @@
 package com.Group11.SamePage.controllers;
-import com.Group11.SamePage.Books.Book;
 import com.Group11.SamePage.Users.*;
 import com.Group11.SamePage.repositories.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -36,7 +37,7 @@ public class UserController {
             userRepository.save(newUser);
 
         }catch (Exception e){
-
+            System.out.println(e);
         }
 
         return newUser;
@@ -56,7 +57,7 @@ public class UserController {
             user = userRepository.login(username, password);
 
         }catch (Exception e){
-
+            System.out.println(e);
         }
 
         return user;
@@ -69,11 +70,13 @@ public class UserController {
 
             Integer userID = obj.getInt("userID");
 
-            Set<Integer> set = bookRepository.ownerBookIDCollection(userID);
-            set.addAll(bookRepository.editorBookIDCollection(userID));
-            set.addAll(bookRepository.authorBookIDCollection(userID));
-            set.addAll(bookRepository.readerBookIDCollection(userID));
-            set.addAll(bookRepository.viewerBookIDCollection(userID));
+            // get list of book IDs user can interact with
+            Set<Integer> set = new HashSet<>();
+            set.add(bookRepository.ownerBookID(userID));
+            set.addAll(bookRepository.editorBookIDSet(userID));
+            set.addAll(bookRepository.authorBookIDSet(userID));
+            set.addAll(bookRepository.readerBookIDSet(userID));
+            set.addAll(bookRepository.viewerBookIDSet(userID));
 
             System.out.println("List of Books:");
 
