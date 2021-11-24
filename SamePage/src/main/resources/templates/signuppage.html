@@ -2,7 +2,32 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <link rel="stylesheet" href="css/login.css"/>
     <head>
-        <title>Sign-up Page</title>
+
+        <style>
+            .button {
+                border: none;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                background-color: #B8F2B7;
+            }
+
+            .title{
+                font-family: "Anjel Script";
+                cursor: pointer;
+                position: relative;
+                left: 100px;
+
+            }
+        </style>
+        <title>Sign-up</title>
         <script>
             function Submit() {
 
@@ -37,6 +62,8 @@
         </script>
     </head>
     <body>
+
+        <h1 class = "title" onclick = "window.location.href='index.html'">SamePage</h1>
         <div class="bordered">
             <div>
                 <input type=text id="username" placeholder="Username"/>
@@ -45,11 +72,11 @@
                 <input type=password id="password" placeholder="Password"/>
             </div>
             <div>
-                <button onclick="Submit()">Submit</button>
+                <button class ="button button" onclick="Submit()">Submit</button>
             </div>
             <div>
                 <p>Already have an account?</p>
-                <button onclick="OpenLogin()">Login</button>
+                <button class ="button button" onclick="OpenLogin()">Login</button>
             </div>
         </div>
     </body>
