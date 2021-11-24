@@ -1,6 +1,5 @@
 package com.Group11.SamePage.controllers;
 
-import com.Group11.SamePage.Books.Book;
 import com.Group11.SamePage.Books.Submission;
 import com.Group11.SamePage.Users.Author;
 import com.Group11.SamePage.repositories.BookRepository;
@@ -68,5 +67,33 @@ public class AuthorController {
         }
 
         return submission;
+    }
+
+    @PostMapping("/api/edit")
+    public @ResponseBody void edit(@RequestBody String jsonString) {
+
+        try {
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");  //author or editor
+            Integer bookID = obj.getInt("bookID");  //current book
+            Integer submissionID = obj.getInt("submissionID"); //current submission to edit
+
+            /*
+            check if they are the author of the submission
+            OR if they are an editor of the book
+             */
+            if( submissionRepository.findByID(submissionID).getAuthor().getId() == userID ||
+                bookRepository.checkEditor(userID, bookID) != null)
+            {
+                //edit the submission
+            }
+            else
+                System.out.println("No authority");
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

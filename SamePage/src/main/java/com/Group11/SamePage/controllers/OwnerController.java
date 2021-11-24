@@ -32,6 +32,8 @@ public class OwnerController {
             //search for username
             User user = userRepository.searchByUsername(username);
 
+            System.out.println(user.getId());
+
             //check for promotion?
             if(role.equalsIgnoreCase("editor")){
                 bookRepository.inviteEditor(user.getId(), bookID);

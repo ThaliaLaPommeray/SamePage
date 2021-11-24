@@ -2,6 +2,7 @@ package com.Group11.SamePage.repositories;
 
 import com.Group11.SamePage.Books.*;
 
+import com.Group11.SamePage.Middle.MiddleAuthorBook;
 import com.Group11.SamePage.Middle.MiddleEditorBook;
 import com.Group11.SamePage.Users.Owner;
 import com.Group11.SamePage.Users.User;
@@ -13,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 public interface BookRepository extends CrudRepository<Book, Integer> {
+
+    @Query("SELECT b.title FROM Book b WHERE b.id = :bookID")
+    String findTitleByID(
+            @Param("bookID") Integer bookID);
 
     @Transactional
     @Modifying
@@ -90,4 +95,8 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     Set<Integer> chapterNumBookSet(
             @Param("book_id") Integer book_id);
 
+    @Query("SELECT m FROM MiddleEditorBook m WHERE m.user_id = :user_id AND m.book_id = :book_id")
+    MiddleEditorBook checkEditor(
+            @Param("user_id") Integer user_id,
+            @Param("book_id") Integer book_id);
 }

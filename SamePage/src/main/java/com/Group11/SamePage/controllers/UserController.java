@@ -78,11 +78,13 @@ public class UserController {
             set.addAll(bookRepository.readerBookIDSet(userID));
             set.addAll(bookRepository.viewerBookIDSet(userID));
 
+            //PRINTING STARTS HERE
+
             System.out.println("List of Books:");
 
             if(set!=null){
                 for(Integer s : set)
-                    System.out.println(s);
+                    System.out.println(bookRepository.findTitleByID(s));
             }
             else
                 System.out.println("Empty");
