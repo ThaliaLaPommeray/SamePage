@@ -14,7 +14,7 @@ public class Submission {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    private Author author;
+    private User author;
 
     private Integer book_id;
     private String title;
@@ -28,7 +28,7 @@ public class Submission {
 
     public Submission(){};
 
-    public Submission(Author author, Integer book_id, String title, Integer chapterNum, String body, Integer voteCount, boolean isAccepted, Date estimatedTime, Integer charCount, Integer wordCount) {
+    public Submission(User author, Integer book_id, String title, Integer chapterNum, String body, Integer voteCount, boolean isAccepted, Date estimatedTime, Integer charCount, Integer wordCount) {
         this.author = author;
         this.book_id = book_id;
         this.title = title;
@@ -50,7 +50,7 @@ public class Submission {
         this.id = id;
     }
 
-    public Author getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

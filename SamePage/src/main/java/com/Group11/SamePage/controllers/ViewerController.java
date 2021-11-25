@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.Set;
 
 @Controller
@@ -93,17 +94,62 @@ public class ViewerController {
 
             Set<Submission> set = submissionRepository.submissionIDChapterSet(bookID, chapterNum);
 
-            //PRINTING STARTS HERE. THIS DOESN'T WORK YET.
+            //PRINTING STARTS HERE
 
-            int i = 0;
+            System.out.println("Submissions for Chapter " + chapterNum + ":\n");
+            int i = 1;
             for(Submission s : set) {
-                System.out.println(i + ". " + s.getTitle());
+                System.out.println(i + ". \"" + s.getTitle() + "\" by " + s.getAuthor().getUsername());
+
+                if(s.isAccepted())
+                    System.out.println("Status: Accepted");
+                else
+                    System.out.println("Status: Not accepted");
+
+                System.out.println("Votes: " + s.getVoteCount());
+
+                System.out.println("Estimated time of completion: " + s.getEstimatedTime());
+
+                System.out.println();
+
                 i++;
             }
 
         }catch (Exception e){
             System.out.println(e);
         }
+    }
+
+    @PostMapping("/api/viewsubmission")
+    public @ResponseBody
+    void viewSubmission(@RequestBody String jsonString) {
+
+        try{
+
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");
+            Integer submissionID = obj.getInt("submissionID");
+
+            Submission submission = submissionRepository.findByID(submissionID);
+
+            System.out.println("\"" + submission.getTitle() + "\" by " + submission.getAuthor().getUsername());
+
+            if(submission.isAccepted())
+                System.out.println("Status: Accepted");
+            else
+                System.out.println("Status: Not accepted");
+
+            System.out.println("Votes: " + submission.getVoteCount());
+
+            System.out.println("Estimated time of completion: " + submission.getEstimatedTime());
+
+            System.out.println("\n" + submission.getBody());
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
     }
 
 }
