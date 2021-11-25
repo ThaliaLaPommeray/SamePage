@@ -39,10 +39,10 @@ public class ViewerController {
 
             //PRINTING STARTS HERE
 
-            //print owner
-            System.out.println("Owner:");
+            //print book title and owner
+            System.out.println("\"" + bookRepository.findTitleByID(bookID) + "\" by");
             Integer ownerID = bookRepository.ownerIDBook(bookID).getId();
-            System.out.println(userRepository.findByID(ownerID).getUsername()); //print the username
+            System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
 
             //print editor
             Set<Integer> setEditors = bookRepository.editorUserIDSet(bookID); //list of Editor's IDs
@@ -92,7 +92,7 @@ public class ViewerController {
             Integer bookID = obj.getInt("bookID");
             Integer chapterNum = obj.getInt("chapterNum");
 
-            Set<Submission> set = submissionRepository.submissionIDChapterSet(bookID, chapterNum);
+            Set<Submission> set = submissionRepository.submissionSet(bookID, chapterNum);
 
             //PRINTING STARTS HERE
 

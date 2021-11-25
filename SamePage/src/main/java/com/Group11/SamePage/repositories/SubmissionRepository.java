@@ -17,7 +17,7 @@ public interface SubmissionRepository extends CrudRepository<Submission, Integer
             @Param("id") Integer id);
 
     @Query("SELECT s FROM Submission s WHERE s.book_id = :book_id AND s.chapterNum = :chapterNum")
-    Set<Submission> submissionIDChapterSet(
+    Set<Submission> submissionSet(
             @Param("book_id") Integer book_id,
             @Param("chapterNum") Integer chapterNum);
 

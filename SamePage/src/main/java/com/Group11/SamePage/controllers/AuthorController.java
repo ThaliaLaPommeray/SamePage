@@ -46,15 +46,13 @@ public class AuthorController {
             Integer month = obj.getInt("month");
             Integer day = obj.getInt("day");
 
-            Author author = new Author(userRepository.findByID(userID));
-
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.YEAR, year);
             cal.set(Calendar.MONTH, month-1); //start of month
             cal.set(Calendar.DAY_OF_MONTH, day);
             Date date = new Date(cal.getTimeInMillis());
 
-            submission = new Submission(author, bookID, title, chapterNum, body, 0,
+            submission = new Submission(userRepository.findByID(userID), bookID, title, chapterNum, body, 0,
                     false, date, body.length(), body.split(" ").length);
 
             submissionRepository.save(submission);
@@ -73,7 +71,6 @@ public class AuthorController {
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");  //author or editor
-            Integer bookID = obj.getInt("bookID");  //current book
             Integer submissionID = obj.getInt("submissionID"); //current submission to edit
 
             /*
