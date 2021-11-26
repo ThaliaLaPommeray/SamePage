@@ -2,16 +2,15 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-image: url("samepage.jpg");
-            background-color: #E9E4FA;
-            background-size: cover;
+            background-color: whitesmoke;
         }
         .header h1{
             position: relative;
-            left: 150px;
+            left: 50px;
             font-size: 250%;
         }
         .button {
@@ -26,14 +25,16 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
-            background-color: #B8F2B7;
+            background-color: #96C995;
+
         }
 
         .title{
             font-family: "Anjel Script";
             cursor: pointer;
             position: relative;
-            left: 100px;
+            left: 20px;
+            color: #234E52;
 
         }
         .signup{
@@ -48,9 +49,102 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
-            background-color: #B8F2B7;
+            background-color: #96C995;
+        }
+        .img{
+            display:inline-block;
+            position: fixed;
+            left: 250px;
+        }
+        .container {
+            display:inline-block;
+            position: relative;
+            text-align: center;
+            color: black;
+        }
+        .centered {
+            font-family: "Anjel Script";
+            font-size: 60px;
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            color: #234E52;
+        }
+        .intro{
+            font-family: Papyrus;
+            font-size: 20px;
+            position: absolute;
+            top: 29%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+        }
+        .homebuttons{
+            position: absolute;
+            top: 40%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+        }
+        .topb{
+            position: absolute;
+            float: left;
+            left: 85%;
+            top:1%;
+        }
+        .logt{
+            position: absolute;
+            float: left;
+            left: 77%;
+            top:1%;
         }
 
+        .dropbtn {
+            position: fixed;
+            float: left;
+            top: 1%;
+            left: 40%;
+            background-color: #96C995;
+            border-radius: 5px;
+            border: 3px black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #234E52;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #DEEDDE;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {background-color: #DEEDDE;}
+
+        .show {display: block;}
 
     </style>
     <link rel="stylesheet" href="css/homepage.css"/>
@@ -76,18 +170,52 @@
         function OpenBookView(){
             window.location = "bookviewpage";
         }
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 </head>
 <body>
 
 
     <h1 class = "title" onclick = "window.location.href='index.html'">SamePage</h1>
-   <!-- <img src="samepage.jpg" alt="test"> -->
-    <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
-    <button class="button signup" onclick="window.location.href='signuppage.html'">Sign Up</button>
-    <button class="button button" onclick="window.location.href='loginpage.html'">Log In</button>
-      <!-- <button class="button button" onclick="window.location.href='index.html'">Main</button>
-  --<button class="button button" onclick="OpenBookEditor()">Book Editor</button>
-     <button class="button button" onclick="OpenBookView()">Book Viewer</button> -->
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Browse</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#action">action</a>
+            <a href="#adventure">adventure</a>
+            <a href="#romance">romance</a>
+        </div>
+    </div>
+    <div class = "topb"> <button class="button signup" onclick="window.location.href='signuppage.html'">Sign Up</button>
+    </div>
+    <div class ="logt"><button class="button button" onclick="window.location.href='loginpage.html'">Log In</button></div>
+    <div class="container">
+        <img src="samepagehome.png" alt="book" style="width:100%;">
+        <div class="centered">Welcome to SamePage</div>
+        <div class="intro">An interactive collaborative book-writing and reading platform </div>
+        <div class = "homebuttons"> <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
+       </div>
+
+    </div>
+
+
+    <!-- <button class="button button" onclick="window.location.href='index.html'">Main</button>
+--<button class="button button" onclick="OpenBookEditor()">Book Editor</button>
+   <button class="button button" onclick="OpenBookView()">Book Viewer</button> -->
 </body>
 </html>
