@@ -32,4 +32,26 @@ public interface SubmissionRepository extends CrudRepository<Submission, Integer
             @Param("charCount") Integer charCount,
             @Param("wordCount") Integer wordCount);
 
+    @Query("SELECT s FROM Submission s WHERE s.isAccepted = true AND s.book_id = :book_id")
+    Submission findAcceptedSubmission(
+            @Param("book_id") Integer book_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Submission s set s.isAccepted = false WHERE s.id = :id")
+    void unacceptSubmission(
+            @Param("id") Integer id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Submission s set s.isAccepted = true WHERE s.id = :id")
+    void acceptSubmission(
+            @Param("id") Integer id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Submission s set s.voteCount = :voteCount WHERE s.id = :id")
+    void voteSubmission(
+            @Param("voteCount") Integer voteCount,
+            @Param("id") Integer id);
 }

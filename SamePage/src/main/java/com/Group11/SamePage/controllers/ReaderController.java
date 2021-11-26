@@ -4,6 +4,7 @@ package com.Group11.SamePage.controllers;
 import com.Group11.SamePage.Books.Comment;
 import com.Group11.SamePage.Users.Reader;
 import com.Group11.SamePage.repositories.CommentRepository;
+import com.Group11.SamePage.repositories.SubmissionRepository;
 import com.Group11.SamePage.repositories.UserRepository;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,12 @@ public class ReaderController {
 
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
+    private final SubmissionRepository submissionRepository;
 
-    public ReaderController(UserRepository userRepository, CommentRepository commentRepository) {
+    public ReaderController(UserRepository userRepository, CommentRepository commentRepository, SubmissionRepository submissionRepository) {
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
+        this.submissionRepository = submissionRepository;
     }
 
     @PostMapping("/api/comment")
@@ -77,4 +80,21 @@ public class ReaderController {
 
     }
 
+    @PostMapping("/api/votesubmission")
+    public @ResponseBody
+    void voteSubmission(@RequestBody String jsonString) {
+
+        try{
+
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer submissionID = obj.getInt("submissionID");
+
+            submissionRepository.voteSubmission(submissionRepository.findByID(submissionID).getVoteCount() + 1, submissionID);
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+    }
 }
