@@ -52,6 +52,10 @@
         function OpenBookView(){
             window.location = "bookviewpage";
         }
+
+        function openMainPage() {
+            window.location = "mainpage";
+        }
     </script>
 </head>
 <body>
@@ -61,7 +65,7 @@
     <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
     <button onclick="OpenSignUp()">Sign Up</button>
     <button onclick="OpenLogin()">Log In</button>
-    <button onclick="OpenHome()">Main</button>
+    <button onclick="openMainPage()">Home</button>
     <button onclick="OpenBookEditor()">Book Editor</button>
     <button onclick="OpenBookView()">Book Viewer</button>
 </body>

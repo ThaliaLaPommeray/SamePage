@@ -18,4 +18,10 @@ public class PageController {
         return "loginpage";
     }
 
+    @RequestMapping("/mainpage")
+    public String mainpage(){
+        return "mainpage";
+    }
+
+
 }

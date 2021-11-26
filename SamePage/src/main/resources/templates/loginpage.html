@@ -1,9 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <link rel="stylesheet" href="css/login.css">
-
         <title>Login Page</title>
+        <style>
+
+            html, body {
+                height: 100%;
+            }
+
+            html {
+                display: table;
+                margin: auto;
+            }
+
+            body {
+                display: table-cell;
+                vertical-align: middle;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            label {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+                max-width: 50%;
+            }
+
+            input {
+                margin-bottom: 20px;
+                padding: 4px;
+                border-color: rgba(0, 0, 0, 0.32);
+                border-radius: 5px;
+                max-width: 70%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+            }
+
+            button {
+                background-color: #9275FF;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+
+            a {
+                font-size: 14px;
+            }
+
+            .bordered {
+                border-style: solid;
+                border-radius: 25px;
+                border-color: rgba(146, 117, 255, 0.50);
+                padding: 30px;
+                font-family: 'Montserrat SemiBold';
+                font-size: 20px;
+                text-align: center;
+            }
+        </style>
         <script>
             function Login() {
                 // login function
@@ -26,8 +85,7 @@
                 <button onclick="Login()">Login</button>
             </div>
             <div>
-                <label>First time?</label>
-                <button onclick="OpenSignUp()">Sign-up</button>
+                <a href="#" onclick="OpenSignUp(); return false">Don't have an acccount?</a>
             </div>
         </div>
     </body>
