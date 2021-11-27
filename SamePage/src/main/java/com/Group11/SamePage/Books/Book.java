@@ -24,13 +24,16 @@ public class Book {
 
     protected String title;
 
+    protected Boolean isPublished;
+
     public Book(){
 
     }
 
-    public Book(Owner owner, String title) {
+    public Book(Owner owner, String title, Boolean isPublished) {
         this.owner = owner;
         this.title = title;
+        this.isPublished = isPublished;
     }
 
     public Integer getId() {
