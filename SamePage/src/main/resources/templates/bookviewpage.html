@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <link rel="stylesheet" href="css/main.css">
         <title>Book View</title>
+        <script>
+            function upvote() {
+                let curSubmissionVotes;
+                // Talk to server to get current upvote count
+                sessionStorage.setItem("curSubmissionVotes", curSubmissionVotes++)
+
+                // Tell server to increment it
+            }
+
+            function
+        </script>
     </head>
     <body>
         <div>
@@ -14,6 +24,7 @@
             </div>
             <div>
                 // Upvote counter
+                <label id="upvoteCounter"></label>
                 <button>Upvote</button> // Can only click once
             </div>
         </div>
@@ -21,4 +32,5 @@
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
+    <script>// Talk to server to get current upvote count; display it on the label</script>
 </html>

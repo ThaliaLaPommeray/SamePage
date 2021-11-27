@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>My webpage!</title>
-</head>
-<body>
-<h1>Hello, World!</h1>
-<h4 id='date'></h4>
-</body>
-</html>
+function logout() {
+    sessionStorage.clear();
+    window.location = "loginpage";
+}
