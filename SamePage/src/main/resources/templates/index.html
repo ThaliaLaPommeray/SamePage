@@ -72,7 +72,7 @@
             color: #234E52;
         }
         .intro{
-            font-family: Papyrus;
+            font-family: Arial;
             font-size: 20px;
             position: absolute;
             top: 29%;
@@ -146,6 +146,18 @@
 
         .show {display: block;}
 
+        .h2{
+            position: absolute;
+            top: 100%;
+            left: 45%;
+            font-size: 18px;
+        }
+        .h21{
+            position: absolute;
+            top: 110%;
+            left: 45%;
+        }
+
     </style>
     <link rel="stylesheet" href="css/homepage.css"/>
     <title>SamePage</title>
@@ -201,18 +213,32 @@
             <a href="#romance">romance</a>
         </div>
     </div>
+
+
     <div class = "topb"> <button class="button signup" onclick="window.location.href='signuppage.html'">Sign Up</button>
     </div>
     <div class ="logt"><button class="button button" onclick="window.location.href='loginpage.html'">Log In</button></div>
+    <!-- middle of homepage with book image, welcome, intro, and buttons to start -->
     <div class="container">
         <img src="samepagehome.png" alt="book" style="width:100%;">
         <div class="centered">Welcome to SamePage</div>
         <div class="intro">An interactive collaborative book-writing and reading platform </div>
         <div class = "homebuttons"> <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
-       </div>
-
+        </div>
     </div>
 
+    <h3 class = "h2">Be Apart of the Next Story</h3>
+    <h3 style="position: absolute; top:110%; left: 45%;">How SamePage Works</h3>
+
+    <div class = "How">
+        <h2 style="position: absolute; font-size: 40px; top:125%; left:10%;">1</h2>
+        <h3 style="font-family: Arial; position:absolute; top: 125%; left: 15%;">Create</h3>
+        <p style="position:absolute; top:130%; left: 15%;"> Share and craft a story only you can tell.
+        Build your story over time </p>
+        <h3 style="position:absolute; top: 125%; left: 35%;">Add</h3>
+        <h3 style="position:absolute; top: 125%; left: 60%;">Read</h3>
+        <h3 style="position:absolute; top: 125%; left: 75%;">Vote</h3>
+    </div>
 
     <!-- <button class="button button" onclick="window.location.href='index.html'">Main</button>
 --<button class="button button" onclick="OpenBookEditor()">Book Editor</button>
