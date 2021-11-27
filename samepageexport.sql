@@ -26,11 +26,12 @@ CREATE TABLE `book` (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(45) DEFAULT NULL,
   `owner_id` int DEFAULT NULL,
+  `is_published` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `FK8oixnbmawbivwggwk27w1m1cm` (`owner_id`),
   CONSTRAINT `FK8oixnbmawbivwggwk27w1m1cm` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +41,57 @@ CREATE TABLE `book` (
 LOCK TABLES `book` WRITE;
 /*!40000 ALTER TABLE `book` DISABLE KEYS */;
 /*!40000 ALTER TABLE `book` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comment` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `submission_id` int DEFAULT NULL,
+  `body` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `fk_user_id_idx` (`user_id`),
+  KEY `fk_submission_id_idx` (`submission_id`),
+  CONSTRAINT `fk_submission_id` FOREIGN KEY (`submission_id`) REFERENCES `submission` (`id`),
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hibernate_sequence`
+--
+
+DROP TABLE IF EXISTS `hibernate_sequence`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hibernate_sequence`
+--
+
+LOCK TABLES `hibernate_sequence` WRITE;
+/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
+/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -55,13 +107,11 @@ CREATE TABLE `middle_author_book` (
   `book_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `FKdlbsq4k927kigjsanqqol9b3x` (`book_id`),
-  KEY `FKdfy43b0x5h76aocp2w0l2luo9` (`user_id`),
-  CONSTRAINT `FKao214rxrh9l7t9uei1x8q0uwr` FOREIGN KEY (`book_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKdfy43b0x5h76aocp2w0l2luo9` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKdlbsq4k927kigjsanqqol9b3x` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `FKkfy4vq6q2dlf541qyxfrdgrto` FOREIGN KEY (`user_id`) REFERENCES `book` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_user_id_mab_idx` (`book_id`),
+  KEY `FKao214rxrh9l7t9uei1x8q0uwr` (`user_id`),
+  CONSTRAINT `FKao214rxrh9l7t9uei1x8q0uwr` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FKkfy4vq6q2dlf541qyxfrdgrto` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +140,7 @@ CREATE TABLE `middle_editor_book` (
   KEY `book_id_idx` (`book_id`),
   CONSTRAINT `fk_book_id_meb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
   CONSTRAINT `fk_user_id_meb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +169,7 @@ CREATE TABLE `middle_reader_book` (
   KEY `fk_book_id_mrb_idx` (`book_id`),
   CONSTRAINT `fk_book_id_mrb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
   CONSTRAINT `fk_user_id_mrb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +198,7 @@ CREATE TABLE `middle_viewer_book` (
   KEY `fk_book_id_mvb_idx` (`book_id`),
   CONSTRAINT `fk_book_id_mvb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
   CONSTRAINT `fk_user_id_mvb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +235,7 @@ CREATE TABLE `submission` (
   KEY `book_id_idx` (`book_id`),
   CONSTRAINT `FK1qgnfmncpuladr2896scialg0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `fk_book_id_submission` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,4 +282,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-21 22:18:44
+-- Dump completed on 2021-11-27 10:51:09
