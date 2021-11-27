@@ -21,6 +21,14 @@ public interface SubmissionRepository extends CrudRepository<Submission, Integer
             @Param("book_id") Integer book_id,
             @Param("chapterNum") Integer chapterNum);
 
+    @Query("SELECT s.chapterNum FROM Submission s WHERE s.book_id = :book_id")
+    Set<Integer> chapterNumBookSet(
+            @Param("book_id") Integer book_id);
+
+    @Query("SELECT s.chapterNum FROM Submission s WHERE s.book_id = :book_id AND s.isAccepted = true")
+    Set<Integer> acceptedChapterNumBookSet(
+            @Param("book_id") Integer book_id);
+
     @Transactional
     @Modifying
     @Query(value = "UPDATE Submission s set s.title = :title, s.body = :body, s.estimatedTime = :estimatedTime, s.charCount = :charCount, s.wordCount = :wordCount WHERE s.id = :id")

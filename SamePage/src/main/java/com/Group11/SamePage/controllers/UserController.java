@@ -1,4 +1,5 @@
 package com.Group11.SamePage.controllers;
+import com.Group11.SamePage.Books.Submission;
 import com.Group11.SamePage.Users.*;
 import com.Group11.SamePage.repositories.*;
 import org.springframework.stereotype.Controller;
@@ -113,4 +114,99 @@ public class UserController {
         }
     }
 
+    @PostMapping("/api/viewpublishedbooklist")
+    public @ResponseBody void viewPublishedBookList(@RequestBody String jsonString){
+        try {
+
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");
+
+            Set<Integer> set = bookRepository.publishedBookIDSet();
+            System.out.println("Published Books:");
+
+            if(set!=null){
+                for(Integer s : set)
+                    System.out.println(bookRepository.findTitleByID(s));
+            }
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    @PostMapping("/api/viewpublishedbook")
+    public @ResponseBody void viewPublishedBook(@RequestBody String jsonString){
+        try {
+
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");
+            Integer bookID = obj.getInt("bookID");
+
+            //print book title and owner
+            System.out.println("\"" + bookRepository.findTitleByID(bookID) + "\" by");
+            Integer ownerID = bookRepository.ownerIDBook(bookID).getId();
+            System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
+
+            //print editor
+            Set<Integer> setEditors = bookRepository.editorUserIDSet(bookID); //list of Editor's IDs
+            System.out.println("Editor list:");
+            if(setEditors!=null){
+                for(Integer s : setEditors)
+                    System.out.println(userRepository.findByID(s).getUsername()); //print the username
+            }
+            else
+                System.out.println("Empty");
+
+            //print author
+            Set<Integer> setAuthors = bookRepository.authorUserIDSet(bookID); //list of Author's IDS
+            System.out.println("Author list:");
+            if(setAuthors!=null){
+                for(Integer s : setAuthors)
+                    System.out.println(userRepository.findByID(s).getUsername()); //print the username
+            }
+            else
+                System.out.println("Empty");
+
+            System.out.println("Chapter list:");
+
+            //print accepted chapter numbers
+            Set<Integer> chapterNumSet = submissionRepository.acceptedChapterNumBookSet(bookID);
+            if(chapterNumSet!=null){
+                for(Integer s : chapterNumSet)
+                    System.out.println(s);
+            }
+            else
+                System.out.println("Empty");
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    @PostMapping("/api/viewpublishedsubmission")
+    public @ResponseBody
+    void viewPublishedSubmission(@RequestBody String jsonString) {
+
+        try{
+
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");
+            Integer submissionID = obj.getInt("submissionID");
+
+            Submission submission = submissionRepository.findByID(submissionID);
+
+            System.out.println("\"" + submission.getTitle() + "\" by " + submission.getAuthor().getUsername());
+
+            System.out.println("Votes: " + submission.getVoteCount());
+
+            System.out.println("\n" + submission.getBody());
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+    }
 }

@@ -51,4 +51,22 @@ public class OwnerController {
             System.out.println(e);
         }
     }
+
+    @PostMapping("/api/publishbook")
+    public @ResponseBody
+    void publishBook(@RequestBody String jsonString){
+
+        try {
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");
+            Integer bookID = obj.getInt("bookID");
+
+            bookRepository.publishBook(bookID);
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
 }

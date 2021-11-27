@@ -91,12 +91,17 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     Set<Integer> authorUserIDSet(
             @Param("book_id") Integer book_id);
 
-    @Query("SELECT s.chapterNum FROM Submission s WHERE s.book_id = :book_id")
-    Set<Integer> chapterNumBookSet(
-            @Param("book_id") Integer book_id);
-
     @Query("SELECT m FROM MiddleEditorBook m WHERE m.user_id = :user_id AND m.book_id = :book_id")
     MiddleEditorBook checkEditor(
             @Param("user_id") Integer user_id,
             @Param("book_id") Integer book_id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Book b set b.isPublished = true WHERE b.id = :id")
+    void publishBook(
+            @Param("id") Integer id);
+
+    @Query("SELECT b.id FROM Book b WHERE b.isPublished = true")
+    Set<Integer> publishedBookIDSet();
 }

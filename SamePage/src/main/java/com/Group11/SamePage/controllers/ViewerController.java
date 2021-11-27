@@ -66,9 +66,9 @@ public class ViewerController {
             System.out.println("Chapter list:");
 
             //print chapter numbers
-            Set<Integer> setChapterNums = bookRepository.chapterNumBookSet(bookID);
-            if(setChapterNums!=null){
-                for(Integer s : setChapterNums)
+            Set<Integer> chapterNumSet = submissionRepository.chapterNumBookSet(bookID);
+            if(chapterNumSet!=null){
+                for(Integer s : chapterNumSet)
                     System.out.println(s);
             }
             else
