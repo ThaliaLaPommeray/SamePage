@@ -1,10 +1,70 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <link rel="stylesheet" href="css/login.css"/>
-    <head>
-        <title>Sign-up Page</title>
+<head>
+    <title>Sign-up Page</title>
+    <style>
+
+            html, body {
+                height: 100%;
+            }
+
+            html {
+                display: table;
+                margin: auto;
+            }
+
+            body {
+                display: table-cell;
+                vertical-align: middle;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            label {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: small;
+                max-width: 50%;
+            }
+
+            input {
+                margin-bottom: 20px;
+                padding: 4px;
+                border-color: rgba(0, 0, 0, 0.32);
+                border-radius: 5px;
+                max-width: 70%;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 16px;
+            }
+
+            button {
+                background-color: #9275FF;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+
+            a {
+                font-size: 14px;
+            }
+
+            .bordered {
+                border-style: solid;
+                border-radius: 25px;
+                border-color: rgba(146, 117, 255, 0.50);
+                padding: 30px;
+                font-family: 'Montserrat SemiBold';
+                font-size: 20px;
+                text-align: center;
+            }
+    </style>
         <script>
-            function Submit() {
+            function submitSignup() {
 
                 console.log("Submitted User");
                 var user = {}
@@ -22,7 +82,7 @@
                     success: function (data) {
 
                         console.log("SUCCESS : ", data);
-                        //GO HOME
+                        openMainPage(document.getElementById('username').value);
 
                     },
                     error: function (e) {
@@ -31,25 +91,27 @@
                 });
             }
 
-            function OpenLogin() {
+            function openMainPage(username) {
+                sessionStorage.setItem("username", username);
+                window.location = "mainpage";
+            }
+
+            function openLogin() {
                 window.location = "loginpage";
             }
         </script>
     </head>
     <body>
         <div class="bordered">
-            <div>
+            <form>
                 <input type=text id="username" placeholder="Username"/>
-            </div>
-            <div>
                 <input type=password id="password" placeholder="Password"/>
+            </form>
+            <div>
+                <button onclick="submitSignup()">Submit</button>
             </div>
             <div>
-                <button onclick="Submit()">Submit</button>
-            </div>
-            <div>
-                <p>Already have an account?</p>
-                <button onclick="OpenLogin()">Login</button>
+                <a href="#" onclick="openLogin();return false">Already have an account?</a>
             </div>
         </div>
     </body>
