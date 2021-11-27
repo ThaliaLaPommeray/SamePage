@@ -4,30 +4,72 @@
     <style>
     </style>
     <title>Submission Editor Page</title>
-    <script>
-        function submitSubmission() {
-
-        }
-    </script>
 </head>
 <body>
-    <div>
+<script>
+    function submitSubmission() {
+        if (confirm("Are you sure you want to submit?")) {
+            console.log("Submitted User");
+            const submission = {}
+            submission["userID"] = "user0";
+            submission["bookID"] = "book0";
+            submission["title"] = $("#submissionTitle").val();
+            submission["chapter"] = "1";
+            submission["body"] = $("#submissionData").val();
+            submission["year"] = $("#completionDate").val().substringData(0,3);
+            submission["month"] = $("#completionDate").val().substring(5,6);
+            submission["data"] = $("#completionDate").val().substring(8,9);
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/submit",
+                data: JSON.stringify(user),
+                dataType: 'json',
+                cache: false,
+                timeout: 10000,
+                success: function (data) {
+
+                    console.log("SUCCESS : ", data);
+                    openMainPage(document.getElementById('username').value);
+
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            }
+        }
+            openBookView();
+    }
+
+    function save() {
+        const submissionData = document.getElementById("submissionData").value;
+        if (submissionData == "") {
+
+        }
+        sessionStorage.setItem("submissionProgress", submissionData);
+        if (confirm("Submission saved. Would you like to return to Book View?")) {
+            openBookView();
+        }
+    }
+</script>
+<div>
         <div>
-            <button>Logout</button> // save work popup?
+            <button onclick="logout()">Logout</button>
         </div>
         <div>
             <input type="text" id="submissionTitle" placeholder="Submission Title"/>
         </div>
         <div>
             <label>Estimated Completion Date:</label>
-            <input type="date" id="completionDate"/>
+            <input id="completionDate" type="date" id="completionDate"/>
         </div>
         <div>
             <input type="text" id="submissionData" placeholder="Chapter submission"/>
         </div>
         <div>
-            <button>Save</button> Save progress
-            <button>Submit</button> // Are you sure popup?
+            <button onclick="save()">Save</button> Save progress
+            <button onclick="submitSubmission()">Submit</button>
         </div>
     </div>
 </body>

@@ -29,7 +29,6 @@
 
         .button {background-color: #9275FF;} /* Pastel - ish Purple */
     </style>
-    <link rel="stylesheet" href="css/homepage.css"/>
     <title>Index</title>
 
     <script>
@@ -56,6 +55,10 @@
         function openMainPage() {
             window.location = "mainpage";
         }
+
+        function openSubmissionEditor() {
+            window.location = "submissioneditor"
+        }
     </script>
 </head>
 <body>
@@ -68,5 +71,7 @@
     <button onclick="openMainPage()">Home</button>
     <button onclick="OpenBookEditor()">Book Editor</button>
     <button onclick="OpenBookView()">Book Viewer</button>
+    <button onclick="openSubmissionEditor()">Submission Editor</button>
+
 </body>
 </html>

@@ -23,5 +23,18 @@ public class PageController {
         return "mainpage";
     }
 
+    @RequestMapping("/bookviewpage")
+    public String bookviewpage(){
+        return "bookviewpage";
+    }
 
+    @RequestMapping("/bookeditorpage")
+    public String bookeditorpage(){
+        return "bookeditorpage";
+    }
+
+    @RequestMapping("/submissioneditor")
+    public String submissioneditor(){
+        return "submissioneditor";
+    }
 }

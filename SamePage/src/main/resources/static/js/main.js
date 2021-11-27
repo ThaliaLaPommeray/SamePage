@@ -1,3 +1,4 @@
 function logout() {
-    //test
+    sessionStorage.clear();
+    window.location = "loginpage";
 }
