@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         $.ajax({
             type: "POST",
             contentType: "application/json",
-            url: "/api/signup",
+            url: "/api/login",
             data: JSON.stringify(user),
             dataType: 'json',
             cache: false,
