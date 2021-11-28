@@ -48,7 +48,7 @@
                         if(data.success) {
                             console.log("SUCCESS : ", data);
                             alert("Account made! Welcome " + data.username);
-                            openMainPage(data.id, data.username);
+                            openMainPage(data.userID, data.username);
                         }else{
                             alert(data.message);
                         }

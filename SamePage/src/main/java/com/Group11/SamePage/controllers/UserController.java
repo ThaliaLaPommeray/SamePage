@@ -53,7 +53,7 @@ public class UserController {
         else{
             response.put("success", true);
             response.put("username",newUser.getUsername());
-            response.put("id",newUser.getId());
+            response.put("userId",newUser.getId());
         }
 
         return response.toString();

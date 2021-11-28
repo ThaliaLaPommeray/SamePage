@@ -20,7 +20,9 @@ public class OwnerController {
 
     @PostMapping("/api/invite")
     public @ResponseBody
-    void invite(@RequestBody String jsonString){
+    String invite(@RequestBody String jsonString){
+
+        boolean check = false;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -31,6 +33,9 @@ public class OwnerController {
             //If current user is the owner of the book
             if(userID == bookRepository.findOwnerByBookID(bookID).getId())
             {
+
+                check = true;
+
                 String username = obj.getString("username");
                 String role = obj.getString("role");
 
@@ -60,6 +65,15 @@ public class OwnerController {
         }catch (Exception e){
             System.out.println(e);
         }
+
+        JSONObject response = new JSONObject();
+
+        if(check)
+            response.put("success", true);
+        else
+            response.put("success", false);
+
+        return response.toString();
     }
 
     @PostMapping("/api/publishbook")
