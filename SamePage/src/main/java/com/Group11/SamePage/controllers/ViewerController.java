@@ -36,43 +36,58 @@ public class ViewerController {
             Integer userID = obj.getInt("userID");
             Integer bookID = obj.getInt("bookID");
 
-            //PRINTING STARTS HERE
+            //if user is a viewer of the book
+            //OR if they are a reader of the book
+            //OR if they are an author of the book
+            //OR if they are an editor of the book
+            //OR if they are the owner of the book
+            if  (bookRepository.findViewerIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
+            {
+                //PRINTING STARTS HERE
 
-            //print book title and owner
-            System.out.println("\"" + bookRepository.findTitleByID(bookID) + "\" by");
-            Integer ownerID = bookRepository.ownerIDBook(bookID).getId();
-            System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
+                //print book title and owner
+                System.out.println("\"" + bookRepository.findTitleByID(bookID) + "\" by");
+                Integer ownerID = bookRepository.findOwnerByBookID(bookID).getId();
+                System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
 
-            //print editor
-            Set<Integer> setEditors = bookRepository.editorUserIDSet(bookID); //list of Editor's IDs
-            System.out.println("Editor list:");
-            if(setEditors!=null){
-                for(Integer s : setEditors)
-                    System.out.println(userRepository.findByID(s).getUsername()); //print the username
+                //print editor
+                Set<Integer> setEditors = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
+                System.out.println("Editor list:");
+                if(setEditors!=null){
+                    for(Integer s : setEditors)
+                        System.out.println(userRepository.findByID(s).getUsername()); //print the username
+                }
+                else
+                    System.out.println("Empty");
+
+                //print author
+                Set<Integer> setAuthors = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
+                System.out.println("Author list:");
+                if(setAuthors!=null){
+                    for(Integer s : setAuthors)
+                        System.out.println(userRepository.findByID(s).getUsername()); //print the username
+                }
+                else
+                    System.out.println("Empty");
+
+                System.out.println("Chapter list:");
+
+                //print chapter numbers
+                Set<Integer> chapterNumSet = submissionRepository.chapterNumBookSet(bookID);
+                if(chapterNumSet!=null){
+                    for(Integer s : chapterNumSet)
+                        System.out.println(s);
+                }
+                else
+                    System.out.println("Empty");
             }
-            else
-                System.out.println("Empty");
 
-            //print author
-            Set<Integer> setAuthors = bookRepository.authorUserIDSet(bookID); //list of Author's IDS
-            System.out.println("Author list:");
-            if(setAuthors!=null){
-                for(Integer s : setAuthors)
-                    System.out.println(userRepository.findByID(s).getUsername()); //print the username
-            }
             else
-                System.out.println("Empty");
-
-            System.out.println("Chapter list:");
-
-            //print chapter numbers
-            Set<Integer> setChapterNums = bookRepository.chapterNumBookSet(bookID);
-            if(setChapterNums!=null){
-                for(Integer s : setChapterNums)
-                    System.out.println(s);
-            }
-            else
-                System.out.println("Empty");
+                System.out.println("No authorization!");
 
         }catch (Exception e){
             System.out.println(e);
@@ -89,30 +104,47 @@ public class ViewerController {
 
             Integer userID = obj.getInt("userID");
             Integer bookID = obj.getInt("bookID");
-            Integer chapterNum = obj.getInt("chapterNum");
 
-            Set<Submission> set = submissionRepository.submissionSet(bookID, chapterNum);
+            //if user is a viewer of the book
+            //OR if they are a reader of the book
+            //OR if they are an author of the book
+            //OR if they are an editor of the book
+            //OR if they are the owner of the book
+            if  (bookRepository.findViewerIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
+            {
+                Integer chapterNum = obj.getInt("chapterNum");
 
-            //PRINTING STARTS HERE
+                Set<Submission> set = submissionRepository.submissionSet(bookID, chapterNum);
 
-            System.out.println("Submissions for Chapter " + chapterNum + ":\n");
-            int i = 1;
-            for(Submission s : set) {
-                System.out.println(i + ". \"" + s.getTitle() + "\" by " + s.getAuthor().getUsername());
+                //PRINTING STARTS HERE
 
-                if(s.isAccepted())
-                    System.out.println("Status: Accepted");
-                else
-                    System.out.println("Status: Not accepted");
+                System.out.println("Submissions for Chapter " + chapterNum + ":\n");
+                int i = 1;
+                for(Submission s : set) {
+                    System.out.println(i + ". \"" + s.getTitle() + "\" by " + s.getAuthor().getUsername());
 
-                System.out.println("Votes: " + s.getVoteCount());
+                    if(s.isAccepted())
+                        System.out.println("Status: Accepted");
+                    else
+                        System.out.println("Status: Not accepted");
 
-                System.out.println("Estimated time of completion: " + s.getEstimatedTime());
+                    System.out.println("Votes: " + s.getVoteCount());
 
-                System.out.println();
+                    System.out.println("Estimated time of completion: " + s.getEstimatedTime());
 
-                i++;
+                    System.out.println();
+
+                    i++;
+                }
             }
+
+            else
+                System.out.println("No authorization!");
+
 
         }catch (Exception e){
             System.out.println(e);
@@ -128,22 +160,39 @@ public class ViewerController {
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");
-            Integer submissionID = obj.getInt("submissionID");
+            Integer bookID = obj.getInt("bookID");
 
-            Submission submission = submissionRepository.findByID(submissionID);
+            //if user is a viewer of the book
+            //OR if they are a reader of the book
+            //OR if they are an author of the book
+            //OR if they are an editor of the book
+            //OR if they are the owner of the book
+            if  (bookRepository.findViewerIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
+            {
+                Integer submissionID = obj.getInt("submissionID");
 
-            System.out.println("\"" + submission.getTitle() + "\" by " + submission.getAuthor().getUsername());
+                Submission submission = submissionRepository.findByID(submissionID);
 
-            if(submission.isAccepted())
-                System.out.println("Status: Accepted");
+                System.out.println("\"" + submission.getTitle() + "\" by " + submission.getAuthor().getUsername());
+
+                if(submission.isAccepted())
+                    System.out.println("Status: Accepted");
+                else
+                    System.out.println("Status: Not accepted");
+
+                System.out.println("Votes: " + submission.getVoteCount());
+
+                System.out.println("Estimated time of completion: " + submission.getEstimatedTime());
+
+                System.out.println("\n" + submission.getBody());
+            }
+
             else
-                System.out.println("Status: Not accepted");
-
-            System.out.println("Votes: " + submission.getVoteCount());
-
-            System.out.println("Estimated time of completion: " + submission.getEstimatedTime());
-
-            System.out.println("\n" + submission.getBody());
+                System.out.println("No authorization!");
 
         }catch (Exception e){
             System.out.println(e);

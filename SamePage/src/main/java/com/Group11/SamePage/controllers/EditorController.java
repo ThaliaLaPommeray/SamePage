@@ -25,34 +25,43 @@ public class EditorController {
     public @ResponseBody
     void acceptSubmission(@RequestBody String jsonString){
 
-        Submission submission = null;
-
         try {
             JSONObject obj = new JSONObject(jsonString);
 
-            Integer submissionID = obj.getInt("submissionID");
-            Integer bookID = obj.getInt("bookID");
+            Integer userID = obj.getInt("userID");  //current editor logged in
+            Integer submissionID = obj.getInt("submissionID"); //current submission
+            Integer bookID = obj.getInt("bookID"); //current book
 
-            Submission temp = submissionRepository.findAcceptedSubmission(bookID);
-
-            //if a submission is already accepted
-            if(temp != null)
+            //if current user is an editor of the book
+            //OR if they are the owner
+            if (bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
-                if(temp.getId() != submissionID) //if we're not already on the accepted submission
+                Submission temp = submissionRepository.findAcceptedSubmission(bookID);
+
+                //if a submission is already accepted
+                if(temp != null)
                 {
-                    //unaccept previous submission
-                    submissionRepository.unacceptSubmission(temp.getId());
+                    if(temp.getId() != submissionID) //if we're not already on the accepted submission
+                    {
+                        //unaccept previous submission
+                        submissionRepository.unacceptSubmission(temp.getId());
+                        //accept new submission
+                        submissionRepository.acceptSubmission(submissionID);
+                    }
+
+                    //else: don't unaccept any, don't accept any. do nothing.
+                }
+                else
+                {
                     //accept new submission
                     submissionRepository.acceptSubmission(submissionID);
                 }
+            }
 
-                //else: don't unaccept any, don't accept any. do nothing.
-            }
             else
-            {
-                //accept new submission
-                submissionRepository.acceptSubmission(submissionID);
-            }
+                System.out.println("No authorization!");
+
 
         }catch (Exception e){
             System.out.println(e);
