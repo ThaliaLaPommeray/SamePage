@@ -49,8 +49,8 @@ public class UserController {
 
         if(!check){
             response.put("success",false);
-            response.put("message","User already exists!");
-        }else{
+        }
+        else{
             response.put("success", true);
             response.put("username",newUser.getUsername());
             response.put("id",newUser.getId());
@@ -60,9 +60,10 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public @ResponseBody User loginUser(@RequestBody String jsonString){
+    public @ResponseBody String loginUser(@RequestBody String jsonString){
 
         User user = null;
+        boolean check = false;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -72,42 +73,79 @@ public class UserController {
 
             user = userRepository.login(username, password);
 
+            if(user != null) //if user is found
+                check = true;
+
         }catch (Exception e){
             System.out.println(e);
         }
 
-        return user;
+        JSONObject response = new JSONObject();
+
+        if(!check){
+            response.put("success",false);
+        }
+        else{
+            response.put("success", true);
+            response.put("username",user.getUsername());
+            response.put("id",user.getId());
+        }
+
+        return response.toString();
     }
 
     @PostMapping("/api/main")
-    public @ResponseBody void mainPage(@RequestBody String jsonString){
+    public @ResponseBody String mainPage(@RequestBody String jsonString){
+
+        JSONObject response = new JSONObject();
+        boolean check = false;
+
         try {
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");
 
+            System.out.println("List of Books:"); //Test print
+
+            Set<String> bookTitleSet = new HashSet<>();
+
             // get list of book IDs user can interact with
-            Set<Integer> set = new HashSet<>();
-            set.addAll(bookRepository.findBookIDsByOwnerID(userID));
-            set.addAll(bookRepository.findBookIDsByEditorID(userID));
-            set.addAll(bookRepository.findBookIDsByAuthorID(userID));
-            set.addAll(bookRepository.findBookIDsByReaderID(userID));
-            set.addAll(bookRepository.findBookIDsByViewerID(userID));
+            Set<Integer> bookIDSet = new HashSet<>();
+            bookIDSet.addAll(bookRepository.findBookIDsByOwnerID(userID));
+            bookIDSet.addAll(bookRepository.findBookIDsByEditorID(userID));
+            bookIDSet.addAll(bookRepository.findBookIDsByAuthorID(userID));
+            bookIDSet.addAll(bookRepository.findBookIDsByReaderID(userID));
+            bookIDSet.addAll(bookRepository.findBookIDsByViewerID(userID));
 
-            //PRINTING STARTS HERE
+            if(bookIDSet!=null){
+                for(Integer s : bookIDSet)
+                {
+                    bookTitleSet.add(bookRepository.findTitleByID(s));
+                    System.out.println(bookRepository.findTitleByID(s)); //Test print
+                }
 
-            System.out.println("List of Books:");
-
-            if(set!=null){
-                for(Integer s : set)
-                    System.out.println(bookRepository.findTitleByID(s));
+                //json
+                response.put("success", true);
+                response.put("bookID", bookIDSet.toArray());
+                response.put("bookTitle", bookTitleSet.toArray());
             }
-            else
-                System.out.println("Empty");
 
         }catch (Exception e){
             System.out.println(e);
         }
+
+        if(!check)
+        {
+            {
+                //Test print
+                System.out.println("Empty");
+
+                //json
+                response.put("success",false);
+            }
+        }
+
+        return response.toString();
     }
 
     @PostMapping("/api/createbook")
@@ -127,31 +165,67 @@ public class UserController {
         }catch (Exception e){
             System.out.println(e);
         }
+
     }
 
     @PostMapping("/api/viewpublishedbooklist")
-    public @ResponseBody void viewPublishedBookList(@RequestBody String jsonString){
+    public @ResponseBody String viewPublishedBookList(@RequestBody String jsonString){
+
+        JSONObject response = new JSONObject();
+        boolean check = false;
+
         try {
 
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");
 
-            Set<Integer> set = bookRepository.publishedBookIDSet();
+            Set<Integer> bookIDSet = bookRepository.publishedBookIDSet();
+
             System.out.println("Published Books:");
 
-            if(set!=null){
-                for(Integer s : set)
-                    System.out.println(bookRepository.findTitleByID(s));
+            Set<String> bookTitleSet = new HashSet<>();
+
+            if(bookIDSet!=null){
+
+                check = true;
+
+                for(Integer s : bookIDSet)
+                {
+                    bookTitleSet.add(bookRepository.findTitleByID(s));
+                    System.out.println(bookRepository.findTitleByID(s)); //Test print
+                }
+
+                //json
+                response.put("success", true);
+                response.put("bookID", bookIDSet.toArray());
+                response.put("bookTitle", bookTitleSet.toArray());
             }
 
         }catch (Exception e){
             System.out.println(e);
         }
+
+        if(!check)
+            if(!check)
+            {
+                {
+                    //Test print
+                    System.out.println("Empty");
+
+                    //json
+                    response.put("success",false);
+                }
+            }
+
+        return response.toString();
     }
 
     @PostMapping("/api/viewpublishedbook")
-    public @ResponseBody void viewPublishedBook(@RequestBody String jsonString){
+    public @ResponseBody String viewPublishedBook(@RequestBody String jsonString){
+
+        JSONObject response = new JSONObject();
+
         try {
 
             JSONObject obj = new JSONObject(jsonString);
@@ -164,25 +238,43 @@ public class UserController {
             Integer ownerID = bookRepository.findOwnerByBookID(bookID).getId();
             System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
 
+            //json
+            response.put("bookTitle", bookRepository.findTitleByID(bookID));
+            response.put("bookOwner", bookRepository.findOwnerByBookID(bookID).getUsername());
+
             //print editor
-            Set<Integer> setEditors = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
+            Set<Integer> editorsIDSet = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
             System.out.println("Editor list:");
-            if(setEditors!=null){
-                for(Integer s : setEditors)
+            Set<String> editorsNameSet = new HashSet<>();
+            if(editorsIDSet!=null){
+                for(Integer s : editorsIDSet)
+                {
                     System.out.println(userRepository.findByID(s).getUsername()); //print the username
+                    editorsNameSet.add(userRepository.findByID(s).getUsername());
+                }
             }
             else
                 System.out.println("Empty");
 
+            //json
+            response.put("bookEditor", editorsNameSet.toArray());
+
             //print author
-            Set<Integer> setAuthors = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
+            Set<Integer> authorsIDSet = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
             System.out.println("Author list:");
-            if(setAuthors!=null){
-                for(Integer s : setAuthors)
+            Set<String> authorsNameSet = new HashSet<>();
+            if(authorsIDSet!=null){
+                for(Integer s : authorsIDSet)
+                {
                     System.out.println(userRepository.findByID(s).getUsername()); //print the username
+                    authorsNameSet.add(userRepository.findByID(s).getUsername());
+                }
             }
             else
                 System.out.println("Empty");
+
+            //json
+            response.put("bookAuthor", authorsNameSet.toArray());
 
             System.out.println("Chapter list:");
 
@@ -195,14 +287,20 @@ public class UserController {
             else
                 System.out.println("Empty");
 
+            //json
+            response.put("chapterNumber", chapterNumSet.toArray());
+
         }catch (Exception e){
             System.out.println(e);
         }
+
+        return response.toString();
     }
 
     @PostMapping("/api/viewpublishedsubmission")
-    public @ResponseBody
-    void viewPublishedSubmission(@RequestBody String jsonString) {
+    public @ResponseBody String viewPublishedSubmission(@RequestBody String jsonString) {
+
+        JSONObject response = new JSONObject();
 
         try{
 
@@ -213,15 +311,23 @@ public class UserController {
 
             Submission submission = submissionRepository.findByID(submissionID);
 
+            //test print
             System.out.println("\"" + submission.getTitle() + "\" by " + submission.getAuthor().getUsername());
 
             System.out.println("Votes: " + submission.getVoteCount());
 
             System.out.println("\n" + submission.getBody());
 
+            //json
+            response.put("title", submission.getTitle());
+            response.put("author", submission.getAuthor().getUsername());
+            response.put("voteCount", submission.getVoteCount());
+            response.put("body", submission.getBody());
+
         }catch (Exception e){
             System.out.println(e);
         }
 
+        return response.toString();
     }
 }
