@@ -5,24 +5,24 @@
         <style>
         </style>
         <script>
-            class BookList extends HTMLOListElement {
-                constructor() {
-                    super();
+            // Assumes availableBooks is saved as json in sessionStorage
+            function displayBooks(bookList) {
+                const mainContainer = document.getElementById("bookList");
+                for (let i = 0; i < bookList.length; i++) {
+                    const div = document.createElement("div");
+                    div.innerHTML = bookList[i].title;
+                    mainContainer.appendChild(div);
                 }
-            }
-
-            function getBooks() {
-                
             }
 
             function createBook() {
                 const newBookTitle = document.getElementById("newBookTitle").value;
-                if (newBookTitle == "") {
+                if (newBookTitle === "") {
                     alert("Please input a name.");
                 }
                 else {
                     const newBook = {};
-                    // newBook["userID"] = get from cookie;
+                    newBook["userID"] = localStorage.getItem("userID");
                     newBook["title"] = newBookTitle;
 
                     $.ajax({
@@ -33,7 +33,7 @@
                         dataType: 'json',
                         cache: false,
                         timeout: 10000,
-                        success: function (data) {
+                        success: function () {
                             // set current book in cookie
                             openBookView();
                         },
@@ -55,14 +55,13 @@
             <input type="text" id="newBookTitle" placeholder="Name for new book"/>
             <button onclick="createBook()">Create Book</button>
         </div>
-        <div>
-            <book-list></book-list>
-        </div>
+        <div id="bookList"></div>
     </body>
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script>
         document.getElementById("header").innerHTML = sessionStorage.getItem("username") + "'s Home Page";
+        displayBooks(sessionStorage.getItem("availableBooks"));
     </script>
     <script type="text/javascript" src="/static/js/main.js"></script>
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Book View</title>
+  <script>
+
+    function upvote() {
+      let curSubmissionVotes;
+      // Talk to server to get current upvote count
+      sessionStorage.setItem("curSubmissionVotes", curSubmissionVotes++)
+
+      // Tell server to increment it
+    }
+
+    // Checks if the user has comment permissions
+    function isReader() {
+
+    }
+
+    // Assumes comment list is saved as json in sessionStorage
+    function displayComments(commentList) {
+      var mainContainer = document.getElementById("commentSection");
+      for (var i = 0; i < commentList.length; i++) {
+        var div = document.createElement("div");
+        div.innerHTML = commentList[i].user + ": " + commentList[i].body;
+        mainContainer.appendChild(div);
+      }
+    }
+
+  </script>
+</head>
+<body>
+<div>
+  <div>
+    // List of chapters
+  </div>
+  <div>
+    // Current chapter contents
+  </div>
+  <div>
+    // Upvote counter
+    <label id="upvoteCounter"></label>
+    <button>Upvote</button> // Can only click once
+  </div>
+  <div id="commentSection"></div>
+</div>
+</body>
+<script type="text/javascript"
+        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script>viewChapter()</script>
+<script>displayComments(sessionStorage.getItem("commentList"))</script>
+<script>// Talk to server to get current upvote count; display it on the label</script>
+</html>

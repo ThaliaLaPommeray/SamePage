@@ -47,24 +47,20 @@
                 font-size: 16px;
                 margin: 4px 2px;
                 cursor: pointer;
+                background-color: #B8F2B7;
             }
 
-            a {
-                font-size: 14px;
-            }
+            .title{
+                font-family: Impact;
+                cursor: pointer;
+                position: relative;
+                left: 100px;
 
-            .bordered {
-                border-style: solid;
-                border-radius: 25px;
-                border-color: rgba(146, 117, 255, 0.50);
-                padding: 30px;
-                font-family: 'Montserrat SemiBold';
-                font-size: 20px;
-                text-align: center;
             }
-    </style>
+        </style>
+        <title>Sign-up</title>
         <script>
-            function submitSignup() {
+            function Submit() {
 
                 console.log("Submitted User");
                 var user = {}
@@ -83,7 +79,7 @@
                         if(data.success) {
                             console.log("SUCCESS : ", data);
                             alert("Account made! Welcome " + data.username);
-                            openMainPage(data.id, data.username);
+                            openMainPage(data.userID, data.username);
                         }else{
                             alert(data.message);
                         }
@@ -107,13 +103,15 @@
         </script>
     </head>
     <body>
+
+        <h1 class = "title" onclick = "window.location.href='index.html'">SamePage</h1>
         <div class="bordered">
             <form>
                 <input type=text id="username" placeholder="Username"/>
                 <input type=password id="password" placeholder="Password"/>
             </form>
             <div>
-                <button onclick="submitSignup()">Submit</button>
+                <button class ="button button" onclick="Submit()">Submit</button>
             </div>
             <div>
                 <a href="#" onclick="openLogin();return false">Already have an account?</a>
@@ -123,5 +121,5 @@
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
 
-    <script type="text/javascript" src="/static/js/main.js"></script>
+<!--    <script type="text/javascript" src="/main.js"></script>-->
 </html>

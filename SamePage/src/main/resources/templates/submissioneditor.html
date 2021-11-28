@@ -11,10 +11,10 @@
         if (confirm("Are you sure you want to submit?")) {
             console.log("Submitted User");
             const submission = {}
-            submission["userID"] = "user0";
-            submission["bookID"] = "book0";
+            submission["userID"] = localStorage.getItem("userID");
+            submission["bookID"] = sessionStorage.getItem("")
             submission["title"] = $("#submissionTitle").val();
-            submission["chapter"] = "1";
+            submission["chapter"] = sessionStorage.getItem("currentChapter");
             submission["body"] = $("#submissionData").val();
             submission["year"] = $("#completionDate").val().substringData(0,3);
             submission["month"] = $("#completionDate").val().substring(5,6);

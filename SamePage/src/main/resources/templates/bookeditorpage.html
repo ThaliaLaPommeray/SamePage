@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="css/main.css">
-
     <title>Book Editor</title>
     <script>
         function invite() {
             const invitation = {};
-            invitation["userID"] = -1; // get from user
-            invitation["bookID"] = -1; // get from current book
+            invitation["userID"] = localStorage.getItem("userID");
+            invitation["bookID"] = sessionStorage.getItem("bookID");
             invitation["username"] = $("#username").val();
             invitation["role"] = $("#roles").val();
 
