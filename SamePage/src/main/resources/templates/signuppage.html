@@ -80,9 +80,13 @@
                     cache: false,
                     timeout: 10000,
                     success: function (data) {
-
-                        console.log("SUCCESS : ", data);
-                        openMainPage(document.getElementById('username').value);
+                        if(data.success) {
+                            console.log("SUCCESS : ", data);
+                            alert("User Created! " + data.username);
+                            openMainPage(data.id, data.username);
+                        }else{
+                            alert(data.message);
+                        }
 
                     },
                     error: function (e) {
@@ -91,7 +95,8 @@
                 });
             }
 
-            function openMainPage(username) {
+            function openMainPage(id, username) {
+                sessionStorage.setItem("userID", id);
                 sessionStorage.setItem("username", username);
                 window.location = "mainpage";
             }

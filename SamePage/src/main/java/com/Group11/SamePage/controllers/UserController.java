@@ -23,25 +23,40 @@ public class UserController {
     }
 
     @PostMapping("/api/signup")
-    public @ResponseBody User signUpUser(@RequestBody String jsonString){
+    public @ResponseBody String signUpUser(@RequestBody String jsonString){
 
         User newUser = null;
-
+        Boolean check = false;
         try {
             JSONObject obj = new JSONObject(jsonString);
 
             String username = obj.getString("username");
             String password = obj.getString("password");
 
-            newUser = new User(username,password);
-
-            userRepository.save(newUser);
+            //if user doesn't exist yet
+            if(userRepository.findByUsername(username) == null)
+            {
+                check = true;
+                newUser = new User(username,password);
+                userRepository.save(newUser);
+            }
 
         }catch (Exception e){
             System.out.println(e);
         }
 
-        return newUser;
+        JSONObject response = new JSONObject();
+
+        if(!check){
+            response.put("success",false);
+            response.put("message","User already exists!");
+        }else{
+            response.put("success", true);
+            response.put("username",newUser.getUsername());
+            response.put("id",newUser.getId());
+        }
+
+        return response.toString();
     }
 
     @PostMapping("/api/login")

@@ -35,7 +35,7 @@ public class OwnerController {
                 String role = obj.getString("role");
 
                 //search for username
-                User user = userRepository.searchByUsername(username);
+                User user = userRepository.findByUsername(username);
 
                 System.out.println(user.getId());
 
