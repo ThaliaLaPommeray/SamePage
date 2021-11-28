@@ -15,10 +15,12 @@ import java.util.Set;
 
 public interface BookRepository extends CrudRepository<Book, Integer> {
 
+    //Returns book's title (string) given the book ID
     @Query("SELECT b.title FROM Book b WHERE b.id = :bookID")
     String findTitleByID(
             @Param("bookID") Integer bookID);
 
+    //Creates a book to put in the book database
     @Transactional
     @Modifying
     @Query(value = "insert into book (title, owner_id, is_published) values (:title, :owner_id, false)",
@@ -27,6 +29,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             @Param("title") String title,
             @Param("owner_id") Integer owner_id);
 
+    //Invites editor and saves to database
     @Transactional
     @Modifying
     @Query(value = "insert into middle_editor_book (user_id, book_id) values (:user_id, :book_id)",
@@ -35,6 +38,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             @Param("user_id") Integer user_id,
             @Param("book_id") Integer book_id);
 
+    //Invites author and saves to database
     @Transactional
     @Modifying
     @Query(value = "insert into middle_author_book (user_id, book_id) values (:user_id, :book_id)",
@@ -43,6 +47,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             @Param("user_id") Integer user_id,
             @Param("book_id") Integer book_id);
 
+    //Invites reader and saves to database
     @Transactional
     @Modifying
     @Query(value = "insert into middle_reader_book (user_id, book_id) values (:user_id, :book_id)",
@@ -51,6 +56,7 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             @Param("user_id") Integer user_id,
             @Param("book_id") Integer book_id);
 
+    //Invites viewer and saves to database
     @Transactional
     @Modifying
     @Query(value = "insert into middle_viewer_book (user_id, book_id) values (:user_id, :book_id)",
@@ -59,41 +65,51 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
             @Param("user_id") Integer user_id,
             @Param("book_id") Integer book_id);
 
+    //Returns set of book IDs that a user owns
     @Query("SELECT b.id FROM Book b WHERE b.owner.id = :owner_id")
-    Integer ownerBookID(
+    Set<Integer> findBookIDsByOwnerID(
             @Param("owner_id") Integer owner_id);
 
+    //Returns set of book IDs that a user can edit
     @Query("SELECT m.book_id FROM MiddleEditorBook m WHERE m.user_id = :user_id")
-    Set<Integer> editorBookIDSet(
+    Set<Integer> findBookIDsByEditorID(
             @Param("user_id") Integer user_id);
 
+    //Returns set of book IDs that a user can author
     @Query("SELECT m.book_id FROM MiddleAuthorBook m WHERE m.user_id = :user_id")
-    Set<Integer> authorBookIDSet(
+    Set<Integer> findBookIDsByAuthorID(
             @Param("user_id") Integer user_id);
 
+    //Returns set of book IDs that a user can read
     @Query("SELECT m.book_id FROM MiddleReaderBook m WHERE m.user_id = :user_id")
-    Set<Integer> readerBookIDSet(
+    Set<Integer> findBookIDsByReaderID(
             @Param("user_id") Integer user_id);
 
+    //Returns set of book IDs that a user can view
     @Query("SELECT m.book_id FROM MiddleViewerBook m WHERE m.user_id = :user_id")
-    Set<Integer> viewerBookIDSet(
+    Set<Integer> findBookIDsByViewerID(
             @Param("user_id") Integer user_id);
 
+    //Returns owner (Owner) of book given the book ID
     @Query("SELECT b.owner FROM Book b WHERE b.id = :book_id")
-    Owner ownerIDBook(
+    Owner findOwnerByBookID(
             @Param("book_id") Integer book_id);
 
+    //Returns set of user IDs of a book's editors
     @Query("SELECT m.user_id FROM MiddleEditorBook m WHERE m.book_id = :book_id")
-    Set<Integer> editorUserIDSet(
+    Set<Integer> findEditorIDsByBookID(
             @Param("book_id") Integer book_id);
 
     @Query("SELECT m.user_id FROM MiddleAuthorBook m WHERE m.book_id = :book_id")
-    Set<Integer> authorUserIDSet(
+    Set<Integer> findAuthorIDsByBookID(
             @Param("book_id") Integer book_id);
 
-    @Query("SELECT m FROM MiddleEditorBook m WHERE m.user_id = :user_id AND m.book_id = :book_id")
-    MiddleEditorBook checkEditor(
-            @Param("user_id") Integer user_id,
+    @Query("SELECT m.user_id FROM MiddleReaderBook m WHERE m.book_id = :book_id")
+    Set<Integer> findReaderIDsByBookID(
+            @Param("book_id") Integer book_id);
+
+    @Query("SELECT m.user_id FROM MiddleViewerBook m WHERE m.book_id = :book_id")
+    Set<Integer> findViewerIDsByBookID(
             @Param("book_id") Integer book_id);
 
     @Transactional

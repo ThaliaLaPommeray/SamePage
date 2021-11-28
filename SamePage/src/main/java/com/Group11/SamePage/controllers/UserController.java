@@ -73,11 +73,11 @@ public class UserController {
 
             // get list of book IDs user can interact with
             Set<Integer> set = new HashSet<>();
-            set.add(bookRepository.ownerBookID(userID));
-            set.addAll(bookRepository.editorBookIDSet(userID));
-            set.addAll(bookRepository.authorBookIDSet(userID));
-            set.addAll(bookRepository.readerBookIDSet(userID));
-            set.addAll(bookRepository.viewerBookIDSet(userID));
+            set.addAll(bookRepository.findBookIDsByOwnerID(userID));
+            set.addAll(bookRepository.findBookIDsByEditorID(userID));
+            set.addAll(bookRepository.findBookIDsByAuthorID(userID));
+            set.addAll(bookRepository.findBookIDsByReaderID(userID));
+            set.addAll(bookRepository.findBookIDsByViewerID(userID));
 
             //PRINTING STARTS HERE
 
@@ -146,11 +146,11 @@ public class UserController {
 
             //print book title and owner
             System.out.println("\"" + bookRepository.findTitleByID(bookID) + "\" by");
-            Integer ownerID = bookRepository.ownerIDBook(bookID).getId();
+            Integer ownerID = bookRepository.findOwnerByBookID(bookID).getId();
             System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
 
             //print editor
-            Set<Integer> setEditors = bookRepository.editorUserIDSet(bookID); //list of Editor's IDs
+            Set<Integer> setEditors = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
             System.out.println("Editor list:");
             if(setEditors!=null){
                 for(Integer s : setEditors)
@@ -160,7 +160,7 @@ public class UserController {
                 System.out.println("Empty");
 
             //print author
-            Set<Integer> setAuthors = bookRepository.authorUserIDSet(bookID); //list of Author's IDS
+            Set<Integer> setAuthors = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
             System.out.println("Author list:");
             if(setAuthors!=null){
                 for(Integer s : setAuthors)

@@ -1,8 +1,7 @@
 package com.Group11.SamePage.controllers;
 
-
 import com.Group11.SamePage.Books.Comment;
-import com.Group11.SamePage.Users.Reader;
+import com.Group11.SamePage.repositories.BookRepository;
 import com.Group11.SamePage.repositories.CommentRepository;
 import com.Group11.SamePage.repositories.SubmissionRepository;
 import com.Group11.SamePage.repositories.UserRepository;
@@ -20,11 +19,13 @@ public class ReaderController {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final SubmissionRepository submissionRepository;
+    private final BookRepository bookRepository;
 
-    public ReaderController(UserRepository userRepository, CommentRepository commentRepository, SubmissionRepository submissionRepository) {
+    public ReaderController(UserRepository userRepository, CommentRepository commentRepository, SubmissionRepository submissionRepository, BookRepository bookRepository) {
         this.userRepository = userRepository;
         this.commentRepository = commentRepository;
         this.submissionRepository = submissionRepository;
+        this.bookRepository = bookRepository;
     }
 
     @PostMapping("/api/comment")
@@ -38,12 +39,28 @@ public class ReaderController {
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");
+            Integer bookID = obj.getInt("bookID");
             Integer submissionID = obj.getInt("submissionID");
-            String body = obj.getString("body");
 
-            comment = new Comment(userRepository.findByID(userID), submissionID, body);
+            //if user is a reader of the book
+            //OR if they are an author of the book
+            //OR if they are an editor of the book
+            //OR if they are the owner of the book
+            if  (bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
+            {
+                String body = obj.getString("body");
 
-            commentRepository.save(comment);
+                comment = new Comment(userRepository.findByID(userID), submissionID, body);
+
+                commentRepository.save(comment);
+                commentRepository.save(comment);
+            }
+
+            else
+                System.out.println("No authorization!");
 
         }catch (Exception e){
             System.out.println(e);
@@ -60,19 +77,33 @@ public class ReaderController {
 
             JSONObject obj = new JSONObject(jsonString);
 
-            //Integer userID = obj.getInt("userID");
+            Integer userID = obj.getInt("userID");
+            Integer bookID = obj.getInt("bookID");
             Integer submissionID = obj.getInt("submissionID");
 
-            Set<Comment> set = commentRepository.commentSet(submissionID);
-
-            //PRINTING STARTS HERE
-
-            for(Comment c : set)
+            //if user is a reader of the book
+            //OR if they are an author of the book
+            //OR if they are an editor of the book
+            //OR if they are the owner of the book
+            if  (bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
-                System.out.println("Comment by " + c.getReader().getUsername() + ":");
-                System.out.println(c.getBody());
-                System.out.println();
+                Set<Comment> set = commentRepository.commentSet(submissionID);
+
+                //PRINTING STARTS HERE
+
+                for(Comment c : set)
+                {
+                    System.out.println("Comment by " + c.getReader().getUsername() + ":");
+                    System.out.println(c.getBody());
+                    System.out.println();
+                }
             }
+
+            else
+                System.out.println("No authorization!");
 
         }catch (Exception e){
             System.out.println(e);
@@ -88,9 +119,23 @@ public class ReaderController {
 
             JSONObject obj = new JSONObject(jsonString);
 
+            Integer userID = obj.getInt("userID");
+            Integer bookID = obj.getInt("bookID");
             Integer submissionID = obj.getInt("submissionID");
 
-            submissionRepository.voteSubmission(submissionRepository.findByID(submissionID).getVoteCount() + 1, submissionID);
+            //if user is a reader of the book
+            //OR if they are an author of the book
+            //OR if they are an editor of the book
+            //OR if they are the owner of the book
+            if (bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
+                    bookRepository.findOwnerByBookID(bookID).getId() == userID)
+            {
+                submissionRepository.voteSubmission(submissionRepository.findByID(submissionID).getVoteCount() + 1, submissionID);
+            }
+            else
+                System.out.println("No authorization!");
 
         }catch (Exception e){
             System.out.println(e);
