@@ -82,7 +82,7 @@
                     success: function (data) {
                         if(data.success) {
                             console.log("SUCCESS : ", data);
-                            alert("User Created! " + data.username);
+                            alert("Account made! Welcome " + data.username);
                             openMainPage(data.id, data.username);
                         }else{
                             alert(data.message);
