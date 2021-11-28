@@ -36,24 +36,24 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         // Perform your AJAX/Fetch login
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: "/api/login",
-            data: JSON.stringify(user),
-            dataType: 'json',
-            cache: false,
-            timeout: 10000,
-            success: function (data) {
-
-                console.log("SUCCESS : ", data);
-                //GO HOME
-
-            },
-            error: function (e) {
-                console.log("ERROR : ", e);
-            }
-        });
+        // $.ajax({
+        //     type: "POST",
+        //     contentType: "application/json",
+        //     url: "/api/login",
+        //     data: JSON.stringify(user),
+        //     dataType: 'json',
+        //     cache: false,
+        //     timeout: 10000,
+        //     success: function (data) {
+        //
+        //         console.log("SUCCESS : ", data);
+        //         //GO HOME
+        //
+        //     },
+        //     error: function (e) {
+        //         console.log("ERROR : ", e);
+        //     }
+        // });
 
         setFormMessage(loginForm, "error", "Invalid username/password combination");
     });
