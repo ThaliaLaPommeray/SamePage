@@ -1,29 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel="stylesheet" href="css/main.css">
-
+    <style>
+    </style>
     <title>Submission Editor Page</title>
-    <script>
-    </script>
 </head>
 <body>
+<script>
+    function submitSubmission() {
+        if (confirm("Are you sure you want to submit?")) {
+            console.log("Submitted User");
+            const submission = {}
+            submission["userID"] = localStorage.getItem("userID");
+            submission["bookID"] = sessionStorage.getItem("")
+            submission["title"] = $("#submissionTitle").val();
+            submission["chapter"] = sessionStorage.getItem("currentChapter");
+            submission["body"] = $("#submissionData").val();
+            submission["year"] = $("#completionDate").val().substringData(0,3);
+            submission["month"] = $("#completionDate").val().substring(5,6);
+            submission["data"] = $("#completionDate").val().substring(8,9);
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/submit",
+                data: JSON.stringify(submission),
+                dataType: 'json',
+                cache: false,
+                timeout: 10000,
+                success: function (data) {
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
+            openBookView();
+    }
+
+    function save() {
+        const submissionBody = document.getElementById("submissionBody").value;
+        const completionDate = document.getElementById("completionDate").value;
+        if (submissionBody == "") {
+            alert()
+        }
+        else {
+            sessionStorage.setItem("submissionProgress", submissionBody);
+            if (confirm("Submission saved. Would you like to return to Book View?")) {
+                openBookView();
+            }
+        }
+    }
+</script>
 <div>
-    <div>
-        <button>Logout</button> // save work popup?
+        <div>
+            <button onclick="logout()">Logout</button>
+        </div>
+        <div>
+            <input type="text" id="submissionTitle" placeholder="Submission Title"/>
+        </div>
+        <div>
+            <label>Estimated Completion Date:</label>
+            <input type="date" id="completionDate"/>
+        </div>
+        <div>
+            <input type="text" id="submissionData" placeholder="Chapter submission"/>
+        </div>
+        <div>
+            <button onclick="save()">Save</button> Save progress
+            <button onclick="submitSubmission()">Submit</button>
+        </div>
     </div>
-    <div>
-        <input type="text" id="submissionTitle" placeholder="Submission Title"/>
-    </div>
-    <div>
-        <label>Estimated Completion Date:</label>
-        <input type="date" id="completionDate"/>
-    </div>
-    <div>
-        <button>Save</button> // Save progress
-        <button>Submit</button> // Are you sure popup?
-    </div>
-</div>
 </body>
 <script type="text/javascript"
         src="webjars/jquery/2.2.4/jquery.min.js"></script>

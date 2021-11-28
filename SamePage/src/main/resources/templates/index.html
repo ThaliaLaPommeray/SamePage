@@ -2,18 +2,18 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #E9E4FA;
+            background-color: whitesmoke;
         }
         .header h1{
-            right:80px;
-            down: 50px;
-            line-height:50;
+            position: relative;
+            left: 50px;
+            font-size: 250%;
         }
         .button {
-
             border: none;
             color: white;
             border-radius: 5px;
@@ -25,9 +25,135 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            background-color: #96C995;
+
         }
 
-        .button {background-color: #9275FF;} /* Pastel - ish Purple */
+        .title{
+            font-family: "Anjel Script";
+            cursor: pointer;
+            position: relative;
+            left: 20px;
+            color: #234E52;
+
+        }
+        .signup{
+            border: none;
+            color: white;
+            border-radius: 5px;
+            border: 3px black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-color: #96C995;
+        }
+        .img{
+            display:inline-block;
+            position: fixed;
+            left: 250px;
+        }
+        .container {
+            display:inline-block;
+            position: relative;
+            text-align: center;
+            color: black;
+        }
+        .centered {
+            font-family: "Anjel Script";
+            font-size: 60px;
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            color: #234E52;
+        }
+        .intro{
+            font-family: Arial;
+            font-size: 20px;
+            position: absolute;
+            top: 29%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+        }
+        .homebuttons{
+            position: absolute;
+            top: 40%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+        }
+        .topb{
+            position: absolute;
+            float: left;
+            left: 85%;
+            top:1%;
+        }
+        .logt{
+            position: absolute;
+            float: left;
+            left: 77%;
+            top:1%;
+        }
+
+        .dropbtn {
+            position: fixed;
+            float: left;
+            top: 1%;
+            left: 40%;
+            background-color: #96C995;
+            border-radius: 5px;
+            border: 3px black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #234E52;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #DEEDDE;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {background-color: #DEEDDE;}
+
+        .show {display: block;}
+
+        .h2{
+            font-family: Arial;
+            position: absolute;
+            top: 100%;
+            left: 45%;
+            font-size: 18px;
+        }
+
     </style>
     <link rel="stylesheet" href="css/homepage.css"/>
     <title>SamePage</title>
@@ -37,32 +163,86 @@
             window.location = "signuppage";
         }
 
-        function OpenLogin(){
-            window.location = "loginpage";
-        }
+            function openLogin(){
+                window.location = "loginpage";
+            }
 
-        function OpenHome(){
-            window.location = "homepage";
-        }
-
-        function OpenBookEditor(){
-            window.location = "bookeditorpage";
-        }
+            function openBookEditor(){
+                window.location = "bookeditorpage";
+            }
 
         function OpenBookView(){
             window.location = "bookviewpage";
+        }
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
         }
     </script>
 </head>
 <body>
 
 
-    <h1>SamePage</h1>
-    <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
-    <button class="button button" onclick="OpenSignUp()">Sign Up</button>
-    <button class="button button" onclick="OpenLogin()">Log In</button>
-    <button class="button button" onclick="OpenHome()">Main</button>
-    <button class="button button" onclick="OpenBookEditor()">Book Editor</button>
-    <button class="button button" onclick="OpenBookView()">Book Viewer</button>
+    <h1 class = "title" onclick = "window.location.href='index.html'">SamePage</h1>
+    <div class="dropdown">
+        <button onclick="myFunction()" class="dropbtn">Browse</button>
+        <div id="myDropdown" class="dropdown-content">
+            <a href="#action">action</a>
+            <a href="#adventure">adventure</a>
+            <a href="#romance">romance</a>
+        </div>
+    </div>
+
+
+    <div class = "topb"> <button class="button signup" onclick="window.location.href='signuppage'">Sign Up</button>
+    </div>
+    <div class ="logt"><button class="button button" onclick="window.location.href='loginpage'">Log In</button></div>
+    <!-- middle of homepage with book image, welcome, intro, and buttons to start -->
+    <div class="container">
+        <img src="../samepagehome.png" alt="book" style="width:100%;">
+        <div class="centered">Welcome to SamePage</div>
+        <div class="intro">An interactive collaborative book-writing and reading platform </div>
+        <div class = "homebuttons"> <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
+        </div>
+    </div>
+
+    <h3 class = "h2">Be a part of the Next Story</h3>
+    <h3 style="position: absolute; top:110%; left: 45%;">How SamePage Works</h3>
+
+    <div class = "How">
+        <h2 style="position: absolute; font-size: 600%; top:120%; left:10%; color: #234E52;">1</h2>
+        <h3 style="font-family: Arial; position:absolute; top: 125%; left: 15%;">Create</h3>
+        <p style="position:absolute; top:130%; left: 15%;"> Share and craft a story only <br> you can tell.
+        Build your story <br> over time </p>
+        <h2 style="position: absolute; font-size: 600%; top:120%; left:30%; color: #234E52;">2</h2>
+        <h3 style="position:absolute; top: 125%; left: 35%;">Add</h3>
+        <p style="position:absolute; top:130%; left: 35%;"> Add to other stories <br> Create new endings
+            <br> Or add to your own <br> over time </p>
+        <h2 style="position: absolute; font-size: 600%; top:120%; left:50%; color: #234E52;">3</h2>
+        <h3 style="position:absolute; top: 125%; left: 55%;">Read</h3>
+        <p style="position:absolute; top:130%; left: 55%;"> Read published stories <br> Find new storylines
+            <br> feel inspired? <br> make your own adds </p>
+        <h2 style="position: absolute; font-size: 600%; top:120%; left:70%; color: #234E52;">4</h2>
+        <h3 style="position:absolute; top: 125%; left: 75%;">Vote</h3>
+        <p style="position:absolute; top:130%; left: 75%;"> Vote for you favorite <br> additions and become
+            apart <br> of each story! </p>
+    </div>
+
+    <!-- <button class="button button" onclick="window.location.href='index.html'">Main</button>
+--<button class="button button" onclick="OpenBookEditor()">Book Editor</button>
+   <button class="button button" onclick="OpenBookView()">Book Viewer</button> -->
 </body>
 </html>

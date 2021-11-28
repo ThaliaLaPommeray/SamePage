@@ -18,6 +18,11 @@ public class PageController {
         return "loginpage";
     }
 
+    @RequestMapping("/mainpage")
+    public String mainpage(){
+        return "mainpage";
+    }
+
     @RequestMapping("/bookviewpage")
     public String bookviewpage(){
         return "bookviewpage";
@@ -32,6 +37,4 @@ public class PageController {
     public String submissioneditor(){
         return "submissioneditor";
     }
-
-
 }

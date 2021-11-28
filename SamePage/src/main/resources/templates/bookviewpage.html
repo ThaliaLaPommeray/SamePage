@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <link rel="stylesheet" href="css/main.css">
         <title>Book View</title>
+        <script>
+
+            // Checks if the user has comment permissions
+            function isReader() {
+
+            }
+
+        </script>
     </head>
     <body>
         <div>
@@ -14,11 +21,14 @@
             </div>
             <div>
                 // Upvote counter
+                <label id="upvoteCounter"></label>
                 <button>Upvote</button> // Can only click once
             </div>
+            <div id="commentSection"></div>
         </div>
     </body>
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
+    <script>viewChapter()</script>
 </html>
