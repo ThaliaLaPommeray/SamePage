@@ -24,32 +24,31 @@
                 type: "POST",
                 contentType: "application/json",
                 url: "/api/submit",
-                data: JSON.stringify(user),
+                data: JSON.stringify(submission),
                 dataType: 'json',
                 cache: false,
                 timeout: 10000,
                 success: function (data) {
-
-                    console.log("SUCCESS : ", data);
-                    openMainPage(document.getElementById('username').value);
-
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
                 }
-            }
+            });
         }
             openBookView();
     }
 
     function save() {
-        const submissionData = document.getElementById("submissionData").value;
-        if (submissionData == "") {
-
+        const submissionBody = document.getElementById("submissionBody").value;
+        const completionDate = document.getElementById("completionDate").value;
+        if (submissionBody == "") {
+            alert()
         }
-        sessionStorage.setItem("submissionProgress", submissionData);
-        if (confirm("Submission saved. Would you like to return to Book View?")) {
-            openBookView();
+        else {
+            sessionStorage.setItem("submissionProgress", submissionBody);
+            if (confirm("Submission saved. Would you like to return to Book View?")) {
+                openBookView();
+            }
         }
     }
 </script>
@@ -62,7 +61,7 @@
         </div>
         <div>
             <label>Estimated Completion Date:</label>
-            <input id="completionDate" type="date" id="completionDate"/>
+            <input type="date" id="completionDate"/>
         </div>
         <div>
             <input type="text" id="submissionData" placeholder="Chapter submission"/>

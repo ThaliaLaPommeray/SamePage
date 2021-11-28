@@ -5,9 +5,55 @@
 
     <title>Book Editor</title>
     <script>
-        // Invite editor/author function (ajax)
-        // Publish book function (ajax)
-        // Delete book function (ajax)
+        function invite() {
+            const invitation = {};
+            invitation["userID"] = -1; // get from user
+            invitation["bookID"] = -1; // get from current book
+            invitation["username"] = $("#username").val();
+            invitation["role"] = $("#roles").val();
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/invite",
+                data: JSON.stringify(invitation),
+                dataType: 'json',
+                cache: false,
+                timeout: 10000,
+                success: function (data) {
+                    alert("Invited user: " + $("#username").val()
+                          + "with role: " + $("#roles").val());
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
+
+        function publishBook() {
+            const publisher = {};
+            publisher["userID"] = -1; // get from user
+            publisher["bookID"] = -1; // get from current book
+            publisher["username"] = $("#username").val();
+            publisher["role"] = $("#roles").val();
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/publishbook",
+                data: JSON.stringify(publisher),
+                dataType: 'json',
+                cache: false,
+                timeout: 10000,
+                success: function (data) {
+                    alert("Book published");
+                    openBookView();
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -27,9 +73,6 @@
         </div>
         <div>
             <button onclick="Publish()">Publish</button>
-        </div>
-        <div>
-            <button onclick="Delete()">Delete Book</button>
         </div>
     </div>
 </body>

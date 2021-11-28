@@ -21,8 +21,26 @@
                     alert("Please input a name.");
                 }
                 else {
-                    sessionStorage.setItem("newBookTitle", newBookTitle);
-                    // ajax
+                    const newBook = {};
+                    // newBook["userID"] = get from cookie;
+                    newBook["title"] = newBookTitle;
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/api/submit",
+                        data: JSON.stringify(newBook),
+                        dataType: 'json',
+                        cache: false,
+                        timeout: 10000,
+                        success: function (data) {
+                            // set current book in cookie
+                            openBookView();
+                        },
+                        error: function (e) {
+                            console.log("ERROR : ", e);
+                        }
+                    });
                     alert("Book name is " + newBookTitle);
                 }
             }

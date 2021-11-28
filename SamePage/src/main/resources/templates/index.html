@@ -1,77 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Index</title>
+        <style>
+            body {
+                font-family: Arial, Helvetica, sans-serif;
+                background-color: #E9E4FA;
+            }
+            .header h1{
+                right:80px;
+                down: 50px;
+                line-height:50;
+            }
+            .button {
 
-<head>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #E9E4FA;
-        }
-        .header h1{
-            right:80px;
-            down: 50px;
-            line-height:50;
-        }
-        .button {
+                border: none;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
 
-            border: none;
-            color: white;
-            border-radius: 5px;
-            border: 3px black;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
+            .button {background-color: #9275FF;} /* Pastel - ish Purple */
+        </style>
+        <script>
+            function openSignUp(){
+                window.location = "signuppage";
+            }
 
-        .button {background-color: #9275FF;} /* Pastel - ish Purple */
-    </style>
-    <title>Index</title>
+            function openLogin(){
+                window.location = "loginpage";
+            }
 
-    <script>
-        function OpenSignUp(){
-            window.location = "signuppage";
-        }
+            function openBookEditor(){
+                window.location = "bookeditorpage";
+            }
 
-        function OpenLogin(){
-            window.location = "loginpage";
-        }
+            function openBookView(){
+                window.location = "bookviewpage";
+            }
 
-        function OpenHome(){
-            window.location = "homepage";
-        }
+            function openMainPage() {
+                window.location = "mainpage";
+            }
 
-        function OpenBookEditor(){
-            window.location = "bookeditorpage";
-        }
-
-        function OpenBookView(){
-            window.location = "bookviewpage";
-        }
-
-        function openMainPage() {
-            window.location = "mainpage";
-        }
-
-        function openSubmissionEditor() {
-            window.location = "submissioneditor"
-        }
-    </script>
-</head>
-<body>
-
-
-    <h1>SamePage</h1>
-    <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
-    <button onclick="OpenSignUp()">Sign Up</button>
-    <button onclick="OpenLogin()">Log In</button>
-    <button onclick="openMainPage()">Home</button>
-    <button onclick="OpenBookEditor()">Book Editor</button>
-    <button onclick="OpenBookView()">Book Viewer</button>
-    <button onclick="openSubmissionEditor()">Submission Editor</button>
-
-</body>
+            function openSubmissionEditor() {
+                window.location = "submissioneditor"
+            }
+        </script>
+    </head>
+    <body>
+        <h1>SamePage</h1>
+        <button class="button button" onclick="alert('Make Sure You Log In')">Start Reading</button>
+        <button onclick="openSignUp()">Sign Up</button>
+        <button onclick="openLogin()">Log In</button>
+        <button onclick="openMainPage()">Home</button>
+        <button onclick="openBookEditor()">Book Editor</button>
+        <button onclick="openBookView()">Book Viewer</button>
+        <button onclick="openSubmissionEditor()">Submission Editor</button>
+    </body>
 </html>
