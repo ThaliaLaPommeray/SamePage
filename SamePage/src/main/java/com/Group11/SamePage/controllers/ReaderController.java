@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -30,9 +31,10 @@ public class ReaderController {
 
     @PostMapping("/api/comment")
     public @ResponseBody
-    Comment comment(@RequestBody String jsonString) {
+    String comment(@RequestBody String jsonString) {
 
         Comment comment = null;
+        boolean check = false;
 
         try{
 
@@ -51,6 +53,8 @@ public class ReaderController {
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
+                check = true;
+
                 String body = obj.getString("body");
 
                 comment = new Comment(userRepository.findByID(userID), submissionID, body);
@@ -66,12 +70,23 @@ public class ReaderController {
             System.out.println(e);
         }
 
-        return comment;
+        JSONObject response = new JSONObject();
+
+        //json
+        if(check)
+            response.put("success", true);
+        else
+            response.put("success", false);
+
+        return response.toString();
     }
 
     @PostMapping("/api/viewcomment")
     public @ResponseBody
-    void viewComment(@RequestBody String jsonString) {
+    String viewComment(@RequestBody String jsonString) {
+
+        JSONObject response = new JSONObject();
+        boolean check = false;
 
         try{
 
@@ -90,30 +105,54 @@ public class ReaderController {
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
-                Set<Comment> set = commentRepository.commentSet(submissionID);
+                check = true;
 
-                //PRINTING STARTS HERE
+                Set<Comment> commentSet = commentRepository.commentSet(submissionID);
+                Set<Integer> userIDSet = new HashSet<>();
+                Set<String> usernameSet = new HashSet<>();
+                Set<String> bodySet = new HashSet<>();
 
-                for(Comment c : set)
+                for(Comment c : commentSet)
                 {
+                    //test print
                     System.out.println("Comment by " + c.getReader().getUsername() + ":");
                     System.out.println(c.getBody());
                     System.out.println();
+
+                    //set making
+                    userIDSet.add(c.getReader().getId());
+                    usernameSet.add(c.getReader().getUsername());
+                    bodySet.add(c.getBody());
                 }
+
+                //json
+                response.put("success", true);
+                response.put("userID", userIDSet.toArray());
+                response.put("username", usernameSet.toArray());
+                response.put("body", bodySet.toArray());
             }
 
             else
-                System.out.println("No authorization!");
+                System.out.println("No authorization!");    //test print
 
         }catch (Exception e){
             System.out.println(e);
         }
 
+        //json
+        if(!check)
+            response.put("success", false);
+
+        return response.toString();
+
     }
 
     @PostMapping("/api/votesubmission")
     public @ResponseBody
-    void voteSubmission(@RequestBody String jsonString) {
+    String voteSubmission(@RequestBody String jsonString) {
+
+        JSONObject response = new JSONObject();
+        boolean check = false;
 
         try{
 
@@ -132,6 +171,7 @@ public class ReaderController {
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
+                check = true;
                 submissionRepository.voteSubmission(submissionRepository.findByID(submissionID).getVoteCount() + 1, submissionID);
             }
             else
@@ -141,5 +181,12 @@ public class ReaderController {
             System.out.println(e);
         }
 
+        //json
+        if(check)
+            response.put("success", true);
+        else
+            response.put("success", false);
+
+        return response.toString();
     }
 }

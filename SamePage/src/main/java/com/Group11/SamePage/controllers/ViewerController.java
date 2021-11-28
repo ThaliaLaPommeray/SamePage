@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -27,7 +28,10 @@ public class ViewerController {
 
     @PostMapping("/api/viewbook")
     public @ResponseBody
-    void viewBook(@RequestBody String jsonString) {
+    String viewBook(@RequestBody String jsonString) {
+
+        JSONObject response = new JSONObject();
+        boolean check = false;
 
         try{
 
@@ -47,36 +51,61 @@ public class ViewerController {
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
-                //PRINTING STARTS HERE
+                check = true;
 
-                //print book title and owner
+                //json
+                response.put("success", true);
+
+                //test print book title and owner username
                 System.out.println("\"" + bookRepository.findTitleByID(bookID) + "\" by");
                 Integer ownerID = bookRepository.findOwnerByBookID(bookID).getId();
-                System.out.println(userRepository.findByID(ownerID).getUsername() + "\n"); //print the username
+                System.out.println(userRepository.findByID(ownerID).getUsername() + "\n");
+
+                //json
+                response.put("bookTitle", bookRepository.findTitleByID(bookID));
+                response.put("ownerName", userRepository.findByID(ownerID).getUsername());
 
                 //print editor
-                Set<Integer> setEditors = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
+                Set<Integer> editorIDSet = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
                 System.out.println("Editor list:");
-                if(setEditors!=null){
-                    for(Integer s : setEditors)
-                        System.out.println(userRepository.findByID(s).getUsername()); //print the username
+
+                Set<String> editorNameSet = new HashSet<>();
+
+                if(editorIDSet!=null){
+                    for(Integer s : editorIDSet)
+                    {
+                        System.out.println(userRepository.findByID(s).getUsername()); //test print the username
+                        editorNameSet.add(userRepository.findByID(s).getUsername());
+                    }
                 }
                 else
                     System.out.println("Empty");
 
-                //print author
-                Set<Integer> setAuthors = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
+                //json
+                response.put("editorName", editorNameSet.toArray());
+
+                //test print author
+                Set<Integer> authorIDSet = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
                 System.out.println("Author list:");
-                if(setAuthors!=null){
-                    for(Integer s : setAuthors)
+
+                Set<String> authorNameSet = new HashSet<>();
+
+                if(authorIDSet!=null){
+                    for(Integer s : authorIDSet)
+                    {
                         System.out.println(userRepository.findByID(s).getUsername()); //print the username
+                        authorNameSet.add(userRepository.findByID(s).getUsername());
+                    }
                 }
                 else
                     System.out.println("Empty");
+
+                //json
+                response.put("authorName", authorNameSet.toArray());
 
                 System.out.println("Chapter list:");
 
-                //print chapter numbers
+                //test print chapter numbers
                 Set<Integer> chapterNumSet = submissionRepository.chapterNumBookSet(bookID);
                 if(chapterNumSet!=null){
                     for(Integer s : chapterNumSet)
@@ -84,22 +113,31 @@ public class ViewerController {
                 }
                 else
                     System.out.println("Empty");
+
+                //json
+                response.put("chapterNum", chapterNumSet.toArray());
             }
 
             else
-                System.out.println("No authorization!");
+                System.out.println("No authorization!");    //test print
 
         }catch (Exception e){
             System.out.println(e);
         }
+
+        if(!check)
+            response.put("success", false);
+
+        return response.toString();
     }
 
     @PostMapping("/api/viewchapter")
     public @ResponseBody
-    void viewChapter(@RequestBody String jsonString) {
+    String viewChapter(@RequestBody String jsonString) {
+
+        JSONObject response = new JSONObject();
 
         try{
-
             JSONObject obj = new JSONObject(jsonString);
 
             Integer userID = obj.getInt("userID");
@@ -120,26 +158,41 @@ public class ViewerController {
 
                 Set<Submission> set = submissionRepository.submissionSet(bookID, chapterNum);
 
-                //PRINTING STARTS HERE
-
                 System.out.println("Submissions for Chapter " + chapterNum + ":\n");
+
+                Set<Integer> submissionIDSet = new HashSet<>();
+                Set<String> submissionTitleSet = new HashSet<>();
+                Set<Boolean> isAcceptedSet = new HashSet<>();
+                Set<Integer> voteCountSet = new HashSet<>();
+                Set<String> estimatedTimeSet = new HashSet<>();
+
                 int i = 1;
                 for(Submission s : set) {
-                    System.out.println(i + ". \"" + s.getTitle() + "\" by " + s.getAuthor().getUsername());
 
+                    //test print
+                    System.out.println(i + ". \"" + s.getTitle() + "\" by " + s.getAuthor().getUsername());
                     if(s.isAccepted())
                         System.out.println("Status: Accepted");
                     else
                         System.out.println("Status: Not accepted");
-
                     System.out.println("Votes: " + s.getVoteCount());
-
                     System.out.println("Estimated time of completion: " + s.getEstimatedTime());
-
                     System.out.println();
-
                     i++;
+
+                    submissionIDSet.add(s.getId());
+                    submissionTitleSet.add(s.getTitle());
+                    isAcceptedSet.add(s.isAccepted());
+                    voteCountSet.add(s.getVoteCount());
+                    estimatedTimeSet.add(s.getEstimatedTime().toString());
                 }
+
+                //json
+                response.put("submissionID", submissionIDSet.toArray());
+                response.put("submissionTitle", submissionTitleSet.toArray());
+                response.put("isAccepted", isAcceptedSet.toArray());
+                response.put("voteCount", voteCountSet.toArray());
+                response.put("estimatedTime", estimatedTimeSet.toArray());
             }
 
             else
@@ -149,11 +202,15 @@ public class ViewerController {
         }catch (Exception e){
             System.out.println(e);
         }
+
+        return response.toString();
     }
 
     @PostMapping("/api/viewsubmission")
     public @ResponseBody
-    void viewSubmission(@RequestBody String jsonString) {
+    String viewSubmission(@RequestBody String jsonString) {
+
+        JSONObject response = new JSONObject();
 
         try{
 
@@ -175,20 +232,24 @@ public class ViewerController {
             {
                 Integer submissionID = obj.getInt("submissionID");
 
+                //test print
                 Submission submission = submissionRepository.findByID(submissionID);
-
                 System.out.println("\"" + submission.getTitle() + "\" by " + submission.getAuthor().getUsername());
-
                 if(submission.isAccepted())
                     System.out.println("Status: Accepted");
                 else
                     System.out.println("Status: Not accepted");
-
                 System.out.println("Votes: " + submission.getVoteCount());
-
                 System.out.println("Estimated time of completion: " + submission.getEstimatedTime());
-
                 System.out.println("\n" + submission.getBody());
+
+                //json
+                response.put("submissionTitle", submission.getTitle());
+                response.put("submissionAuthor", submission.getAuthor().getUsername());
+                response.put("isAccepted", submission.isAccepted());
+                response.put("voteCount", submission.getVoteCount());
+                response.put("estimatedTime", submission.getEstimatedTime().toString());
+
             }
 
             else
@@ -197,6 +258,8 @@ public class ViewerController {
         }catch (Exception e){
             System.out.println(e);
         }
+
+        return response.toString();
 
     }
 
