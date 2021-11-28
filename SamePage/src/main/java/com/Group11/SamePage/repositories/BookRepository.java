@@ -25,7 +25,13 @@ public interface BookRepository extends CrudRepository<Book, Integer> {
     @Modifying
     @Query(value = "insert into book (title, owner_id, is_published) values (:title, :owner_id, false)",
             nativeQuery = true)
-    int createBook(
+    void createBook(
+            @Param("title") String title,
+            @Param("owner_id") Integer owner_id);
+
+    //Find book ID by the Book Title and Owner ID
+    @Query("SELECT b.id FROM Book b WHERE b.owner.id = :owner_id AND b.title = :title")
+    Integer findBookIDByTitleAndOwnerID(
             @Param("title") String title,
             @Param("owner_id") Integer owner_id);
 

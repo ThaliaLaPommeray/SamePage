@@ -149,7 +149,10 @@ public class UserController {
     }
 
     @PostMapping("/api/createbook")
-    public @ResponseBody void createBook(@RequestBody String jsonString){
+    public @ResponseBody String createBook(@RequestBody String jsonString){
+
+        JSONObject response = new JSONObject();
+        boolean check = false;
 
         try {
 
@@ -160,11 +163,27 @@ public class UserController {
 
             Owner owner = new Owner(userRepository.findById(userID).get());
 
-            bookRepository.createBook(title, userID);
+            if(bookRepository.findBookIDByTitleAndOwnerID(title, userID) == null)
+            {
+                check = true;
+                bookRepository.createBook(title, userID);
+                Integer bookID = bookRepository.findBookIDByTitleAndOwnerID(title, userID);
+
+                //json
+                response.put("success", true);
+                response.put("bookID", bookID);
+            }
+
 
         }catch (Exception e){
             System.out.println(e);
         }
+
+        //json
+        if(!check)
+            response.put("success", false);
+
+        return response.toString();
 
     }
 
