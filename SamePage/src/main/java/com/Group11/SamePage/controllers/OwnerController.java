@@ -25,30 +25,66 @@ public class OwnerController {
         try {
             JSONObject obj = new JSONObject(jsonString);
 
+            Integer userID = obj.getInt("userID");
             Integer bookID = obj.getInt("bookID");
-            String username = obj.getString("username");
-            String role = obj.getString("role");
 
-            //search for username
-            User user = userRepository.searchByUsername(username);
+            //If current user is the owner of the book
+            if(userID == bookRepository.findOwnerByBookID(bookID).getId())
+            {
+                String username = obj.getString("username");
+                String role = obj.getString("role");
 
-            System.out.println(user.getId());
+                //search for username
+                User user = userRepository.findByUsername(username);
 
-            //check for promotion?
-            if(role.equalsIgnoreCase("editor")){
-                bookRepository.inviteEditor(user.getId(), bookID);
+                System.out.println(user.getId());
+
+                //check for promotion?
+                if(role.equalsIgnoreCase("editor")){
+                    bookRepository.inviteEditor(user.getId(), bookID);
+                }
+                else if(role.equalsIgnoreCase("author")){
+                    bookRepository.inviteAuthor(user.getId(), bookID);
+                }
+                else if(role.equalsIgnoreCase("reader")){
+                    bookRepository.inviteReader(user.getId(), bookID);
+                }
+                else if(role.equalsIgnoreCase("viewer")){
+                    bookRepository.inviteViewer(user.getId(), bookID);
+                }
             }
-            else if(role.equalsIgnoreCase("author")){
-                bookRepository.inviteAuthor(user.getId(), bookID);
-            }
-            else if(role.equalsIgnoreCase("reader")){
-                bookRepository.inviteReader(user.getId(), bookID);
-            }
-            else if(role.equalsIgnoreCase("viewer")){
-                bookRepository.inviteViewer(user.getId(), bookID);
-            }
+
+            else
+                System.out.println("No authorization!");
+
         }catch (Exception e){
             System.out.println(e);
         }
     }
+
+    @PostMapping("/api/publishbook")
+    public @ResponseBody
+    void publishBook(@RequestBody String jsonString){
+
+        try {
+            JSONObject obj = new JSONObject(jsonString);
+
+            Integer userID = obj.getInt("userID");
+            Integer bookID = obj.getInt("bookID");
+
+            //If current user is the owner of the book
+            if(userID == bookRepository.findOwnerByBookID(bookID).getId())
+            {
+                //Publish the book (set book's isPublished variable to true)
+                bookRepository.publishBook(bookID);
+            }
+
+            else
+                System.out.println("No authorization!");
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
 }
