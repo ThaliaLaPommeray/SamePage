@@ -27,9 +27,11 @@ public class AuthorController {
     }
 
     @PostMapping("/api/submit")
-    public @ResponseBody Submission submit(@RequestBody String jsonString){
+    public @ResponseBody String submit(@RequestBody String jsonString){
 
         Submission submission = null;
+
+        boolean check = false;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -44,6 +46,8 @@ public class AuthorController {
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
+                check = true; //permissions valid
+
                 String title = obj.getString("title");  //title of submission
                 Integer chapterNum = obj.getInt("chapterNum");  //current book chapter
                 String body = obj.getString("body");    //text of submission
@@ -66,17 +70,23 @@ public class AuthorController {
             }
 
             else
-                System.out.println("No authorization!");
+                System.out.println("You have no authorization or wrong data was input.");
 
         }catch (Exception e){
             System.out.println(e);
         }
 
-        return submission;
+        JSONObject response = new JSONObject();
+
+        response.put("success", check);
+
+        return response.toString();
     }
 
     @PostMapping("/api/edit")
-    public @ResponseBody void edit(@RequestBody String jsonString) {
+    public @ResponseBody String edit(@RequestBody String jsonString) {
+
+        boolean check = false;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -92,6 +102,8 @@ public class AuthorController {
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
+                check = true; //permissions valid
+
                 String title = obj.getString("title");  //title of submission
                 String body = obj.getString("body");    //text of submission
 
@@ -108,6 +120,7 @@ public class AuthorController {
                     title = temp.getTitle();
                 if(body.isEmpty())
                     title = temp.getBody();
+                //are we sure that 0 is the null value for these fields?
                 if(year == 0 && month == 0 && day == 0)
                     date = temp.getEstimatedTime();
                 else
@@ -123,10 +136,16 @@ public class AuthorController {
             }
 
             else
-                System.out.println("No authorization!");
+                System.out.println("You have no authorization or wrong data was input.");
 
         } catch (Exception e) {
             System.out.println(e);
         }
+
+        JSONObject response = new JSONObject();
+
+        response.put("success", check);
+
+        return response.toString();
     }
 }

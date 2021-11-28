@@ -33,8 +33,7 @@ public class OwnerController {
             //If current user is the owner of the book
             if(userID == bookRepository.findOwnerByBookID(bookID).getId())
             {
-
-                check = true;
+                check = true; //permissions valid
 
                 String username = obj.getString("username");
                 String role = obj.getString("role");
@@ -45,6 +44,7 @@ public class OwnerController {
                 System.out.println(user.getId());
 
                 //check for promotion?
+                //should we check if the user-book pair already exists in the middle table?
                 if(role.equalsIgnoreCase("editor")){
                     bookRepository.inviteEditor(user.getId(), bookID);
                 }
@@ -68,17 +68,15 @@ public class OwnerController {
 
         JSONObject response = new JSONObject();
 
-        if(check)
-            response.put("success", true);
-        else
-            response.put("success", false);
+        response.put("success", check);
 
         return response.toString();
     }
 
     @PostMapping("/api/publishbook")
-    public @ResponseBody
-    void publishBook(@RequestBody String jsonString){
+    public @ResponseBody String publishBook(@RequestBody String jsonString){
+
+        boolean check = false;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -89,15 +87,23 @@ public class OwnerController {
             //If current user is the owner of the book
             if(userID == bookRepository.findOwnerByBookID(bookID).getId())
             {
+                check = true; //permissions valid
+
                 //Publish the book (set book's isPublished variable to true)
                 bookRepository.publishBook(bookID);
             }
 
             else
-                System.out.println("No authorization!");
+                System.out.println("You have no authorization.");
 
         }catch (Exception e){
             System.out.println(e);
         }
+
+        JSONObject response = new JSONObject();
+
+        response.put("success", check);
+
+        return response.toString();
     }
 }
