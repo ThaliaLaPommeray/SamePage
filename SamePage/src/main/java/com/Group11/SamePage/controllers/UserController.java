@@ -49,11 +49,13 @@ public class UserController {
 
         if(!check){
             response.put("success",false);
+            System.out.println("User already exists!");
         }
         else{
             response.put("success", true);
             response.put("username",newUser.getUsername());
-            response.put("userId",newUser.getId());
+            response.put("userId",newUser.getId()); //should this be userID instead of userId?
+            System.out.println("Account made! Welcome " + newUser.getUsername());
         }
 
         return response.toString();
@@ -84,11 +86,13 @@ public class UserController {
 
         if(!check){
             response.put("success",false);
+            System.out.println("Wrong username or password.");
         }
         else{
             response.put("success", true);
             response.put("username",user.getUsername());
             response.put("userID",user.getId());
+            System.out.println("Welcome back " + user.getUsername() + "!");
         }
 
         return response.toString();
@@ -138,13 +142,11 @@ public class UserController {
 
         if(!check)
         {
-            {
-                //Test print
-                System.out.println("Empty");
+            //Test print
+            System.out.println("Empty");
 
-                //json
-                response.put("success",false);
-            }
+            //json
+            response.put("success",false);
         }
 
         return response.toString();
@@ -174,6 +176,7 @@ public class UserController {
                 //json
                 response.put("success", true);
                 response.put("bookID", bookID);
+                System.out.println("Book created!");
             }
 
 
@@ -182,8 +185,10 @@ public class UserController {
         }
 
         //json
-        if(!check)
+        if(!check) {
             response.put("success", false);
+            System.out.println("Choose a different book title.");
+        }
 
         return response.toString();
 
@@ -207,8 +212,7 @@ public class UserController {
 
             Set<String> bookTitleSet = new HashSet<>();
 
-            if(bookIDSet!=null){
-
+            if(bookIDSet.toArray().length > 0){
                 check = true;
 
                 for(Integer s : bookIDSet)
