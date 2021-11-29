@@ -88,7 +88,7 @@ public class UserController {
         else{
             response.put("success", true);
             response.put("username",user.getUsername());
-            response.put("id",user.getId());
+            response.put("userID",user.getId());
         }
 
         return response.toString();
@@ -118,6 +118,8 @@ public class UserController {
             bookIDSet.addAll(bookRepository.findBookIDsByViewerID(userID));
 
             if(bookIDSet!=null){
+                check = true;
+
                 for(Integer s : bookIDSet)
                 {
                     bookTitleSet.add(bookRepository.findTitleByID(s));
@@ -226,16 +228,13 @@ public class UserController {
         }
 
         if(!check)
-            if(!check)
-            {
-                {
-                    //Test print
-                    System.out.println("Empty");
+        {
+            //Test print
+            System.out.println("Empty");
 
-                    //json
-                    response.put("success",false);
-                }
-            }
+            //json
+            response.put("success",false);
+        }
 
         return response.toString();
     }

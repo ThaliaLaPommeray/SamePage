@@ -1,54 +1,179 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Book View</title>
-  <script>
+    <head>
+        <title>Book View</title>
+        <script>
 
-    function upvote() {
-      let curSubmissionVotes;
-      // Talk to server to get current upvote count
-      sessionStorage.setItem("curSubmissionVotes", curSubmissionVotes++)
+            function viewSubmission(submissionID) {
 
-      // Tell server to increment it
-    }
+                const submission = {};
+                submission["userID"] = sessionStorage.getItem("userID");
+                submission["bookID"] = sessionStorage.getItem("bookID");
+                submission["submissionID"] = submissionID;
 
-    // Checks if the user has comment permissions
-    function isReader() {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/viewsubmission",
+                    data: JSON.stringify(submission),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        sessionStorage.setItem("curSubmissionTitle", data.submissionTitle);
+                        sessionStorage.setItem("curSubmissionAuthor", data.submissionAuthor);
+                        sessionStorage.setItem("curSubmissionIsAccepted", data.isAccepted);
+                        sessionStorage.setItem("curSubmissionVoteCount", data.isAccepted);
+                        sessionStorage.setItem("curSubmissionEstimatedTime", data.estimatedTime);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
 
-    }
 
-    // Assumes comment list is saved as json in sessionStorage
-    function displayComments(commentList) {
-      var mainContainer = document.getElementById("commentSection");
-      for (var i = 0; i < commentList.length; i++) {
-        var div = document.createElement("div");
-        div.innerHTML = commentList[i].user + ": " + commentList[i].body;
-        mainContainer.appendChild(div);
-      }
-    }
+            }
+            // Allows editor to mark submission as accepted
 
-  </script>
-</head>
-<body>
-<div>
-  <div>
-    // List of chapters
-  </div>
-  <div>
-    // Current chapter contents
-  </div>
-  <div>
-    // Upvote counter
-    <label id="upvoteCounter"></label>
-    <button>Upvote</button> // Can only click once
-  </div>
-  <div id="commentSection"></div>
-</div>
-</body>
-<script type="text/javascript"
-        src="webjars/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="/static/js/main.js"></script>
-<script>viewChapter()</script>
-<script>displayComments(sessionStorage.getItem("commentList"))</script>
-<script>// Talk to server to get current upvote count; display it on the label</script>
+            function acceptSubmission() {
+
+                const accept = {};
+                accept["userID"] = sessionStorage.getItem("userID");
+                accept["submissionID"] = sessionStorage.getItem("submissionID");
+                accept["bookID"] = sessionStorage.getItem("bookID");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/acceptsubmission",
+                    data: JSON.stringify(accept),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if(!data.success) {
+                            alert("You have no authorization.");
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+
+            function comment() {
+
+                const newComment = {};
+                newComment["userID"] = localStorage.getItem("userID");
+                newComment["submissionID"] = sessionStorage.getItem("submissionID");
+                newComment["body"] = $("#newComment").val();
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/comment",
+                    data: JSON.stringify(newComment),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if (!data.success) {
+                            alert("You have no authorization.");
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+
+            function viewComment(commentList) {
+
+                const submissionID = {};
+                submissionID["submissionID"] = sessionStorage.getItem("submissionID");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/viewcomment",
+                    data: JSON.stringify(submissionID),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if (!data.success) {
+                            alert("You have no authorization.");
+                        }
+                        else {
+                            sessionStorage.setItem("commentList", data);
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+
+                // Assumes comment list is saved as json in sessionStorage
+                var mainContainer = document.getElementById("commentSection");
+                for (var i = 0; i < commentList.length; i++) {
+                    var div = document.createElement("div");
+                    div.innerHTML = commentList[i].user + ": " + commentList[i].body;
+                    mainContainer.appendChild(div);
+                }
+            }
+
+
+            function voteSubmission() {
+
+                const vote = {};
+                vote["userID"] = localStorage.getItem("userID");
+                vote["submissionID"] = sessionStorage.getItem("submissionID");
+                vote["bookID"] = sessionStorage.getItem("bookID");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/votesubmission",
+                    data: JSON.stringify(vote),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if (!data.success) {
+                            alert("You have no authorization.");
+                        }
+                        else {
+                            alert("Thanks for voting.")
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+
+            function viewVoteCount() {
+                document.getElementById("voteCounter").innerHTML = sessionStorage.getItem("curSubmissionVoteCount") + " Votes";
+            }
+
+        </script>
+    </head>
+        <body>
+        <div>
+            <div id="submissionTitle"></div>
+            <div id="submissionBody"></div>
+            <div id="voteCounter"><div/>
+                <button>Upvote</button>
+            </div>
+            <div id="commentSection"></div>
+            <div>
+                <input id="newComment" placeholder="Comment here"/>
+                <button id="commentButton" onclick="comment()">Send</button>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+    <script>viewComment(sessionStorage.getItem("commentList"))</script>
+    <script>viewVoteCount()</script>
 </html>

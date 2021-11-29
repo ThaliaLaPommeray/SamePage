@@ -12,7 +12,7 @@
             console.log("Submitted User");
             const submission = {}
             submission["userID"] = localStorage.getItem("userID");
-            submission["bookID"] = sessionStorage.getItem("")
+            submission["bookID"] = sessionStorage.getItem("bookID")
             submission["title"] = $("#submissionTitle").val();
             submission["chapter"] = sessionStorage.getItem("currentChapter");
             submission["body"] = $("#submissionData").val();
@@ -29,13 +29,16 @@
                 cache: false,
                 timeout: 10000,
                 success: function (data) {
+                    if (!data.success) {
+                        alert("You have no authorization or wrong data was input.")
+                    }
+                    openBookView();
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
                 }
             });
         }
-            openBookView();
     }
 
     function save() {

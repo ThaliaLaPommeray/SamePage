@@ -22,8 +22,9 @@ public class EditorController {
     }
 
     @PostMapping("/api/acceptsubmission")
-    public @ResponseBody
-    void acceptSubmission(@RequestBody String jsonString){
+    public @ResponseBody String acceptSubmission(@RequestBody String jsonString){
+
+        boolean check = false;
 
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -37,6 +38,8 @@ public class EditorController {
             if (bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
+                check = true; //permissions valid
+
                 Submission temp = submissionRepository.findAcceptedSubmission(bookID);
 
                 //if a submission is already accepted
@@ -60,12 +63,17 @@ public class EditorController {
             }
 
             else
-                System.out.println("No authorization!");
+                System.out.println("You have no authorization.");
 
 
         }catch (Exception e){
             System.out.println(e);
         }
 
+        JSONObject response = new JSONObject();
+
+        response.put("success", check);
+
+        return response.toString();
     }
 }
