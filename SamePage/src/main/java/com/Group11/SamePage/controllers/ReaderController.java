@@ -48,7 +48,7 @@ public class ReaderController {
             //OR if they are an author of the book
             //OR if they are an editor of the book
             //OR if they are the owner of the book
-            if  (bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
+            if  (   bookRepository.findReaderIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)

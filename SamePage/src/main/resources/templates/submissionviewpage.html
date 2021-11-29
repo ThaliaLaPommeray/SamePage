@@ -217,10 +217,16 @@
                 document.getElementById("voteCounter").innerHTML = sessionStorage.getItem("curSubmissionVoteCount") + " Votes";
             }
 
+            function logout(){
+
+                sessionStorage.clear();
+                window.location = "/";
+            }
+
         </script>
     </head>
         <body>
-        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
         <div class="logout">
             <button class="button" onclick="logout()">Logout</button>
         </div>
