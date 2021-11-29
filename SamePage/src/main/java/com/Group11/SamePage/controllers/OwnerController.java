@@ -41,21 +41,27 @@ public class OwnerController {
                 //search for username
                 User user = userRepository.findByUsername(username);
 
-                System.out.println(user.getId());
+                if(user == null)
+                    check = false;
 
-                //check for promotion?
-                //should we check if the user-book pair already exists in the middle table?
-                if(role.equalsIgnoreCase("editor")){
-                    bookRepository.inviteEditor(user.getId(), bookID);
-                }
-                else if(role.equalsIgnoreCase("author")){
-                    bookRepository.inviteAuthor(user.getId(), bookID);
-                }
-                else if(role.equalsIgnoreCase("reader")){
-                    bookRepository.inviteReader(user.getId(), bookID);
-                }
-                else if(role.equalsIgnoreCase("viewer")){
-                    bookRepository.inviteViewer(user.getId(), bookID);
+                else
+                {
+                    System.out.println(user.getId());
+
+                    //check for promotion?
+                    //should we check if the user-book pair already exists in the middle table?
+                    if(role.equalsIgnoreCase("editor")){
+                        bookRepository.inviteEditor(user.getId(), bookID);
+                    }
+                    else if(role.equalsIgnoreCase("author")){
+                        bookRepository.inviteAuthor(user.getId(), bookID);
+                    }
+                    else if(role.equalsIgnoreCase("reader")){
+                        bookRepository.inviteReader(user.getId(), bookID);
+                    }
+                    else if(role.equalsIgnoreCase("viewer")){
+                        bookRepository.inviteViewer(user.getId(), bookID);
+                    }
                 }
             }
 

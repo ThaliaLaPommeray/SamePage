@@ -61,10 +61,10 @@
                 timeout: 10000,
                 success: function (data){
                     if (data.success) {
-                        alert("Invited user: " + $("#username").val() + "with role: " + $("#roles").val());
+                        alert("Invited user: " + $("#username").val() + " with role: " + $("#roles").val());
                     }
                     else {
-                        alert("You have no authorization")
+                        alert("You have no authorization or wrong username was put.")
                     }
                 },
                 error: function (e) {
@@ -75,7 +75,7 @@
 
         function publishBook() {
             const publisher = {};
-            publisher["userID"] = sessionStorage.get("userID");
+            publisher["userID"] = sessionStorage.getItem("userID");
             publisher["bookID"] = sessionStorage.getItem("bookID");
             publisher["username"] = $("#username").val();
             publisher["role"] = $("#roles").val();
@@ -92,18 +92,23 @@
                     if (!data.success) {
                         alert("You have no authorization.")
                     }
+                    else
+                    {
+                        alert("Congratulations on publishing your book!")
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
                 }
             });
         }
+
     </script>
 </head>
 <body>
-<img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+<img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
 <div class="logout">
-    <button class="button" onclick="logout()">Logout</button>
+    <button class='button' onclick="logout()">Logout</button>
 </div>
     <div>
 
@@ -115,10 +120,10 @@
                 <option value="reader">Reader</option>
                 <option value="viewer">Viewer</option>
             </select>
-            <button class="button">Invite</button>
+            <button class='button' onclick="invite()">Invite</button>
         </div>
         <div>
-            <button class="button" onclick="Publish()">Publish</button>
+            <button class='button' onclick="publishBook()">Publish</button>
         </div>
     </div>
 </body>
