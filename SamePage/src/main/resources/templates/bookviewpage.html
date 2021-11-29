@@ -42,7 +42,7 @@
             function viewBook() {
 
                 const book = {};
-                book["userID"] = localStorage.getItem("userID");
+                book["userID"] = sessionStorage.getItem("userID");
                 book["bookID"] = sessionStorage.getItem("bookID");
 
                 $.ajax({
@@ -64,6 +64,7 @@
                             sessionStorage.setItem("curBookAuthors", data.authorName);
                             sessionStorage.setItem("chapterNums", data.chapterNum);
                             displayChapters(chapterNums);
+                            document.getElementById("bookTitle").innerText = data.bookTitle;
                         }
                     },
                     error: function (e) {
@@ -75,7 +76,7 @@
             function viewChapter(chapterNum) {
 
                 const chapter = {};
-                chapter["userID"] = localStorage.getItem("userID");
+                chapter["userID"] = sessionStorage.getItem("userID");
                 chapter["bookID"] = sessionStorage.getItem("bookID");
                 chapter["chapterNum"] = chapterNum;
 
@@ -104,6 +105,7 @@
             function displayChapters(chapterNums) {
                 const mainContainer = document.getElementById("chapterList");
                 for (let i = 0; i < chapterNums.length; i++) {
+                    const button = document.createElement("button");
                     const div = document.createElement("div");
                     div.innerHTML = "Chapter " + chapterNums[i] + " " +
                         "<button onclick='viewChapter("+chapterNums[i]+")'>View</button>";
@@ -133,6 +135,7 @@
         <button class="button" onclick="logout()">Logout</button>
     </div>
         <div>
+            <h1 id="bookTitle"></h1>
             <div id="chapterList"></div>
             <div id="submissionList"></div>
         </div>
