@@ -47,6 +47,11 @@
                 left: 40%;
 
             }
+            .title{}
+            .author{}
+            .est{}
+            .submissionBody{}
+            .voteCt{}
 
         </style>
         <script>
@@ -233,15 +238,15 @@
             <button class="button" onclick="logout()">Logout</button>
         </div>
         <div class="mainatt">
-            <div id="submissionTitle"></div>
-            <div id="submissionAuthor"></div>
-            <div id="estimatedTime"></div>
+            <div class="title" id="submissionTitle"></div>
+            <div class="author" id="submissionAuthor"></div>
+            <div class="est" id="estimatedTime"></div>
             
-            <div id="submissionBody"></div>
+            <div class="submissionBody" id="submissionBody"></div>
 
-            <div id="voteCount"></div>
+            <div class="voteCt" id="voteCount"></div>
                 <button class="button" onclick="voteSubmission()">Upvote</button>
-            <div id="commentSection"></div>
+            <div class="comments" id="commentSection"></div>
             <div>
                 <input id="newComment" placeholder="Comment here"/>
                 <button class="button" id="commentButton" onclick="comment()">Send</button>
