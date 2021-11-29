@@ -80,13 +80,11 @@
                 const submissionBody = document.getElementById("submissionBody").value;
                 const completionDate = document.getElementById("completionDate").value;
                 if (submissionBody == "") {
-                    alert()
+                    alert("Write a story first");
                 }
                 else {
-                    sessionStorage.setItem("submissionProgress", submissionBody);
-                    if (confirm("Submission saved. Would you like to return to Book View?")) {
-                        openBookView();
-                    }
+                    alert("Submission saved");
+                    openBookView();
                 }
             }
         </script>
@@ -112,7 +110,7 @@
                <!-- <input type="text" style= "width:1300px; height:800px;font-size:14pt;" id="submissionData" placeholder="Write your chapter here"/> -->
             </div>
             <div>
-                <button class="button" onclick="save()">Save</button> Save progress
+                <button class="button" onclick="save()">Save</button>
                 <button class="button" onclick="submitSubmission()">Submit</button>
             </div>
         </div>

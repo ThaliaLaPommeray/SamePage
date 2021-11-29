@@ -42,6 +42,7 @@
             }
         </style>
         <script>
+
             function viewBook() {
 
                 const book = {};
@@ -133,6 +134,10 @@
                 window.location = "submissioneditor";
             }
 
+            function openBookEditor() {
+                window.location = "bookeditorpage"
+            }
+
             function logout(){
 
                 sessionStorage.clear();
@@ -148,7 +153,8 @@
     </div>
         <div>
             <h1 id="bookTitle"></h1>
-            <button onclick="openSubmissionEditor()">New Submission</button>
+            <button class="button" nclick="openBookEditor()">Edit Book</button>
+            <button class="button" onclick="openSubmissionEditor()">New Submission</button>
             <h2>Chapters</h2>
             <div id="chapterList"></div>
             <h2>Current Chapter Submissions</h2>

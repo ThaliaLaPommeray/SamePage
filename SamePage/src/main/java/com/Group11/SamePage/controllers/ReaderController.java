@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 @Controller
@@ -107,12 +108,12 @@ public class ReaderController {
             {
                 check = true;
 
-                Set<Comment> commentSet = commentRepository.commentSet(submissionID);
-                Set<Integer> userIDSet = new LinkedHashSet();
-                Set<String> usernameSet = new LinkedHashSet<>();
-                Set<String> bodySet = new LinkedHashSet<>();
+                LinkedList<Comment> commentList = commentRepository.commentSet(submissionID);
+                LinkedList<Integer> userIDList = new LinkedList();
+                LinkedList<String> usernameList = new LinkedList<>();
+                LinkedList<String> bodyList = new LinkedList<>();
 
-                for(Comment c : commentSet)
+                for(Comment c : commentList)
                 {
                     //test print
                     System.out.println("Comment by " + c.getReader().getUsername() + ":");
@@ -120,16 +121,16 @@ public class ReaderController {
                     System.out.println();
 
                     //set making
-                    userIDSet.add(c.getReader().getId());
-                    usernameSet.add(c.getReader().getUsername());
-                    bodySet.add(c.getBody());
+                    userIDList.add(c.getReader().getId());
+                    usernameList.add(c.getReader().getUsername());
+                    bodyList.add(c.getBody());
                 }
 
                 //json
                 response.put("success", true);
-                response.put("userID", userIDSet.toArray());
-                response.put("username", usernameSet.toArray());
-                response.put("body", bodySet.toArray());
+                response.put("userID", userIDList.toArray());
+                response.put("username", usernameList.toArray());
+                response.put("body", bodyList.toArray());
             }
 
             else

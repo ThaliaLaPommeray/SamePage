@@ -47,11 +47,6 @@
                 left: 40%;
 
             }
-            .title{}
-            .author{}
-            .est{}
-            .submissionBody{}
-            .voteCt{}
 
         </style>
         <script>
@@ -113,6 +108,9 @@
                         if(!data.success) {
                             alert("You have no authorization to accept a submission.");
                         }
+                        else{
+                            alert("Submission accepted.");
+                        }
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
@@ -138,10 +136,10 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to comment.");
                         }
                         else {
-                            displayComments()
+                            viewComment();
                         }
                     },
                     error: function (e) {
@@ -182,7 +180,6 @@
             }
 
             function displayComments(commentUsernames, commentBodies) {
-                // Assumes comment list is saved as json in sessionStorage
                 var mainContainer = document.getElementById("commentSection");
                 for (var i = 0; i < commentUsernames.length; i++) {
                     const div = document.createElement("div");
@@ -190,7 +187,6 @@
                     mainContainer.appendChild(div);
                 }
             }
-
 
             function voteSubmission() {
 
@@ -239,19 +235,21 @@
             <button class="button" onclick="logout()">Logout</button>
         </div>
         <div class="mainatt">
-            <div class="title" id="submissionTitle"></div>
-            <div class="author" id="submissionAuthor"></div>
-            <div class="est" id="estimatedTime"></div>
+            <div id="submissionTitle"></div>
+            <div id="submissionAuthor"></div>
+            <div id="estimatedTime"></div>
             
-            <div class="submissionBody" id="submissionBody"></div>
+            <div id="submissionBody"></div>
 
-            <div class="voteCt" id="voteCount"></div>
-                <button class="button" onclick="voteSubmission()">Upvote</button>
-            <div class="comments" id="commentSection"></div>
+            <div id="voteCount"></div>
+            <button class="button" onclick="voteSubmission()">Upvote</button>
+            <div id="commentSection"></div>
             <div>
                 <input id="newComment" placeholder="Comment here"/>
                 <button class="button" id="commentButton" onclick="comment()">Send</button>
             </div>
+            <h4>Editors Only: </h4>
+            <button class="button" onclick="acceptSubmission()">Accept Submission</button>
         </div>
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>

@@ -42,7 +42,7 @@ public class AuthorController {
             //If the current user is an author for the current book
             //OR if they are an editor of the book
             //OR if they are the owner of the book
-            if  (bookRepository.findBookIDsByAuthorID(bookID).contains(userID) ||
+            if  (bookRepository.findAuthorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findEditorIDsByBookID(bookID).contains(userID) ||
                     bookRepository.findOwnerByBookID(bookID).getId() == userID)
             {
