@@ -138,8 +138,8 @@ public class UserController {
 
                 response.put("bookTitle", bookTitleSet.toArray());
 
-                for(int i = 0; i < bookIDSet.toArray().length; i++)
-                    System.out.println("\nTEST!!!\n"+bookIDSet.toArray()[i]+" "+bookTitleSet.toArray()[i]);
+//                for(int i = 0; i < bookIDSet.toArray().length; i++)
+//                    System.out.println("\nTEST!!!\n"+bookIDSet.toArray()[i]+" "+bookTitleSet.toArray()[i]);
             }
 
         }catch (Exception e){
