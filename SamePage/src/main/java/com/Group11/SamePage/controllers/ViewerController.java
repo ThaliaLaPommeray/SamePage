@@ -246,6 +246,7 @@ public class ViewerController {
                 //json
                 response.put("submissionTitle", submission.getTitle());
                 response.put("submissionAuthor", submission.getAuthor().getUsername());
+                response.put("submissionBody", submission.getBody());
                 response.put("isAccepted", submission.isAccepted());
                 response.put("voteCount", submission.getVoteCount());
                 response.put("estimatedTime", submission.getEstimatedTime().toString());
