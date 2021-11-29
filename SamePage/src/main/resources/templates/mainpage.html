@@ -3,6 +3,46 @@
     <head>
         <title>Main Page</title>
         <style>
+            body{
+                background-color:#A5E7DA;
+            }
+            .top{
+                position: absolute;
+                top: 5%;
+                left: 5%;
+            }
+            .logout{
+                position: fixed;
+                float: left;
+                right: 1%;
+            }
+            .button {
+                border: none;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                background-color: #234E52;
+
+            }
+            .mainatt{
+                position: absolute;
+                top: 20%;
+                left: 40%;
+
+            }
+            .img{
+                cursor: pointer;
+                display: block;
+
+            }
+
         </style>
         <script>
             function main() {
@@ -93,16 +133,18 @@
         </script>
     </head>
     <body>
-        <div>
+    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+        <div class="top">
             <h1 id="header"></h1>
-            <button onclick="logout()">Logout</button>
+            <div class="logout"> <button class="button" onclick="logout()">Logout</button></div>
         </div>
-        <div>
+        <div class="mainatt">
             <input type="text" id="newBookTitle" placeholder="Name for new book"/>
-            <button onclick="createBook()">Create Book</button>
-        </div>
-        <div id="bookList"></div>
+            <button class="button" onclick="createBook()">Create Book</button>
+
+        <div id="bookList"></div></div>
     </body>
+
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script>
