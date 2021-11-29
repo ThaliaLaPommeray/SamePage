@@ -41,9 +41,10 @@ public class EditorController {
                 check = true; //permissions valid
 
                 Submission temp = submissionRepository.findAcceptedSubmission(bookID);
+                Submission newAccepted = submissionRepository.findByID(submissionID);
 
-                //if a submission is already accepted
-                if(temp != null)
+                //if a submission is already accepted for this chapter
+                if(temp != null && temp.getChapterNum() == newAccepted.getChapterNum())
                 {
                     if(temp.getId() != submissionID) //if we're not already on the accepted submission
                     {

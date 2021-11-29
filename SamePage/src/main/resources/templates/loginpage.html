@@ -191,8 +191,8 @@
                         alert("Wrong username or password.");
                     }
                     else {
-                        localStorage.setItem("username", data.username);
-                        localStorage.setItem("userID", data.userID);
+                        sessionStorage.setItem("username", data.username);
+                        sessionStorage.setItem("userID", data.userID);
                         alert("Welcome back " + data.username + "!");
                         openMainPage(data.userID, data.username);
                     }
