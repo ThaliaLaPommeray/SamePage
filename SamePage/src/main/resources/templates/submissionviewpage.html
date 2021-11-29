@@ -44,8 +44,22 @@
             .mainatt{
                 position: absolute;
                 top: 20%;
-                left: 40%;
+                left: 10%;
 
+            }
+            .title{
+                font-size: 40px;
+            }
+            .author{
+                font-size: 18px;
+            }
+            .est{
+                font-size: 18px;
+
+            }
+            .subBody{
+                padding-bottom: 15px;
+                padding-top: 15px;
             }
 
         </style>
@@ -235,11 +249,11 @@
             <button class='button' onclick="logout()">Logout</button>
         </div>
         <div class="mainatt">
-            <div id="submissionTitle"></div>
-            <div id="submissionAuthor"></div>
-            <div id="estimatedTime"></div>
+            <div class="title" id="submissionTitle"></div>
+            <div class="author" id="submissionAuthor"></div>
+            <div class="est" id="estimatedTime"></div>
             
-            <div id="submissionBody"></div>
+            <div class="subBody" id="submissionBody"></div>
 
             <div id="voteCount"></div>
             <button class='button' onclick="voteSubmission()">Upvote</button>

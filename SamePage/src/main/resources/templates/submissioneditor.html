@@ -80,11 +80,13 @@
                 const submissionBody = document.getElementById("submissionBody").value;
                 const completionDate = document.getElementById("completionDate").value;
                 if (submissionBody == "") {
-                    alert("Write a story first");
+                    alert()
                 }
                 else {
-                    alert("Submission saved");
-                    openBookView();
+                    sessionStorage.setItem("submissionProgress", submissionBody);
+                    if (confirm("Submission saved. Would you like to return to Book View?")) {
+                        openBookView();
+                    }
                 }
             }
         </script>
@@ -93,7 +95,7 @@
         <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
         <div>
             <div class="logout">
-                <button class='button' onclick="logout()">Logout</button>
+                <button class="button" onclick="logout()">Logout</button>
             </div>
             <div>
                 <input type="text" id="submissionTitle" placeholder="Submission Title"/>
@@ -110,8 +112,8 @@
                <!-- <input type="text" style= "width:1300px; height:800px;font-size:14pt;" id="submissionData" placeholder="Write your chapter here"/> -->
             </div>
             <div>
-                <button class='button' onclick="save()">Save</button>
-                <button class='button' onclick="submitSubmission()">Submit</button>
+                <button class="button" onclick="save()">Save</button> Save progress
+                <button class="button" onclick="submitSubmission()">Submit</button>
             </div>
         </div>
     </body>
