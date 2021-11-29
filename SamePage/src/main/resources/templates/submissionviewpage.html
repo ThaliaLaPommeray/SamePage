@@ -104,7 +104,7 @@
                     timeout: 10000,
                     success: function (data) {
                         if(!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to accept a submission.");
                         }
                     },
                     error: function (e) {
@@ -132,6 +132,9 @@
                         if (!data.success) {
                             alert("You have no authorization.");
                         }
+                        else {
+                            displayComments()
+                        }
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
@@ -154,7 +157,7 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to view a comment.");
                         }
                         else {
                             sessionStorage.setItem("commentUsernames", data.username);
@@ -196,7 +199,7 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to vote for submissions.");
                         }
                         else {
                             alert("Thanks for voting.")
