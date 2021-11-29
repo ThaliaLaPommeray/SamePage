@@ -113,7 +113,7 @@
             function comment() {
 
                 const newComment = {};
-                newComment["userID"] = localStorage.getItem("userID");
+                newComment["userID"] = sessionStorage.getItem("userID");
                 newComment["submissionID"] = sessionStorage.getItem("submissionID");
                 newComment["body"] = $("#newComment").val();
 
@@ -179,7 +179,7 @@
             function voteSubmission() {
 
                 const vote = {};
-                vote["userID"] = localStorage.getItem("userID");
+                vote["userID"] = sessionStorage.getItem("userID");
                 vote["submissionID"] = sessionStorage.getItem("submissionID");
                 vote["bookID"] = sessionStorage.getItem("bookID");
 
