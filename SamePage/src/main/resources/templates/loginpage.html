@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Login / Sign Up Form</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta charset="utf-8">
-        <link rel="shortcut icon" href="/assets/favicon.ico">
-        <style>
+<head>
+    <title>Login / Sign Up Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/assets/favicon.ico">
+    <style>
 
-            body {
+        body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #E9E4FA;
         }
@@ -171,96 +171,96 @@
             text-decoration: underline;
         }
 
-        </style>
-        <script>
-            function Login() {
-                const loginInfo = {};
-                loginInfo["username"] = $("#username").val();
-                loginInfo["password"] = $("#password").val();
+    </style>
+    <script>
+        function Login() {
+            const loginInfo = {};
+            loginInfo["username"] = $("#username").val();
+            loginInfo["password"] = $("#password").val();
 
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: "/api/login",
-                    data: JSON.stringify(loginInfo),
-                    dataType: 'json',
-                    cache: false,
-                    timeout: 10000,
-                    success: function (data) {
-                        if (!data.success) {
-                            alert("Wrong username or password.");
-                        }
-                        else {
-                            localStorage.setItem("username", data.username);
-                            localStorage.setItem("userID", data.userID);
-                            alert("Welcome back " + data.username + "!");
-                            openMainPage(data.userID, data.username);
-                        }
-                    },
-                    error: function (e) {
-                        console.log("ERROR : ", e);
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/login",
+                data: JSON.stringify(loginInfo),
+                dataType: 'json',
+                cache: false,
+                timeout: 10000,
+                success: function (data) {
+                    if (!data.success) {
+                        alert("Wrong username or password.");
                     }
-                });
-            }
+                    else {
+                        localStorage.setItem("username", data.username);
+                        localStorage.setItem("userID", data.userID);
+                        alert("Welcome back " + data.username + "!");
+                        openMainPage(data.userID, data.username);
+                    }
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
 
-            function openMainPage(id, username) {
-                sessionStorage.setItem("userID", id);
-                sessionStorage.setItem("username", username);
-                window.location = "mainpage";
-            }
+        function openMainPage(id, username) {
+            sessionStorage.setItem("userID", id);
+            sessionStorage.setItem("username", username);
+            window.location = "mainpage";
+        }
 
-        </script>
-    </head>
+    </script>
+</head>
 
-    <body>
-        <h1 class = "title" onclick = "window.location.href='/'">SamePage</h1>
-        <div class="container">
-            <div class="form" id="login">
-                <h1 class="form__title">Login</h1>
-                <div class="form__message form__message--error"></div>
-                <div class="form__input-group">
-                    <input id="username" type="text" class="form__input" autofocus placeholder="Username">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div class="form__input-group">
-                    <input id="password" type="password" class="form__input" autofocus placeholder="Password">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <button class="form__button" onclick="Login()">Continue</button>
-                <p class="form__text">
-                    <a href="#" class="form__link">Forgot your password?</a>
-                </p>
-                <p class="form__text">
-                    <a class="form__link" href="./signuppage" id="linkCreateAccount">Don't have an account? Create account</a>
-                </p>
-            </div>
-            <form class="form form--hidden" id="createAccount">
-                <h1 class="form__title">Create Account</h1>
-                <div class="form__message form__message--error"></div>
-                <div class="form__input-group">
-                    <input type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div class="form__input-group">
-                    <input type="text" class="form__input" autofocus placeholder="UserID">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div class="form__input-group">
-                    <input type="password" class="form__input" autofocus placeholder="Password">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div class="form__input-group">
-                    <input type="password" class="form__input" autofocus placeholder="Confirm password">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <button class="form__button" type="submit">Continue</button>
-                <p class="form__text">
-                    <a class="form__link" href="./" id="linkLogin">Already have an account? Sign in</a>
-                </p>
-            </form>
+<body>
+<h1 class = "title" onclick = "window.location.href='/'">SamePage</h1>
+<div class="container">
+    <div class="form" id="login">
+        <h1 class="form__title">Login</h1>
+        <div class="form__message form__message--error"></div>
+        <div class="form__input-group">
+            <input id="username" type="text" class="form__input" autofocus placeholder="Username">
+            <div class="form__input-error-message"></div>
         </div>
-    </body>
-    <script src="./main.js"></script>
-    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
-    <script type="text/javascript" src="./main.js"></script>
+        <div class="form__input-group">
+            <input id="password" type="password" class="form__input" autofocus placeholder="Password">
+            <div class="form__input-error-message"></div>
+        </div>
+        <button class="form__button" onclick="Login()">Continue</button>
+        <p class="form__text">
+            <a href="#" class="form__link">Forgot your password?</a>
+        </p>
+        <p class="form__text">
+            <a class="form__link" href="./signuppage" id="linkCreateAccount">Don't have an account? Create account</a>
+        </p>
+    </div>
+    <form class="form form--hidden" id="createAccount">
+        <h1 class="form__title">Create Account</h1>
+        <div class="form__message form__message--error"></div>
+        <div class="form__input-group">
+            <input type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">
+            <div class="form__input-error-message"></div>
+        </div>
+        <div class="form__input-group">
+            <input type="text" class="form__input" autofocus placeholder="UserID">
+            <div class="form__input-error-message"></div>
+        </div>
+        <div class="form__input-group">
+            <input type="password" class="form__input" autofocus placeholder="Password">
+            <div class="form__input-error-message"></div>
+        </div>
+        <div class="form__input-group">
+            <input type="password" class="form__input" autofocus placeholder="Confirm password">
+            <div class="form__input-error-message"></div>
+        </div>
+        <button class="form__button" type="submit">Continue</button>
+        <p class="form__text">
+            <a class="form__link" href="./" id="linkLogin">Already have an account? Sign in</a>
+        </p>
+    </form>
+</div>
+</body>
+<script src="./main.js"></script>
+<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="./main.js"></script>
 </html>
