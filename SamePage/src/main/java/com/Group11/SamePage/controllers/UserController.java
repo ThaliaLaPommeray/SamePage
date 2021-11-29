@@ -34,12 +34,13 @@ public class UserController {
             String password = obj.getString("password");
 
             //if user doesn't exist yet
-            if(userRepository.findByUsername(username) == null)
-            {
-                check = true;
-                newUser = new User(username,password);
-                userRepository.save(newUser);
-            }
+            if(username.length() > 0 && password.length() > 0)
+                if(userRepository.findByUsername(username) == null)
+                {
+                    check = true;
+                    newUser = new User(username,password);
+                    userRepository.save(newUser);
+                }
 
         }catch (Exception e){
             System.out.println(e);
@@ -49,13 +50,13 @@ public class UserController {
 
         if(!check){
             response.put("success",false);
-            System.out.println("User already exists!");
+            System.out.println("Invalid data or user already exists!");
         }
         else{
             response.put("success", true);
             response.put("username",newUser.getUsername());
             response.put("userId",newUser.getId()); //should this be userID instead of userId?
-            System.out.println("Account made! Welcome " + newUser.getUsername());
+            System.out.println("Account made! Welcome " + newUser.getUsername() + "!");
         }
 
         return response.toString();
