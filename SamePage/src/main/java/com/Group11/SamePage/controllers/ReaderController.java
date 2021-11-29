@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Controller
@@ -108,9 +108,9 @@ public class ReaderController {
                 check = true;
 
                 Set<Comment> commentSet = commentRepository.commentSet(submissionID);
-                Set<Integer> userIDSet = new HashSet<>();
-                Set<String> usernameSet = new HashSet<>();
-                Set<String> bodySet = new HashSet<>();
+                Set<Integer> userIDSet = new LinkedHashSet();
+                Set<String> usernameSet = new LinkedHashSet<>();
+                Set<String> bodySet = new LinkedHashSet<>();
 
                 for(Comment c : commentSet)
                 {

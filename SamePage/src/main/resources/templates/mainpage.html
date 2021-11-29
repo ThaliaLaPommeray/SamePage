@@ -80,7 +80,7 @@
                 for (let i = 0; i < bookIds.length; i++) {
                     const div = document.createElement("div");
                     div.innerHTML = bookTitles[i] +
-                        "<button class = \"button\" onclick='goToBook("+bookIds[i]+")'>Go to book</button>";
+                        "<button class = 'button' onclick='goToBook("+bookIds[i]+")'>Go to book</button>";
                     mainContainer.appendChild(div);
                 }
             }
@@ -117,10 +117,11 @@
                         }
                     });
                 }
-                
+
             }
 
             function goToBook(id){
+                id = parseInt(id);
                 sessionStorage.setItem("bookID",id);
                 window.location = "bookviewpage";
             }
