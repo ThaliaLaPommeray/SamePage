@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login / Sign Up Form</title>
+
+    <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="shortcut icon" href="/assets/favicon.ico">
@@ -191,8 +194,8 @@
                         alert("Wrong username or password.");
                     }
                     else {
-                        localStorage.setItem("username", data.username);
-                        localStorage.setItem("userID", data.userID);
+                        sessionStorage.setItem("username", data.username);
+                        sessionStorage.setItem("userID", data.userID);
                         alert("Welcome back " + data.username + "!");
                         openMainPage(data.userID, data.username);
                     }

@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Book View</title>
+
+        <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+
         <style>
             body{
                 background-color:#A5E7DA;
@@ -42,8 +45,8 @@
             function viewBook() {
 
                 const book = {};
-                book["userID"] = localStorage.getItem("UserID");
-                book["bookID"] = sessionStorage.getItem("UserID");
+                book["userID"] = sessionStorage.getItem("userID");
+                book["bookID"] = sessionStorage.getItem("bookID");
 
                 $.ajax({
                     type: "POST",
@@ -62,8 +65,9 @@
                             sessionStorage.setItem("curBookOwner", data.ownerName);
                             sessionStorage.setItem("curBookEditors", data.editorName);
                             sessionStorage.setItem("curBookAuthors", data.authorName);
-                            sessionStorage.setItem("curChapterNum", data.chapterNum);
-                            displayBooks();
+                            sessionStorage.setItem("chapterNums", data.chapterNum);
+                            document.getElementById("bookTitle").innerHTML = data.bookTitle;
+                            displayChapters(data.chapterNum);
                         }
                     },
                     error: function (e) {
@@ -72,14 +76,10 @@
                 });
             }
 
-            function displayBooks() {
-
-            }
-
             function viewChapter(chapterNum) {
 
                 const chapter = {};
-                chapter["userID"] = localStorage.getItem("userID");
+                chapter["userID"] = sessionStorage.getItem("userID");
                 chapter["bookID"] = sessionStorage.getItem("bookID");
                 chapter["chapterNum"] = chapterNum;
 
@@ -94,10 +94,10 @@
                     success: function (data) {
                         sessionStorage.setItem("submissionIDs", data.submissionID);
                         sessionStorage.setItem("submissionTitles", data.submissionTitle);
-                        sessionStorage.setItem("submissionTitles", data.submissionTitle);
-                        sessionStorage.setItem("isAccepteds", data.isAccepted);
+                        sessionStorage.setItem("isAccepted", data.isAccepted);
                         sessionStorage.setItem("voteCounts", data.voteCount);
                         sessionStorage.setItem("estimatedTimes", data.estimatedTime);
+                        displaySubmissions(data.submissionID, data.submissionTitle, data.estimatedTime);
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
@@ -105,18 +105,48 @@
                 });
             }
 
-            function displayChapters() {
+            function displayChapters(chapterNums) {
+                const mainContainer = document.getElementById("chapterList");
+                for (let i = 0; i < chapterNums.length; i++) {
+                    const div = document.createElement("div");
+                    div.innerHTML = "Chapter " + chapterNums[i] +
+                        "<button class = 'button' onclick='viewChapter("+chapterNums[i]+")'>View</button>";
+                    mainContainer.appendChild(div);
+                }
+            }
 
+            function displaySubmissions(subIDs, subTitles) {
+                const mainContainer = document.getElementById("submissionList");
+                for (let i = 0; i < subIDs.length; i++) {
+                    const div = document.createElement("div");
+                    div.innerHTML = subTitles[i] + "<button class = 'button' onclick='openSubmissionView("+subIDs[i]+")'>View</button>";
+                    mainContainer.appendChild(div);
+                }
+                const button = document.createElement("button");
+                button.innerHTML = "<button>New Submission</button>";
+                mainContainer.appendChild(button);
+            }
+
+            function openSubmissionView(submissionID) {
+                sessionStorage.setItem("curSubmissionID", submissionID);
+                window.location = "submissionviewpage";
+            }
+
+            function logout(){
+
+                sessionStorage.clear();
+                window.location = "/";
             }
 
         </script>
     </head>
     <body>
-    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
     <div class="logout">
         <button class="button" onclick="logout()">Logout</button>
     </div>
         <div>
+            <h1 id="bookTitle"></h1>
             <div id="chapterList"></div>
             <div id="submissionList"></div>
         </div>
@@ -124,5 +154,5 @@
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
-    <script>viewChapter(1)</script>
+    <script>viewBook()</script>
 </html>

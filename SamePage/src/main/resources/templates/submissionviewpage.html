@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Book View</title>
+
+        <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+
         <style>
             body{
                 background-color:#A5E7DA;
@@ -65,19 +68,26 @@
                     timeout: 10000,
                     success: function (data) {
                         sessionStorage.setItem("curSubmissionTitle", data.submissionTitle);
+                        sessionStorage.setItem("curSubmissionBody", data.submissionBody);
                         sessionStorage.setItem("curSubmissionAuthor", data.submissionAuthor);
                         sessionStorage.setItem("curSubmissionIsAccepted", data.isAccepted);
                         sessionStorage.setItem("curSubmissionVoteCount", data.isAccepted);
                         sessionStorage.setItem("curSubmissionEstimatedTime", data.estimatedTime);
+                        displaySubmission();
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
                     }
                 });
-
-
             }
-            // Allows editor to mark submission as accepted
+
+            function displaySubmission() {
+                document.getElementById("submissionTitle").innerHTML = sessionStorage.getItem("curSubmissionTitle");
+                document.getElementById("submissionBody").innerHTML = sessionStorage.getItem("curSubmissionBody");
+                document.getElementById("submissionAuthor").innerHTML = sessionStorage.getItem("curSubmissionAuthor");
+                document.getElementById("voteCounter").innerHTML = sessionStorage.getItem("curSubmissionVoteCount");
+                document.getElementById("submissionTime").innerHTML = sessionStorage.getItem("curSubmissionEstimatedTime");
+            }
 
             function acceptSubmission() {
 
@@ -96,7 +106,7 @@
                     timeout: 10000,
                     success: function (data) {
                         if(!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to accept a submission.");
                         }
                     },
                     error: function (e) {
@@ -108,7 +118,7 @@
             function comment() {
 
                 const newComment = {};
-                newComment["userID"] = localStorage.getItem("userID");
+                newComment["userID"] = sessionStorage.getItem("userID");
                 newComment["submissionID"] = sessionStorage.getItem("submissionID");
                 newComment["body"] = $("#newComment").val();
 
@@ -123,6 +133,9 @@
                     success: function (data) {
                         if (!data.success) {
                             alert("You have no authorization.");
+                        }
+                        else {
+                            displayComments()
                         }
                     },
                     error: function (e) {
@@ -146,22 +159,26 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to view a comment.");
                         }
                         else {
-                            sessionStorage.setItem("commentList", data);
+                            sessionStorage.setItem("commentUsernames", data.username);
+                            sessionStorage.setItem("commentBodies", data.body);
+                            displayComments(data.username, data.body);
                         }
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
                     }
                 });
+            }
 
+            function displayComments(commentUsernames, commentBodies) {
                 // Assumes comment list is saved as json in sessionStorage
                 var mainContainer = document.getElementById("commentSection");
                 for (var i = 0; i < commentList.length; i++) {
-                    var div = document.createElement("div");
-                    div.innerHTML = commentList[i].user + ": " + commentList[i].body;
+                    const div = document.createElement("div");
+                    div.innerHTML = commentUsernames[i] + ": " + commentBodies[i];
                     mainContainer.appendChild(div);
                 }
             }
@@ -170,7 +187,7 @@
             function voteSubmission() {
 
                 const vote = {};
-                vote["userID"] = localStorage.getItem("userID");
+                vote["userID"] = sessionStorage.getItem("userID");
                 vote["submissionID"] = sessionStorage.getItem("submissionID");
                 vote["bookID"] = sessionStorage.getItem("bookID");
 
@@ -184,7 +201,7 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to vote for submissions.");
                         }
                         else {
                             alert("Thanks for voting.")
@@ -200,18 +217,26 @@
                 document.getElementById("voteCounter").innerHTML = sessionStorage.getItem("curSubmissionVoteCount") + " Votes";
             }
 
+            function logout(){
+
+                sessionStorage.clear();
+                window.location = "/";
+            }
+
         </script>
     </head>
         <body>
-        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
         <div class="logout">
             <button class="button" onclick="logout()">Logout</button>
         </div>
         <div class="mainatt">
             <div id="submissionTitle"></div>
+            <div id="submissionAuthor"></div>
             <div id="submissionBody"></div>
+            <div id="submissionTime"></div>
             <div id="voteCounter"><div/>
-                <button class="button">Upvote</button>
+                <button class="button" onclick="voteSubmission()">Upvote</button>
             </div>
             <div id="commentSection"></div>
             <div>
@@ -222,6 +247,7 @@
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
+    <script>viewSubmission(sessionStorage.getItem("curSubmissionID"))</script>
     <script>viewComment(sessionStorage.getItem("commentList"))</script>
     <script>viewVoteCount()</script>
 </html>

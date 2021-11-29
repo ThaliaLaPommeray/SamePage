@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Controller
@@ -69,7 +69,7 @@ public class ViewerController {
                 Set<Integer> editorIDSet = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
                 System.out.println("Editor list:");
 
-                Set<String> editorNameSet = new HashSet<>();
+                Set<String> editorNameSet = new LinkedHashSet<>();
 
                 if(editorIDSet!=null){
                     for(Integer s : editorIDSet)
@@ -88,7 +88,7 @@ public class ViewerController {
                 Set<Integer> authorIDSet = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
                 System.out.println("Author list:");
 
-                Set<String> authorNameSet = new HashSet<>();
+                Set<String> authorNameSet = new LinkedHashSet<>();
 
                 if(authorIDSet!=null){
                     for(Integer s : authorIDSet)
@@ -160,11 +160,11 @@ public class ViewerController {
 
                 System.out.println("Submissions for Chapter " + chapterNum + ":\n");
 
-                Set<Integer> submissionIDSet = new HashSet<>();
-                Set<String> submissionTitleSet = new HashSet<>();
-                Set<Boolean> isAcceptedSet = new HashSet<>();
-                Set<Integer> voteCountSet = new HashSet<>();
-                Set<String> estimatedTimeSet = new HashSet<>();
+                Set<Integer> submissionIDSet = new LinkedHashSet<>();
+                Set<String> submissionTitleSet = new LinkedHashSet<>();
+                Set<Boolean> isAcceptedSet = new LinkedHashSet<>();
+                Set<Integer> voteCountSet = new LinkedHashSet<>();
+                Set<String> estimatedTimeSet = new LinkedHashSet<>();
 
                 int i = 1;
                 for(Submission s : set) {

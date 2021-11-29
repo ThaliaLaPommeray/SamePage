@@ -39,6 +39,9 @@
 
     </style>
     <title>Submission Editor Page</title>
+
+    <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+
 </head>
 <body>
 <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
@@ -48,7 +51,7 @@
         if (confirm("Are you sure you want to submit?")) {
             console.log("Submitted User");
             const submission = {}
-            submission["userID"] = localStorage.getItem("userID");
+            submission["userID"] = sessionStorage.getItem("userID");
             submission["bookID"] = sessionStorage.getItem("bookID")
             submission["title"] = $("#submissionTitle").val();
             submission["chapter"] = sessionStorage.getItem("currentChapter");
@@ -100,11 +103,14 @@
             <input type="text" id="submissionTitle" placeholder="Submission Title"/>
         </div>
         <div>
+            <input type="number" id="chapterNum" placeholder="Chapter Number">
+        </div>
+        <div>
             <label>Estimated Completion Date:</label>
             <input type="date" id="completionDate"/>
         </div>
         <div>
-            <input type="text" id="submissionData" placeholder="Chapter submission"/>
+            <input type="text" id="submissionData" placeholder="Write your chapter here"/>
         </div>
         <div>
             <button class="button" onclick="save()">Save</button> Save progress

@@ -37,4 +37,9 @@ public class PageController {
     public String submissioneditor(){
         return "submissioneditor";
     }
+
+    @RequestMapping("/submissionviewpage")
+    public String submissionviewpage(){
+        return "submissionviewpage";
+    }
 }

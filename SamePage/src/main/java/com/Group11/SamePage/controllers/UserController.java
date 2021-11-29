@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Controller
@@ -34,12 +34,13 @@ public class UserController {
             String password = obj.getString("password");
 
             //if user doesn't exist yet
-            if(userRepository.findByUsername(username) == null)
-            {
-                check = true;
-                newUser = new User(username,password);
-                userRepository.save(newUser);
-            }
+            if(username.length() > 0 && password.length() > 0)
+                if(userRepository.findByUsername(username) == null)
+                {
+                    check = true;
+                    newUser = new User(username,password);
+                    userRepository.save(newUser);
+                }
 
         }catch (Exception e){
             System.out.println(e);
@@ -49,11 +50,13 @@ public class UserController {
 
         if(!check){
             response.put("success",false);
+            System.out.println("Invalid data or user already exists!");
         }
         else{
             response.put("success", true);
             response.put("username",newUser.getUsername());
-            response.put("userId",newUser.getId());
+            response.put("userId",newUser.getId()); //should this be userID instead of userId?
+            System.out.println("Account made! Welcome " + newUser.getUsername() + "!");
         }
 
         return response.toString();
@@ -84,11 +87,13 @@ public class UserController {
 
         if(!check){
             response.put("success",false);
+            System.out.println("Wrong username or password.");
         }
         else{
             response.put("success", true);
             response.put("username",user.getUsername());
             response.put("userID",user.getId());
+            System.out.println("Welcome back " + user.getUsername() + "!");
         }
 
         return response.toString();
@@ -107,10 +112,10 @@ public class UserController {
 
             System.out.println("List of Books:"); //Test print
 
-            Set<String> bookTitleSet = new HashSet<>();
+            Set<String> bookTitleSet = new LinkedHashSet<>();
 
             // get list of book IDs user can interact with
-            Set<Integer> bookIDSet = new HashSet<>();
+            Set<Integer> bookIDSet = new LinkedHashSet<>();
             bookIDSet.addAll(bookRepository.findBookIDsByOwnerID(userID));
             bookIDSet.addAll(bookRepository.findBookIDsByEditorID(userID));
             bookIDSet.addAll(bookRepository.findBookIDsByAuthorID(userID));
@@ -129,7 +134,12 @@ public class UserController {
                 //json
                 response.put("success", true);
                 response.put("bookID", bookIDSet.toArray());
+
+
                 response.put("bookTitle", bookTitleSet.toArray());
+
+//                for(int i = 0; i < bookIDSet.toArray().length; i++)
+//                    System.out.println("\nTEST!!!\n"+bookIDSet.toArray()[i]+" "+bookTitleSet.toArray()[i]);
             }
 
         }catch (Exception e){
@@ -138,13 +148,11 @@ public class UserController {
 
         if(!check)
         {
-            {
-                //Test print
-                System.out.println("Empty");
+            //Test print
+            System.out.println("Empty");
 
-                //json
-                response.put("success",false);
-            }
+            //json
+            response.put("success",false);
         }
 
         return response.toString();
@@ -174,6 +182,7 @@ public class UserController {
                 //json
                 response.put("success", true);
                 response.put("bookID", bookID);
+                System.out.println("Book created!");
             }
 
 
@@ -182,8 +191,10 @@ public class UserController {
         }
 
         //json
-        if(!check)
+        if(!check) {
             response.put("success", false);
+            System.out.println("Choose a different book title.");
+        }
 
         return response.toString();
 
@@ -205,10 +216,9 @@ public class UserController {
 
             System.out.println("Published Books:");
 
-            Set<String> bookTitleSet = new HashSet<>();
+            Set<String> bookTitleSet = new LinkedHashSet<>();
 
-            if(bookIDSet!=null){
-
+            if(bookIDSet.toArray().length > 0){
                 check = true;
 
                 for(Integer s : bookIDSet)
@@ -263,7 +273,7 @@ public class UserController {
             //print editor
             Set<Integer> editorsIDSet = bookRepository.findEditorIDsByBookID(bookID); //list of Editor's IDs
             System.out.println("Editor list:");
-            Set<String> editorsNameSet = new HashSet<>();
+            Set<String> editorsNameSet = new LinkedHashSet<>();
             if(editorsIDSet!=null){
                 for(Integer s : editorsIDSet)
                 {
@@ -280,7 +290,7 @@ public class UserController {
             //print author
             Set<Integer> authorsIDSet = bookRepository.findAuthorIDsByBookID(bookID); //list of Author's IDS
             System.out.println("Author list:");
-            Set<String> authorsNameSet = new HashSet<>();
+            Set<String> authorsNameSet = new LinkedHashSet<>();
             if(authorsIDSet!=null){
                 for(Integer s : authorsIDSet)
                 {
