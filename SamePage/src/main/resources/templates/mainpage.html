@@ -48,7 +48,7 @@
         <script>
             function main() {
                 const user = {};
-                user["userID"] = localStorage.getItem("userID");
+                user["userID"] = sessionStorage.getItem("userID");
 
                 $.ajax({
                     type: "POST",
@@ -92,7 +92,7 @@
                 }
                 else {
                     const newBook = {};
-                    newBook["userID"] = localStorage.getItem("userID");
+                    newBook["userID"] = sessionStorage.getItem("userID");
                     newBook["title"] = newBookTitle;
 
                     $.ajax({
@@ -135,7 +135,7 @@
         </script>
     </head>
     <body>
-    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
         <div class="top">
             <h1 id="header"></h1>
             <div class="logout"> <button class="button" onclick="logout()">Logout</button></div>
