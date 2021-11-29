@@ -88,13 +88,11 @@
                 const submissionBody = document.getElementById("submissionBody").value;
                 const completionDate = document.getElementById("completionDate").value;
                 if (submissionBody == "") {
-                    alert()
+                    alert("Write a story first");
                 }
                 else {
-                    sessionStorage.setItem("submissionProgress", submissionBody);
-                    if (confirm("Submission saved. Would you like to return to Book View?")) {
-                        openBookView();
-                    }
+                    alert("Submission saved");
+                    openBookView();
                 }
             }
         </script>
@@ -119,7 +117,7 @@
                 <textarea name="Text1" cols="160" rows="100" id="submissionData" placeholder="Write your chapter here"></textarea>
             </div>
             <div>
-                <button class="button" onclick="save()">Save</button> Save progress
+                <button class="button" onclick="save()">Save</button>
                 <button class="button" onclick="submitSubmission()">Submit</button>
             </div>
         </div>

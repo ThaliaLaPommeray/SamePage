@@ -108,6 +108,9 @@
                         if(!data.success) {
                             alert("You have no authorization to accept a submission.");
                         }
+                        else{
+                            alert("Submission accepted.");
+                        }
                     },
                     error: function (e) {
                         console.log("ERROR : ", e);
@@ -133,10 +136,10 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization.");
+                            alert("You have no authorization to comment.");
                         }
                         else {
-                            displayComments()
+                            viewComment();
                         }
                     },
                     error: function (e) {
@@ -177,7 +180,6 @@
             }
 
             function displayComments(commentUsernames, commentBodies) {
-                // Assumes comment list is saved as json in sessionStorage
                 var mainContainer = document.getElementById("commentSection");
                 for (var i = 0; i < commentUsernames.length; i++) {
                     const div = document.createElement("div");
@@ -185,7 +187,6 @@
                     mainContainer.appendChild(div);
                 }
             }
-
 
             function voteSubmission() {
 
@@ -241,12 +242,14 @@
             <div id="submissionBody"></div>
 
             <div id="voteCount"></div>
-                <button class="button" onclick="voteSubmission()">Upvote</button>
+            <button class="button" onclick="voteSubmission()">Upvote</button>
             <div id="commentSection"></div>
             <div>
                 <input id="newComment" placeholder="Comment here"/>
                 <button class="button" id="commentButton" onclick="comment()">Send</button>
             </div>
+            <h4>Editors Only: </h4>
+            <button class="button" onclick="acceptSubmission()">Accept Submission</button>
         </div>
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
