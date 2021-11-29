@@ -1,71 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Main Page</title>
-        <style>
-            body{
-                background-color:#A5E7DA;
-            }
-            .top{
-                position: absolute;
-                top: 5%;
-                left: 5%;
-            }
-            .logout{
-                position: fixed;
-                float: left;
-                right: 1%;
-                top:1px;
-            }
-            .button {
-                border: none;
-                color: white;
-                border-radius: 5px;
-                border: 3px black;
-                padding: 15px 32px;
-                text-align: center;
-                text-decoration: none;
-                display: inline-block;
-                font-size: 16px;
-                margin: 4px 2px;
-                cursor: pointer;
-                background-color: #234E52;
+<head>
+    <title>Main Page</title>
 
-            }
-            .mainatt{
-                position: absolute;
-                top: 20%;
-                left: 40%;
+    <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
 
-            }
-            .img{
-                cursor: pointer;
-                display: block;
+    <style>
+        body{
+            background-color:#A5E7DA;
+        }
+        .top{
+            position: absolute;
+            top: 5%;
+            left: 5%;
+        }
+        .logout{
+            position: fixed;
+            float: left;
+            right: 1%;
+            top:1px;
+        }
+        .button {
+            border: none;
+            color: white;
+            border-radius: 5px;
+            border: 3px black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-color: #234E52;
 
-            }
+        }
+        .mainatt{
+            position: absolute;
+            top: 20%;
+            left: 40%;
 
-        </style>
-        <script>
-            function main() {
-                const user = {};
-                user["userID"] = localStorage.getItem("userID");
+        }
+        .img{
+            cursor: pointer;
+            display: block;
+
+        }
+
+    </style>
+    <script>
+        function main() {
+            const user = {};
+            user["userID"] = sessionStorage.getItem("userID");
+
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/api/main",
+                data: JSON.stringify(user),
+                dataType: 'json',
+                cache: false,
+                timeout: 10000,
+                success: function (data) {
+                    if (data.success) {
+
+
+                        displayBooks(data.bookID,data.bookTitle);
+                    }
+                    else {
+                        document.getElementById("bookList").innerHTML = "No books to display.";
+                    }
+                },
+                error: function (e) {
+                    console.log("ERROR : ", e);
+                }
+            });
+        }
+
+        function displayBooks(bookIds,bookTitles) {
+
+            const mainContainer = document.getElementById("bookList");
+            for (let i = 0; i < bookIds.length; i++) {
+                const div = document.createElement("div");
+                div.innerHTML = bookTitles[i] +
+                    "<button class = 'button' onclick='goToBook("+bookIds[i]+")'>Go to book</button>";
+                mainContainer.appendChild(div);
+            }
+        }
+
+        function createBook() {
+            const newBookTitle = document.getElementById("newBookTitle").value;
+            if (newBookTitle === "") {
+                alert("Please input a name.");
+            }
+            else {
+                const newBook = {};
+                newBook["userID"] = sessionStorage.getItem("userID");
+                newBook["title"] = newBookTitle;
 
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
-                    url: "/api/main",
-                    data: JSON.stringify(user),
+                    url: "/api/createbook",
+                    data: JSON.stringify(newBook),
                     dataType: 'json',
                     cache: false,
                     timeout: 10000,
                     success: function (data) {
-                        if (data.success) {
-
-
-                            displayBooks(data.bookID,data.bookTitle);
+                        if (!data.success) {
+                            alert("Choose a different book title.");
                         }
                         else {
-                            document.getElementById("bookList").innerHTML = "No books to display.";
+                            sessionStorage.setItem("bookID", data.bookID);
+                            OpenBookView();
                         }
                     },
                     error: function (e) {
@@ -74,85 +121,42 @@
                 });
             }
 
-            function displayBooks(bookIds,bookTitles) {
+        }
 
-                const mainContainer = document.getElementById("bookList");
-                for (let i = 0; i < bookIds.length; i++) {
-                    const div = document.createElement("div");
-                    div.innerHTML = bookTitles[i] +
-                        "<button onclick='goToBook("+bookIds[i]+")'>Go to book</button>";
-                    mainContainer.appendChild(div);
-                }
-            }
+        function goToBook(id){
+            id = parseInt(id);
+            sessionStorage.setItem("bookID",id);
+            window.location = "bookviewpage";
+        }
 
-            function createBook() {
-                const newBookTitle = document.getElementById("newBookTitle").value;
-                if (newBookTitle === "") {
-                    alert("Please input a name.");
-                }
-                else {
-                    const newBook = {};
-                    newBook["userID"] = localStorage.getItem("userID");
-                    newBook["title"] = newBookTitle;
+        function logout(){
 
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        url: "/api/createbook",
-                        data: JSON.stringify(newBook),
-                        dataType: 'json',
-                        cache: false,
-                        timeout: 10000,
-                        success: function (data) {
-                            if (!data.success) {
-                                alert("Choose a different book title.");
-                            }
-                            else {
-                                sessionStorage.setItem("bookID", data.bookID);
-                                openBookEditor();
-                            }
-                        },
-                        error: function (e) {
-                            console.log("ERROR : ", e);
-                        }
-                    });
-                }
-
-            }
-
-            function goToBook(id){
-                sessionStorage.setItem("bookID",id);
-                window.location = "bookviewpage";
-            }
-
-            function logout(){
-
-                sessionStorage.clear();
-                window.location = "/";
-            }
+            sessionStorage.clear();
+            window.location = "/";
+        }
 
 
-        </script>
-    </head>
-    <body>
-    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
-        <div class="top">
-            <h1 id="header"></h1>
-            <div class="logout"> <button class="button" onclick="logout()">Logout</button></div>
-        </div>
-        <div class="mainatt">
-            <input type="text" id="newBookTitle" placeholder="Name for new book"/>
-            <button class="button" onclick="createBook()">Create Book</button>
-
-        <div id="bookList"></div></div>
-    </body>
-
-    <script type="text/javascript"
-            src="webjars/jquery/2.2.4/jquery.min.js"></script>
-    <script>
-        document.getElementById("header").innerHTML = sessionStorage.getItem("username") + "'s Home Page";
-        main();
     </script>
-    <script type="text/javascript" src="/static/js/main.js"></script>
-    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+<img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
+<div class="top">
+    <h1 id="header"></h1>
+    <div class="logout"> <button class="button" onclick="logout()">Logout</button></div>
+</div>
+<div class="mainatt">
+    <input type="text" id="newBookTitle" placeholder="Name for new book"/>
+    <button class="button" onclick="createBook()">Create Book</button>
+
+    <div id="bookList"></div></div>
+</body>
+
+<script type="text/javascript"
+        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    document.getElementById("header").innerHTML = sessionStorage.getItem("username") + "'s Home Page";
+    main();
+</script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
 </html>
