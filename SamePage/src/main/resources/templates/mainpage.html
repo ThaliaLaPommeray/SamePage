@@ -5,7 +5,34 @@
         <style>
         </style>
         <script>
-            // Assumes availableBooks is saved as json in sessionStorage
+            function main() {
+                const user = {};
+                user["userID"] = localStorage.getItem("userID");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/main",
+                    data: JSON.stringify(user),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if (data.success) {
+                            sessionStorage.setItem("availableBookIDs", data.bookID);
+                            sessionStorage.setItem("availableBookNames", data.bookTitle);
+                            displayBooks();
+                        }
+                        else {
+                            document.getElementById("bookList").innerHTML = "No books to display.";
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+
             function displayBooks(bookList) {
                 const mainContainer = document.getElementById("bookList");
                 for (let i = 0; i < bookList.length; i++) {
@@ -28,20 +55,24 @@
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "/api/submit",
+                        url: "/api/createbook",
                         data: JSON.stringify(newBook),
                         dataType: 'json',
                         cache: false,
                         timeout: 10000,
-                        success: function () {
-                            // set current book in cookie
-                            openBookView();
+                        success: function (data) {
+                            if (!data.success) {
+                                alert("Choose a different book title.");
+                            }
+                            else {
+                                sessionStorage.setItem("bookID", data.bookID);
+                                openBookEditor();
+                            }
                         },
                         error: function (e) {
                             console.log("ERROR : ", e);
                         }
                     });
-                    alert("Book name is " + newBookTitle);
                 }
             }
         </script>

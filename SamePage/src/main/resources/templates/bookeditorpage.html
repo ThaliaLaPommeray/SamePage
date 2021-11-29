@@ -18,9 +18,13 @@
                 dataType: 'json',
                 cache: false,
                 timeout: 10000,
-                success: function (data) {
-                    alert("Invited user: " + $("#username").val()
-                          + "with role: " + $("#roles").val());
+                success: function (data){
+                    if (data.success) {
+                        alert("Invited user: " + $("#username").val() + "with role: " + $("#roles").val());
+                    }
+                    else {
+                        alert("You have no authorization")
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);
@@ -30,8 +34,8 @@
 
         function publishBook() {
             const publisher = {};
-            publisher["userID"] = -1; // get from user
-            publisher["bookID"] = -1; // get from current book
+            publisher["userID"] = localStorage.get("userID");
+            publisher["bookID"] = sessionStorage.getItem("bookID");
             publisher["username"] = $("#username").val();
             publisher["role"] = $("#roles").val();
 
@@ -44,8 +48,9 @@
                 cache: false,
                 timeout: 10000,
                 success: function (data) {
-                    alert("Book published");
-                    openBookView();
+                    if (!data.success) {
+                        alert("You have no authorization.")
+                    }
                 },
                 error: function (e) {
                     console.log("ERROR : ", e);

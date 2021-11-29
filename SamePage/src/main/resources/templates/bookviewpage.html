@@ -3,9 +3,73 @@
     <head>
         <title>Book View</title>
         <script>
+            function viewBook() {
 
-            // Checks if the user has comment permissions
-            function isReader() {
+                const book = {};
+                book["userID"] = localStorage.getItem("UserID");
+                book["bookID"] = sessionStorage.getItem("UserID");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/viewbook",
+                    data: JSON.stringify(book),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if (!data.success) {
+                            alert("You have no authorization.");
+                        }
+                        else {
+                            sessionStorage.setItem("curBookTitle", data.bookTitle);
+                            sessionStorage.setItem("curBookOwner", data.ownerName);
+                            sessionStorage.setItem("curBookEditors", data.editorName);
+                            sessionStorage.setItem("curBookAuthors", data.authorName);
+                            sessionStorage.setItem("curChapterNum", data.chapterNum);
+                            displayBooks();
+                        }
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+
+            function displayBooks() {
+
+            }
+
+            function viewChapter(chapterNum) {
+
+                const chapter = {};
+                chapter["userID"] = localStorage.getItem("userID");
+                chapter["bookID"] = sessionStorage.getItem("bookID");
+                chapter["chapterNum"] = chapterNum;
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/viewchapter",
+                    data: JSON.stringify(chapter),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        sessionStorage.setItem("submissionIDs", data.submissionID);
+                        sessionStorage.setItem("submissionTitles", data.submissionTitle);
+                        sessionStorage.setItem("submissionTitles", data.submissionTitle);
+                        sessionStorage.setItem("isAccepteds", data.isAccepted);
+                        sessionStorage.setItem("voteCounts", data.voteCount);
+                        sessionStorage.setItem("estimatedTimes", data.estimatedTime);
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
+                    }
+                });
+            }
+
+            function displayChapters() {
 
             }
 
@@ -13,22 +77,12 @@
     </head>
     <body>
         <div>
-            <div>
-                // List of chapters
-            </div>
-            <div>
-                // Current chapter contents
-            </div>
-            <div>
-                // Upvote counter
-                <label id="upvoteCounter"></label>
-                <button>Upvote</button> // Can only click once
-            </div>
-            <div id="commentSection"></div>
+            <div id="chapterList"></div>
+            <div id="submissionList"></div>
         </div>
     </body>
     <script type="text/javascript"
             src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
-    <script>viewChapter()</script>
+    <script>viewChapter(1)</script>
 </html>
