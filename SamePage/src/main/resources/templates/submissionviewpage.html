@@ -68,6 +68,7 @@
                     timeout: 10000,
                     success: function (data) {
                         sessionStorage.setItem("curSubmissionTitle", data.submissionTitle);
+                        sessionStorage.setItem("curSubmissionBody", data.submissionBody);
                         sessionStorage.setItem("curSubmissionAuthor", data.submissionAuthor);
                         sessionStorage.setItem("curSubmissionIsAccepted", data.isAccepted);
                         sessionStorage.setItem("curSubmissionVoteCount", data.isAccepted);
@@ -82,8 +83,8 @@
 
             function displaySubmission() {
                 document.getElementById("submissionTitle").innerHTML = sessionStorage.getItem("curSubmissionTitle");
-                document.getElementById("submissionAuthor").innerHTML = sessionStorage.getItem("curSubmissionAuthor");
                 document.getElementById("submissionBody").innerHTML = sessionStorage.getItem("curSubmissionBody");
+                document.getElementById("submissionAuthor").innerHTML = sessionStorage.getItem("curSubmissionAuthor");
                 document.getElementById("submissionTime").innerHTML = sessionStorage.getItem("curSubmissionEstimatedTime");
             }
 
