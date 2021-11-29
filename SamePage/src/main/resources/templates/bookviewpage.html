@@ -67,7 +67,7 @@
                             sessionStorage.setItem("curBookAuthors", data.authorName);
                             sessionStorage.setItem("chapterNums", data.chapterNum);
                             document.getElementById("bookTitle").innerHTML = data.bookTitle;
-                            displayChapters(chapterNums);
+                            displayChapters(data.chapterNum);
                         }
                     },
                     error: function (e) {
@@ -106,8 +106,6 @@
             }
 
             function displayChapters(chapterNums) {
-                console.log()
-
                 const mainContainer = document.getElementById("chapterList");
                 for (let i = 0; i < chapterNums.length; i++) {
                     const div = document.createElement("div");
