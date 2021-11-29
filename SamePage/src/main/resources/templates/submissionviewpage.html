@@ -67,12 +67,12 @@
                     cache: false,
                     timeout: 10000,
                     success: function (data) {
-                        sessionStorage.setItem("curSubmissionTitle", data.submissionTitle);
-                        sessionStorage.setItem("curSubmissionBody", data.submissionBody);
-                        sessionStorage.setItem("curSubmissionAuthor", data.submissionAuthor);
-                        sessionStorage.setItem("curSubmissionIsAccepted", data.isAccepted);
-                        sessionStorage.setItem("curSubmissionVoteCount", data.isAccepted);
-                        sessionStorage.setItem("curSubmissionEstimatedTime", data.estimatedTime);
+                        sessionStorage.setItem("submissionTitle", data.submissionTitle);
+                        sessionStorage.setItem("submissionBody", data.submissionBody);
+                        sessionStorage.setItem("submissionAuthor", data.submissionAuthor);
+                        sessionStorage.setItem("isAccepted", data.isAccepted);
+                        sessionStorage.setItem("voteCount", data.voteCount);
+                        sessionStorage.setItem("estimatedTime", data.estimatedTime);
                         displaySubmission();
                     },
                     error: function (e) {
@@ -82,11 +82,11 @@
             }
 
             function displaySubmission() {
-                document.getElementById("submissionTitle").innerHTML = sessionStorage.getItem("curSubmissionTitle");
-                document.getElementById("submissionBody").innerHTML = sessionStorage.getItem("curSubmissionBody");
-                document.getElementById("submissionAuthor").innerHTML = sessionStorage.getItem("curSubmissionAuthor");
-                document.getElementById("voteCounter").innerHTML = sessionStorage.getItem("curSubmissionVoteCount");
-                document.getElementById("submissionTime").innerHTML = sessionStorage.getItem("curSubmissionEstimatedTime");
+                document.getElementById("submissionTitle").innerHTML = "\"" + sessionStorage.getItem("submissionTitle") + "\"";
+                document.getElementById("submissionAuthor").innerHTML = "Written by " +sessionStorage.getItem("submissionAuthor");
+                document.getElementById("estimatedTime").innerHTML = "Estimated time of completion: " + sessionStorage.getItem("estimatedTime");
+                document.getElementById("submissionBody").innerHTML = sessionStorage.getItem("submissionBody");
+                document.getElementById("voteCount").innerHTML = "Votes: " + sessionStorage.getItem("voteCount");
             }
 
             function acceptSubmission() {
@@ -119,7 +119,7 @@
 
                 const newComment = {};
                 newComment["userID"] = sessionStorage.getItem("userID");
-                newComment["submissionID"] = sessionStorage.getItem("submissionID");
+                newComment["submissionID"] = parseInt(sessionStorage.getItem("submissionID"));
                 newComment["body"] = $("#newComment").val();
 
                 $.ajax({
@@ -147,7 +147,9 @@
             function viewComment(commentList) {
 
                 const submissionID = {};
-                submissionID["submissionID"] = sessionStorage.getItem("submissionID");
+                submissionID["userID"] = parseInt(sessionStorage.getItem("userID"));
+                submissionID["bookID"] = parseInt(sessionStorage.getItem("bookID"));
+                submissionID["submissionID"] = parseInt(sessionStorage.getItem("submissionID"));
 
                 $.ajax({
                     type: "POST",
@@ -214,7 +216,7 @@
             }
 
             function viewVoteCount() {
-                document.getElementById("voteCounter").innerHTML = sessionStorage.getItem("curSubmissionVoteCount") + " Votes";
+                document.getElementById("voteCount").innerHTML = sessionStorage.getItem("voteCount") + " Votes";
             }
 
             function logout(){
@@ -233,11 +235,12 @@
         <div class="mainatt">
             <div id="submissionTitle"></div>
             <div id="submissionAuthor"></div>
+            <div id="estimatedTime"></div>
+            
             <div id="submissionBody"></div>
-            <div id="submissionTime"></div>
-            <div id="voteCounter"><div/>
+
+            <div id="voteCount"></div>
                 <button class="button" onclick="voteSubmission()">Upvote</button>
-            </div>
             <div id="commentSection"></div>
             <div>
                 <input id="newComment" placeholder="Comment here"/>
@@ -247,7 +250,7 @@
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
-    <script>viewSubmission(sessionStorage.getItem("curSubmissionID"))</script>
+    <script>viewSubmission(sessionStorage.getItem("submissionID"))</script>
     <script>viewComment(sessionStorage.getItem("commentList"))</script>
     <script>viewVoteCount()</script>
 </html>
