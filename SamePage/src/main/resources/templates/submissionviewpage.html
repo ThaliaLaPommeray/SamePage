@@ -2,6 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Book View</title>
+        <style>
+            body{
+                background-color:#A5E7DA;
+            }
+            .top{
+                position: absolute;
+                top: 5%;
+                left: 5%;
+            }
+            .logout{
+                position: fixed;
+                float: left;
+                right: 1%;
+                top:1px;
+            }
+            .button {
+                border: none;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                background-color: #234E52;
+
+            }
+
+            .img{
+                cursor: pointer;
+                display: block;
+
+            }
+            .mainatt{
+                position: absolute;
+                top: 20%;
+                left: 40%;
+
+            }
+
+        </style>
         <script>
 
             function viewSubmission(submissionID) {
@@ -159,16 +203,20 @@
         </script>
     </head>
         <body>
-        <div>
+        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+        <div class="logout">
+            <button class="button" onclick="logout()">Logout</button>
+        </div>
+        <div class="mainatt">
             <div id="submissionTitle"></div>
             <div id="submissionBody"></div>
             <div id="voteCounter"><div/>
-                <button>Upvote</button>
+                <button class="button">Upvote</button>
             </div>
             <div id="commentSection"></div>
             <div>
                 <input id="newComment" placeholder="Comment here"/>
-                <button id="commentButton" onclick="comment()">Send</button>
+                <button class="button" id="commentButton" onclick="comment()">Send</button>
             </div>
         </div>
     </body>

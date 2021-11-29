@@ -2,6 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book Editor</title>
+    <style>
+        body{
+            background-color:#A5E7DA;
+        }
+        .top{
+            position: absolute;
+            top: 5%;
+            left: 5%;
+        }
+        .logout{
+            position: fixed;
+            float: left;
+            right: 1%;
+            top:1px;
+        }
+        .button {
+            border: none;
+            color: white;
+            border-radius: 5px;
+            border: 3px black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            background-color: #234E52;
+
+        }
+
+        .img{
+            cursor: pointer;
+            display: block;
+
+        }
+
+    </style>
     <script>
         function invite() {
             const invitation = {};
@@ -60,9 +98,10 @@
     </script>
 </head>
 <body>
+<img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
     <div>
-        <div>
-            <button onclick="logout()">Logout</button>
+        <div class="logout">
+            <button class="button" onclick="logout()">Logout</button>
         </div>
         <div>
             <input id="username" type="text" placeholder="Invitee Username"/>
@@ -72,10 +111,10 @@
                 <option value="reader">Reader</option>
                 <option value="viewer">Viewer</option>
             </select>
-            <button>Invite</button>
+            <button class="button">Invite</button>
         </div>
         <div>
-            <button onclick="Publish()">Publish</button>
+            <button class="button" onclick="Publish()">Publish</button>
         </div>
     </div>
 </body>
