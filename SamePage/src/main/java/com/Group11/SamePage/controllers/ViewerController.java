@@ -250,7 +250,8 @@ public class ViewerController {
                 response.put("isAccepted", submission.isAccepted());
                 response.put("voteCount", submission.getVoteCount());
                 response.put("estimatedTime", submission.getEstimatedTime().toString());
-
+                response.put("charCount", submission.getBody().length());
+                response.put("wordCount", submission.getWordCount());
             }
 
             else

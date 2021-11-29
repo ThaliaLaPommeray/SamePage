@@ -57,6 +57,18 @@
                 font-size: 18px;
 
             }
+            .isaccepted{
+                font-size: 18px;
+
+            }
+            .charcount {
+                font-size: 18px;
+
+            }
+            .wordcount {
+                font-size: 18px;
+
+            }
             .subBody{
                 font-size: 18px;
                 padding-bottom: 15px;
@@ -86,6 +98,8 @@
                         sessionStorage.setItem("submissionBody", data.submissionBody);
                         sessionStorage.setItem("submissionAuthor", data.submissionAuthor);
                         sessionStorage.setItem("isAccepted", data.isAccepted);
+                        sessionStorage.setItem("charCount", data.charCount);
+                        sessionStorage.setItem("wordCount", data.wordCount);
                         sessionStorage.setItem("voteCount", data.voteCount);
                         sessionStorage.setItem("estimatedTime", data.estimatedTime);
                         displaySubmission();
@@ -102,6 +116,9 @@
                 document.getElementById("estimatedTime").innerHTML = "Estimated time of completion: " + sessionStorage.getItem("estimatedTime");
                 document.getElementById("submissionBody").innerHTML = sessionStorage.getItem("submissionBody");
                 document.getElementById("voteCount").innerHTML = "Votes: " + sessionStorage.getItem("voteCount");
+                document.getElementById("isAccepted").innerHTML = "Accepted status: " + sessionStorage.getItem("isAccepted");
+                document.getElementById("charCount").innerHTML = "Character count: " + sessionStorage.getItem("charCount");
+                document.getElementById("wordCount").innerHTML = "Word count: " + sessionStorage.getItem("wordCount");
             }
 
             function acceptSubmission() {
@@ -251,7 +268,10 @@
             <div class="title" id="submissionTitle"></div>
             <div class="author" id="submissionAuthor"></div>
             <div class="est" id="estimatedTime"></div>
-            
+            <div class="isaccepted" id="isAccepted"></div>
+            <div class="charcount" id="charCount"></div>
+            <div class="wordcount" id="wordCount"></div>
+
             <div class="subBody" id="submissionBody"></div>
 
             <div id="voteCount"></div>
