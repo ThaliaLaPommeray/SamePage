@@ -124,6 +124,7 @@
 
                 const newComment = {};
                 newComment["userID"] = sessionStorage.getItem("userID");
+                newComment["bookID"] = sessionStorage.getItem("bookID");
                 newComment["submissionID"] = parseInt(sessionStorage.getItem("submissionID"));
                 newComment["body"] = $("#newComment").val();
 
