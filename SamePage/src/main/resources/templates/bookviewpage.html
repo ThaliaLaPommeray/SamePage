@@ -122,14 +122,15 @@
                     div.innerHTML = subTitles[i] + "<button class = 'button' onclick='openSubmissionView("+subIDs[i]+")'>View</button>";
                     mainContainer.appendChild(div);
                 }
-                const button = document.createElement("button");
-                button.innerHTML = "<button>New Submission</button>";
-                mainContainer.appendChild(button);
             }
 
             function openSubmissionView(submissionID) {
                 sessionStorage.setItem("submissionID", submissionID);
                 window.location = "submissionviewpage";
+            }
+
+            function openSubmissionEditor() {
+                window.location = "submissioneditor";
             }
 
             function logout(){
@@ -147,7 +148,10 @@
     </div>
         <div>
             <h1 id="bookTitle"></h1>
+            <button onclick="openSubmissionEditor()">New Submission</button>
+            <h2>Chapters</h2>
             <div id="chapterList"></div>
+            <h2>Current Chapter Submissions</h2>
             <div id="submissionList"></div>
         </div>
     </body>

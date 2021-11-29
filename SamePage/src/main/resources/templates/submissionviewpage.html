@@ -149,7 +149,7 @@
                 });
             }
 
-            function viewComment(commentList) {
+            function viewComment() {
 
                 const submissionID = {};
                 submissionID["userID"] = parseInt(sessionStorage.getItem("userID"));
@@ -183,7 +183,7 @@
             function displayComments(commentUsernames, commentBodies) {
                 // Assumes comment list is saved as json in sessionStorage
                 var mainContainer = document.getElementById("commentSection");
-                for (var i = 0; i < commentList.length; i++) {
+                for (var i = 0; i < commentUsernames.length; i++) {
                     const div = document.createElement("div");
                     div.innerHTML = commentUsernames[i] + ": " + commentBodies[i];
                     mainContainer.appendChild(div);
@@ -256,6 +256,6 @@
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
     <script>viewSubmission(sessionStorage.getItem("submissionID"))</script>
-    <script>viewComment(sessionStorage.getItem("commentList"))</script>
+    <script>viewComment()</script>
     <script>viewVoteCount()</script>
 </html>
