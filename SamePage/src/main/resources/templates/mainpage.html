@@ -51,7 +51,7 @@
     <script>
         function main() {
             const user = {};
-            user["userID"] = localStorage.getItem("userID");
+            user["userID"] = sessionStorage.getItem("userID");
 
             $.ajax({
                 type: "POST",
@@ -95,7 +95,7 @@
             }
             else {
                 const newBook = {};
-                newBook["userID"] = localStorage.getItem("userID");
+                newBook["userID"] = sessionStorage.getItem("userID");
                 newBook["title"] = newBookTitle;
 
                 $.ajax({
