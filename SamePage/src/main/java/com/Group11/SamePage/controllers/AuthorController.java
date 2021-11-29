@@ -119,7 +119,7 @@ public class AuthorController {
                 if(title.isEmpty())
                     title = temp.getTitle();
                 if(body.isEmpty())
-                    title = temp.getBody();
+                    body = temp.getBody();
                 //are we sure that 0 is the null value for these fields?
                 if(year == 0 && month == 0 && day == 0)
                     date = temp.getEstimatedTime();
@@ -140,6 +140,7 @@ public class AuthorController {
 
         } catch (Exception e) {
             System.out.println(e);
+            check = false;
         }
 
         JSONObject response = new JSONObject();
