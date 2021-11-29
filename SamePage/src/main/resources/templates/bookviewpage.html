@@ -2,6 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Book View</title>
+
+        <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+
         <style>
             body{
                 background-color:#A5E7DA;
@@ -131,10 +134,16 @@
                 window.location = "submissionviewpage";
             }
 
+            function logout(){
+
+                sessionStorage.clear();
+                window.location = "/";
+            }
+
         </script>
     </head>
     <body>
-    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+    <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
     <div class="logout">
         <button class="button" onclick="logout()">Logout</button>
     </div>
