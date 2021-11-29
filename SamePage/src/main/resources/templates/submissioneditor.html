@@ -1,124 +1,121 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <style>
-        body{
-            background-color:#A5E7DA;
-        }
-        .top{
-            position: absolute;
-            top: 5%;
-            left: 5%;
-        }
-        .logout{
-            position: fixed;
-            float: left;
-            right: 1%;
-            top:1px;
-        }
-        .button {
-            border: none;
-            color: white;
-            border-radius: 5px;
-            border: 3px black;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            background-color: #234E52;
-
-        }
-        .img{
-            cursor: pointer;
-            display: block;
-
-        }
-
-    </style>
-    <title>Submission Editor Page</title>
-
-    <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
-
-</head>
-<body>
-<img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
-
-<script>
-    function submitSubmission() {
-        if (confirm("Are you sure you want to submit?")) {
-            console.log("Submitted User");
-            const submission = {}
-            submission["userID"] = sessionStorage.getItem("userID");
-            submission["bookID"] = sessionStorage.getItem("bookID")
-            submission["title"] = $("#submissionTitle").val();
-            submission["chapter"] = sessionStorage.getItem("currentChapter");
-            submission["body"] = $("#submissionData").val();
-            submission["year"] = $("#completionDate").val().substringData(0,3);
-            submission["month"] = $("#completionDate").val().substring(5,6);
-            submission["data"] = $("#completionDate").val().substring(8,9);
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "/api/submit",
-                data: JSON.stringify(submission),
-                dataType: 'json',
-                cache: false,
-                timeout: 10000,
-                success: function (data) {
-                    if (!data.success) {
-                        alert("You have no authorization or wrong data was input.")
-                    }
-                    openBookView();
-                },
-                error: function (e) {
-                    console.log("ERROR : ", e);
-                }
-            });
-        }
-    }
-
-    function save() {
-        const submissionBody = document.getElementById("submissionBody").value;
-        const completionDate = document.getElementById("completionDate").value;
-        if (submissionBody == "") {
-            alert()
-        }
-        else {
-            sessionStorage.setItem("submissionProgress", submissionBody);
-            if (confirm("Submission saved. Would you like to return to Book View?")) {
-                openBookView();
+    <head>
+        <title>Submission Editor Page</title>
+        <style>
+            body{
+                background-color:#A5E7DA;
             }
-        }
-    }
-</script>
-<div>
-        <div class="logout">
-            <button class="button" onclick="logout()">Logout</button>
-        </div>
+            .top{
+                position: absolute;
+                top: 5%;
+                left: 5%;
+            }
+            .logout{
+                position: fixed;
+                float: left;
+                right: 1%;
+                top:1px;
+            }
+            .button {
+                border: none;
+                color: white;
+                border-radius: 5px;
+                border: 3px black;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+                background-color: #234E52;
+
+            }
+            .img{
+                cursor: pointer;
+                display: block;
+
+            }
+
+        </style>
+
+        <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+        <script>
+            function submitSubmission() {
+                if (confirm("Are you sure you want to submit?")) {
+                    console.log("Submitted User");
+                    const submission = {}
+                    submission["userID"] = sessionStorage.getItem("userID");
+                    submission["bookID"] = sessionStorage.getItem("bookID")
+                    submission["title"] = $("#submissionTitle").val();
+                    submission["chapter"] = sessionStorage.getItem("currentChapter");
+                    submission["body"] = $("#submissionData").val();
+                    submission["year"] = $("#completionDate").val().substringData(0,3);
+                    submission["month"] = $("#completionDate").val().substring(5,6);
+                    submission["data"] = $("#completionDate").val().substring(8,9);
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/api/submit",
+                        data: JSON.stringify(submission),
+                        dataType: 'json',
+                        cache: false,
+                        timeout: 10000,
+                        success: function (data) {
+                            if (!data.success) {
+                                alert("You have no authorization or wrong data was input.")
+                            }
+                            openBookView();
+                        },
+                        error: function (e) {
+                            console.log("ERROR : ", e);
+                        }
+                    });
+                }
+            }
+
+            function save() {
+                const submissionBody = document.getElementById("submissionBody").value;
+                const completionDate = document.getElementById("completionDate").value;
+                if (submissionBody == "") {
+                    alert()
+                }
+                else {
+                    sessionStorage.setItem("submissionProgress", submissionBody);
+                    if (confirm("Submission saved. Would you like to return to Book View?")) {
+                        openBookView();
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
         <div>
-            <input type="text" id="submissionTitle" placeholder="Submission Title"/>
+            <div class="logout">
+                <button class="button" onclick="logout()">Logout</button>
+            </div>
+            <div>
+                <input type="text" id="submissionTitle" placeholder="Submission Title"/>
+            </div>
+            <div>
+                <input type="number" id="chapterNum" placeholder="Chapter Number">
+            </div>
+            <div>
+                <label>Estimated Completion Date:</label>
+                <input type="date" id="completionDate"/>
+            </div>
+            <div>
+                <input type="text" id="submissionData" placeholder="Write your chapter here"/>
+            </div>
+            <div>
+                <button class="button" onclick="save()">Save</button> Save progress
+                <button class="button" onclick="submitSubmission()">Submit</button>
+            </div>
         </div>
-        <div>
-            <input type="number" id="chapterNum" placeholder="Chapter Number">
-        </div>
-        <div>
-            <label>Estimated Completion Date:</label>
-            <input type="date" id="completionDate"/>
-        </div>
-        <div>
-            <input type="text" id="submissionData" placeholder="Write your chapter here"/>
-        </div>
-        <div>
-            <button class="button" onclick="save()">Save</button> Save progress
-            <button class="button" onclick="submitSubmission()">Submit</button>
-        </div>
-    </div>
-</body>
-<script type="text/javascript"
-        src="webjars/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="/static/js/main.js"></script>
+    </body>
+    <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
 </html>
