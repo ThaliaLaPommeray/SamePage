@@ -56,9 +56,9 @@
                     submission["title"] = $("#submissionTitle").val();
                     submission["chapterNum"] = $("#chapterNum").val();
                     submission["body"] = $("#submissionData").val();
-                    submission["year"] = $("#completionDate").val().substring(0,3);
-                    submission["month"] = $("#completionDate").val().substring(5,6);
-                    submission["day"] = $("#completionDate").val().substring(8,9);
+                    submission["year"] = $("#completionDate").val().substring(0, 3);
+                    submission["month"] = $("#completionDate").val().substring(5, 6);
+                    submission["day"] = $("#completionDate").val().substring(8, 9);
 
                     $.ajax({
                         type: "POST",
@@ -71,8 +71,7 @@
                         success: function (data) {
                             if (!data.success) {
                                 alert("You have no authorization or wrong data was input.")
-                            }
-                            else
+                            } else
                                 openBookView();
                         },
                         error: function (e) {
@@ -80,38 +79,6 @@
                         }
                     });
                 }
-            }
-
-            function edit() {
-                const edit = {};
-                edit["userID"] = sessionStorage.getItem("userID");
-                edit["bookID"] = sessionStorage.getItem("bookID");
-                edit["submissionID"] = sessionStorage.getItem("submissionID");
-                edit["title"] = sessionStorage.getItem("submissionTitle");
-                edit["body"] = sessionStorage.getItem("submissionBody");
-                edit["year"] = sessionStorage.getItem("year");
-                edit["month"] = sessionStorage.getItem("month");
-                edit["day"] = sessionStorage.getItem("day");
-
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: "/api/edit",
-                    data: JSON.stringify(edit),
-                    dataType: 'json',
-                    cache: false,
-                    timeout: 10000,
-                    success: function (data) {
-                        if (!data.success) {
-                            alert("A field is empty or you have no authorization.");
-                        }
-                        openBookView();
-                    },
-                    error: function (e) {
-                        console.log("ERROR : ", e);
-                    }
-                });
-
             }
         </script>
     </head>

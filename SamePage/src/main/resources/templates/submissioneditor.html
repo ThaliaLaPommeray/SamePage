@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Submission Editor Page</title>
+  <style>
+    body{
+      background-color:#A5E7DA;
+    }
+    .top{
+      position: absolute;
+      top: 5%;
+      left: 5%;
+    }
+    .logout{
+      position: fixed;
+      float: left;
+      right: 1%;
+      top:1px;
+    }
+    .button {
+      border: none;
+      color: white;
+      border-radius: 5px;
+      border: 3px black;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      background-color: #234E52;
+
+    }
+    .img{
+      cursor: pointer;
+      display: block;
+
+    }
+
+  </style>
+
+  <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
+  <script>
+
+    function openBookView() {
+      window.location = "bookviewpage";
+    }
+
+    function edit() {
+      const edit = {};
+      edit["userID"] = sessionStorage.getItem("userID");
+      edit["bookID"] = sessionStorage.getItem("bookID");
+      edit["submissionID"] = sessionStorage.getItem("submissionID");
+      edit["title"] = sessionStorage.getItem("submissionTitle");
+      edit["body"] = sessionStorage.getItem("submissionBody");
+      edit["year"] = sessionStorage.getItem("year");
+      edit["month"] = sessionStorage.getItem("month");
+      edit["day"] = sessionStorage.getItem("day");
+
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/api/edit",
+        data: JSON.stringify(edit),
+        dataType: 'json',
+        cache: false,
+        timeout: 10000,
+        success: function (data) {
+          if (!data.success) {
+            alert("A field is empty or you have no authorization.");
+          }
+          openBookView();
+        },
+        error: function (e) {
+          console.log("ERROR : ", e);
+        }
+      });
+
+    }
+  </script>
+</head>
+<body>
+<img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
+<div>
+  <div class="logout">
+    <button class='button' onclick="logout()">Logout</button>
+  </div>
+  <h1>Submission Editor</h1>
+  <h4 id="editorNote">Leave fields blank that you do not wish to edit.</h4>
+  <div>
+    <input type="text" id="submissionTitle" placeholder="Submission Title"/>
+  </div>
+  <div>
+    <label>Estimated Completion Date:</label>
+    <input type="date" id="completionDate"/>
+  </div>
+  <div>
+    <textarea name="Text1" cols="160" rows="100" id="submissionData" placeholder="Write your chapter here"></textarea>
+  </div>
+  <div>
+    <button class='button' onclick="edit()">Submit Edit</button>
+  </div>
+</div>
+</body>
+<script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+</html>

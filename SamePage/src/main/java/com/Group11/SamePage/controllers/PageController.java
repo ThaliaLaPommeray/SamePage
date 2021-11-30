@@ -33,7 +33,7 @@ public class PageController {
 
     @RequestMapping("/submissioneditor")
     public String submissioneditor(){
-        return "newsubmission";
+        return "submissioneditor";
     }
 
     @RequestMapping("/submissionviewpage")
