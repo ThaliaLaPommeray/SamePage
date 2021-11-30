@@ -236,6 +236,11 @@
                 document.getElementById("voteCount").innerHTML = sessionStorage.getItem("voteCount") + " Votes";
             }
 
+            function editSubmission() {
+                sessionStorage.setItem("isEdit", true);
+                window.location = "submissioneditor";
+            }
+
             function logout(){
 
                 sessionStorage.clear();
@@ -267,7 +272,7 @@
             </div>
             <h4>Editors Only: </h4>
             <button class='button' onclick="acceptSubmission()">Accept Submission</button>
-            <button class='button'>Edit Submission</button>
+            <button class='button' onclick="">Edit Submission</button>
         </div>
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>

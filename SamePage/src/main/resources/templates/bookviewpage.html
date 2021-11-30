@@ -130,7 +130,8 @@
                 window.location = "submissionviewpage";
             }
 
-            function openSubmissionEditor() {
+            function openNewSubmissionPage() {
+                sessionStorage.setItem("isEdit", false);
                 window.location = "submissioneditor";
             }
 
@@ -154,7 +155,7 @@
         <div>
             <h1 id="bookTitle"></h1>
             <button class='button' onclick="openBookEditor()">Edit Book</button>
-            <button class='button' onclick="openSubmissionEditor()">New Submission</button>
+            <button class='button' onclick="openNewSubmissionPage()">New Submission</button>
             <h2>Chapters</h2>
             <div id="chapterList"></div>
             <h2>Current Chapter Submissions</h2>

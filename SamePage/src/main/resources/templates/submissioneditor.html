@@ -42,6 +42,10 @@
 
         <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
         <script>
+            function openBookView() {
+                window.location = "bookeditorpage";
+            }
+
             function submitSubmission() {
                 if (confirm("Are you sure you want to submit?")) {
                     console.log("Submitted User");
@@ -76,18 +80,36 @@
                 }
             }
 
-            function save() {
-                const submissionBody = document.getElementById("submissionBody").value;
-                const completionDate = document.getElementById("completionDate").value;
-                if (submissionBody == "") {
-                    alert()
-                }
-                else {
-                    sessionStorage.setItem("submissionProgress", submissionBody);
-                    if (confirm("Submission saved. Would you like to return to Book View?")) {
+            function edit() {
+                const edit = {};
+                edit["userID"] = sessionStorage.getItem("userID");
+                edit["bookID"] = sessionStorage.getItem("bookID");
+                edit["submissionID"] = sessionStorage.getItem("submissionID");
+                edit["title"] = sessionStorage.getItem("submissionTitle");
+                edit["body"] = sessionStorage.getItem("submissionBody");
+                edit["year"] = sessionStorage.getItem("year");
+                edit["month"] = sessionStorage.getItem("month");
+                edit["day"] = sessionStorage.getItem("day");
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/edit",
+                    data: JSON.stringify(edit),
+                    dataType: 'json',
+                    cache: false,
+                    timeout: 10000,
+                    success: function (data) {
+                        if (!data.success) {
+                            alert("A field is empty or you have no authorization.");
+                        }
                         openBookView();
+                    },
+                    error: function (e) {
+                        console.log("ERROR : ", e);
                     }
-                }
+                });
+
             }
         </script>
     </head>
@@ -112,7 +134,6 @@
                <!-- <input type="text" style= "width:1300px; height:800px;font-size:14pt;" id="submissionData" placeholder="Write your chapter here"/> -->
             </div>
             <div>
-                <button class='button' onclick="save()">Save</button> Save progress
                 <button class='button' onclick="submitSubmission()">Submit</button>
             </div>
         </div>
