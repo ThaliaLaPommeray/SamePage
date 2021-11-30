@@ -194,7 +194,7 @@
                     timeout: 10000,
                     success: function (data) {
                         if (!data.success) {
-                            alert("You have no authorization to view a comment.");
+                            // alert("You have no authorization to view comments.");
                         }
                         else {
                             sessionStorage.setItem("commentUsernames", data.username);
@@ -289,7 +289,7 @@
             </div>
             <h4>Editors Only: </h4>
             <button class='button' onclick="acceptSubmission()">Accept Submission</button>
-            <button class='button' onclick="">Edit Submission</button>
+            <button class='button' onclick="editSubmission()">Edit Submission</button>
         </div>
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
