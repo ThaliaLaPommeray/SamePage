@@ -43,6 +43,12 @@
   <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
   <script>
 
+    function logout(){
+
+      sessionStorage.clear();
+      window.location = "/";
+    }
+
     function openBookView() {
       window.location = "bookviewpage";
     }
@@ -52,11 +58,11 @@
       edit["userID"] = sessionStorage.getItem("userID");
       edit["bookID"] = sessionStorage.getItem("bookID");
       edit["submissionID"] = sessionStorage.getItem("submissionID");
-      edit["title"] = sessionStorage.getItem("submissionTitle");
-      edit["body"] = sessionStorage.getItem("submissionBody");
-      edit["year"] = sessionStorage.getItem("year");
-      edit["month"] = sessionStorage.getItem("month");
-      edit["day"] = sessionStorage.getItem("day");
+      edit["title"] = $("#submissionTitle").val();
+      edit["body"] = $("#submissionData").val();
+      edit["year"] = $("#completionDate").val().substring(0, 3);
+      edit["month"] = $("#completionDate").val().substring(5, 6);
+      edit["day"] = $("#completionDate").val().substring(8, 9);
 
       $.ajax({
         type: "POST",
@@ -75,6 +81,7 @@
         error: function (e) {
           console.log("ERROR : ", e);
         }
+
       });
 
     }
@@ -87,7 +94,7 @@
     <button class='button' onclick="logout()">Logout</button>
   </div>
   <h1>Submission Editor</h1>
-  <h4 id="editorNote">Leave fields blank that you do not wish to edit.</h4>
+  <h4 id="editorNote">Do not leave any fields blank.</h4>
   <div>
     <input type="text" id="submissionTitle" placeholder="Submission Title"/>
   </div>
