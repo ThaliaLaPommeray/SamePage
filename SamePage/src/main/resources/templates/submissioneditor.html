@@ -42,6 +42,15 @@
 
         <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
         <script>
+            function editorNote() {
+                if (sessionStorage.getItem("isEdit")) {
+                    document.getElementById("editorNote").innerHTML = "Leave any field blank in order to keep it unedited.";
+                }
+                else {
+                    document.getElementById("editorNote").innerHTML = "";
+                }
+            }
+
             function openBookView() {
                 window.location = "bookeditorpage";
             }
@@ -119,6 +128,7 @@
             <div class="logout">
                 <button class='button' onclick="logout()">Logout</button>
             </div>
+            <div id="editorNote"></div>
             <div>
                 <input type="text" id="submissionTitle" placeholder="Submission Title"/>
             </div>
@@ -140,4 +150,5 @@
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
+    <script>editorNote()</script>
 </html>
