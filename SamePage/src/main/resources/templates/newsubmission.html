@@ -42,31 +42,23 @@
 
         <link rel="shortcut icon" type="image/png" href="samepagelogo.png"/>
         <script>
-            function editorNote() {
-                if (sessionStorage.getItem("isEdit")) {
-                    document.getElementById("editorNote").innerHTML = "Leave any field blank in order to keep it unedited.";
-                }
-                else {
-                    document.getElementById("editorNote").innerHTML = "";
-                }
-            }
 
             function openBookView() {
-                window.location = "bookeditorpage";
+                window.location = "bookviewpage";
             }
 
             function submitSubmission() {
                 if (confirm("Are you sure you want to submit?")) {
                     console.log("Submitted User");
-                    const submission = {}
+                    const submission = {};
                     submission["userID"] = sessionStorage.getItem("userID");
                     submission["bookID"] = sessionStorage.getItem("bookID")
                     submission["title"] = $("#submissionTitle").val();
-                    submission["chapter"] = sessionStorage.getItem("currentChapter");
+                    submission["chapterNum"] = $("#chapterNum").val();
                     submission["body"] = $("#submissionData").val();
-                    submission["year"] = $("#completionDate").val().substringData(0,3);
+                    submission["year"] = $("#completionDate").val().substring(0,3);
                     submission["month"] = $("#completionDate").val().substring(5,6);
-                    submission["data"] = $("#completionDate").val().substring(8,9);
+                    submission["day"] = $("#completionDate").val().substring(8,9);
 
                     $.ajax({
                         type: "POST",
@@ -80,7 +72,8 @@
                             if (!data.success) {
                                 alert("You have no authorization or wrong data was input.")
                             }
-                            openBookView();
+                            else
+                                openBookView();
                         },
                         error: function (e) {
                             console.log("ERROR : ", e);
@@ -123,7 +116,7 @@
         </script>
     </head>
     <body>
-        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='/'">
+        <img class ="img" src="../samepagelogo.png" alt="logo" style="width:2.5%;" onclick="window.location.href='mainpage'">
         <div>
             <div class="logout">
                 <button class='button' onclick="logout()">Logout</button>
@@ -133,7 +126,7 @@
                 <input type="text" id="submissionTitle" placeholder="Submission Title"/>
             </div>
             <div>
-                <input type="number" id="chapterNum" placeholder="Chapter Number">
+                <input type="number" id="chapterNum" placeholder="Chapter Number"/>
             </div>
             <div>
                 <label>Estimated Completion Date:</label>
@@ -150,5 +143,4 @@
     </body>
     <script type="text/javascript" src="webjars/jquery/2.2.4/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/main.js"></script>
-    <script>editorNote()</script>
 </html>

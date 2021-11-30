@@ -74,6 +74,7 @@ public class AuthorController {
 
         }catch (Exception e){
             System.out.println(e);
+            check = false;
         }
 
         JSONObject response = new JSONObject();
