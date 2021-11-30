@@ -29,9 +29,9 @@ CREATE TABLE `book` (
   `is_published` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `FK8oixnbmawbivwggwk27w1m1cm` (`owner_id`),
-  CONSTRAINT `FK8oixnbmawbivwggwk27w1m1cm` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_user_id_idx` (`owner_id`),
+  CONSTRAINT `fk_user_id_book` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10004 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,11 +57,11 @@ CREATE TABLE `comment` (
   `body` longtext,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_user_id_idx` (`user_id`),
   KEY `fk_submission_id_idx` (`submission_id`),
+  KEY `fk_user_id_idx` (`user_id`),
   CONSTRAINT `fk_submission_id` FOREIGN KEY (`submission_id`) REFERENCES `submission` (`id`),
-  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_user_id_comment` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,6 +91,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
+INSERT INTO `hibernate_sequence` VALUES (2);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,11 +108,13 @@ CREATE TABLE `middle_author_book` (
   `book_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `fk_user_id_mab_idx` (`book_id`),
-  KEY `FKao214rxrh9l7t9uei1x8q0uwr` (`user_id`),
-  CONSTRAINT `FKao214rxrh9l7t9uei1x8q0uwr` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FKkfy4vq6q2dlf541qyxfrdgrto` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_user_id_mab_idx1` (`user_id`),
+  KEY `fk_book_id_mab_idx` (`book_id`),
+  CONSTRAINT `fk_book_id_mab` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_id_mab` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `FKao214rxrh9l7t9uei1x8q0uwr` FOREIGN KEY (`book_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `FKkfy4vq6q2dlf541qyxfrdgrto` FOREIGN KEY (`user_id`) REFERENCES `book` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,11 +139,11 @@ CREATE TABLE `middle_editor_book` (
   `book_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `user_id_idx` (`user_id`),
-  KEY `book_id_idx` (`book_id`),
-  CONSTRAINT `fk_book_id_meb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `fk_user_id_meb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_user_id_meb_idx` (`user_id`),
+  KEY `fk_book_id_meb_idx` (`book_id`),
+  CONSTRAINT `fk_book_id_meb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_id_meb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,9 +170,9 @@ CREATE TABLE `middle_reader_book` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_user_id_mrb_idx` (`user_id`),
   KEY `fk_book_id_mrb_idx` (`book_id`),
-  CONSTRAINT `fk_book_id_mrb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `fk_user_id_mrb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_book_id_mrb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_id_mrb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,9 +199,9 @@ CREATE TABLE `middle_viewer_book` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_user_id_mvb_idx` (`user_id`),
   KEY `fk_book_id_mvb_idx` (`book_id`),
-  CONSTRAINT `fk_book_id_mvb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`),
-  CONSTRAINT `fk_user_id_mvb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  CONSTRAINT `fk_book_id_mvb` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_id_mvb` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,10 +234,10 @@ CREATE TABLE `submission` (
   `word_count` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `FK1qgnfmncpuladr2896scialg0` (`user_id`),
-  KEY `book_id_idx` (`book_id`),
-  CONSTRAINT `FK1qgnfmncpuladr2896scialg0` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `fk_book_id_submission` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`)
+  KEY `fk_user_id_submission_idx` (`user_id`),
+  KEY `fk_book_id_submission_idx` (`book_id`),
+  CONSTRAINT `fk_book_id_submission` FOREIGN KEY (`book_id`) REFERENCES `book` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_user_id_submission` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,13 +258,14 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int NOT NULL DEFAULT '0',
+  `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
+  `dtype` varchar(31) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -282,4 +286,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-27 10:51:09
+-- Dump completed on 2021-11-29 19:10:10
